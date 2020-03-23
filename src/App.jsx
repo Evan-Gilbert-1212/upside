@@ -1,37 +1,44 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
-import Page from './pages/Page'
-import Page2 from './pages/Page2'
+import logo from './images/logo.png'
 import HomePage from './pages/HomePage'
-import NotFound from './pages/NotFound'
+import AddAccount from './pages/AddAccount'
+import AddCreditCard from './pages/AddCreditCard'
+import AddExpense from './pages/AddExpense'
+import AddRevenue from './pages/AddRevenue'
 
-const App = () => {
-  return (
-    <Router>
-      <header>
-        <h1>Welcome to my SPA</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Go Home</Link>
-            </li>
-            <li>
-              <Link to="/1">Page 1</Link>
-            </li>
-            <li>
-              <Link to="/2">Page 2</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <Switch>
-        <Route exact path="/" component={HomePage}></Route>
-        <Route exact path="/1" component={Page}></Route>
-        <Route exact path="/2" component={Page2}></Route>
-        <Route path="*" component={NotFound}></Route>
-      </Switch>
-    </Router>
-  )
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <header>
+          <img className="header-logo" src={logo} alt="Website Logo" />
+          <span className="website-name">Upside</span>
+          <div class="dropdown-menu">
+            <button class="menu-button">MENU</button>
+            <div class="dropdown-content">
+              <Link to="/">Home</Link>
+              <Link to="/add-account">Add Account</Link>
+              <Link to="/add-credit-card">Add Credit Card</Link>
+              <Link to="/add-expense">Add Expense</Link>
+              <Link to="/add-revenue">Add Revenue</Link>
+            </div>
+          </div>
+        </header>
+        <Switch>
+          <Route exact path="/" component={HomePage}></Route>
+          <Route exact path="/add-account" component={AddAccount}></Route>
+          <Route
+            exact
+            path="/add-credit-card"
+            component={AddCreditCard}
+          ></Route>
+          <Route exact path="/add-expense" component={AddExpense}></Route>
+          <Route exact path="/add-revenue" component={AddRevenue}></Route>
+        </Switch>
+      </Router>
+    )
+  }
 }
 
 export default App
