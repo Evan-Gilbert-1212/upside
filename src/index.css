@@ -15,7 +15,7 @@ header {
   display: flex;
   align-items: center;
   height: 50px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .header-logo {
@@ -31,54 +31,118 @@ header {
   text-shadow: 0px 0px 5px white;
 }
 
-.menu-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  height: 50px;
-}
-
-.dropdown-menu {
-  position: relative;
-  display: inline-block;
-  margin-left: auto;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  right: 0;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-.dropdown-menu:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown-menu:hover .menu-button:active, .dropdown-menu:hover .menu-button:active+.dropdown-content {
-  display: none;
-}
-
-.dropdown-menu:hover .menu-button {
-  background-color: #3e8e41;
-}
-
 .summary-section {
   text-align: center;
+}
+
+/* Position and sizing of burger button */
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  right: 36px;
+  top: 10px;
+}
+
+/* Color/shape of burger icon bars */
+
+.bm-burger-bars {
+  background: #373a47;
+}
+
+/* Color/shape of burger icon bars on hover*/
+
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+/* Position and sizing of clickable cross button */
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+
+.bm-menu-wrap {
+  position: fixed;
+  height: 100vh;
+}
+
+/* General sidebar styles */
+
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+  height: 95%;
+}
+
+/* Morph shape necessary with bubble or elastic */
+
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Individual item */
+
+.bm-item {
+  display: inline-block;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+/* Styling of overlay */
+
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+  width: 100vh;
+}
+
+.add-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  width: 200px;
+}
+
+select {
+  width: 203px;
+}
+
+button {
+  width: 120px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.radio-button {
+  width: 20px;
 }
