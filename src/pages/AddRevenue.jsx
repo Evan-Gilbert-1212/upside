@@ -1,53 +1,84 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
-class AddRevenue extends Component {
-  render() {
-    return (
-      <section className="add-item">
-        <h2>Add Revenue</h2>
-        <label>Revenue Type</label>
-        <select className="revenue-dropdown">
-          <option value="Salary">Salary</option>
-          <option value="IRS Tax Refund">IRS Tax Refund</option>
-          <option value="Interest">Interest</option>
-          <option value="Other">Other</option>
-        </select>
-        <label>Description</label>
-        <input type="text" placeholder="Enter Description"></input>
-        <label>Receipt Date</label>
-        <input type="date" placeholder="Select Receipt Date"></input>
-        <label>Item Amount</label>
-        <input type="text" placeholder="Enter Amount"></input>
-        <label>Recurring?</label>
-        <div>
-          <input
-            className="radio-button"
-            type="radio"
-            id="yes-button"
-            name="recurring-radio"
-            value="true"
-          ></input>
-          <label for="yes-button">Yes</label>
-          <input
-            className="radio-button"
-            type="radio"
-            id="no-button"
-            name="recurring-radio"
-            value="false"
-          ></input>
-          <label for="no-button">No</label>
-        </div>
-        <label>Recurring Frequency</label>
-        <select className="recurring-dropdown">
-          <option value="Weekly">Weekly</option>
-          <option value="Monthly">Monthly</option>
-          <option value="Quarterly">Quarterly</option>
-          <option value="Annually">Annually</option>
-        </select>
-        <button>Add Revenue</button>
-      </section>
-    )
+const AddRevenue = () => {
+  const [revenueInfo, setRevenueInfo] = useState({
+    RevenueCategory: 'Wages',
+    RevenueName: '',
+    RevenueDate: '',
+    RevenueAmount: 0,
+  })
+  const [shouldRedirect, setShouldRedirect] = useState(false)
+
+  const updateRevenueInfo = (e) => {
+    const fieldName = e.target.name
+    const fieldValue = e.target.value
+
+    setRevenueInfo((prevRevenue) => {
+      if (typeof prevRevenue[fieldName] === 'number') {
+        prevRevenue[fieldName] = parseFloat(fieldValue)
+      } else {
+        prevRevenue[fieldName] = fieldValue
+      }
+
+      return prevRevenue
+    })
   }
+
+  const addRevenueToDb = async () => {
+    const response = await axios.post(
+      'https://upside-api.herokuapp.com/api/revenue/1',
+      revenueInfo
+    )
+
+    if (response.status === 201) {
+      setShouldRedirect(true)
+    }
+  }
+
+  if (shouldRedirect) {
+    return <Redirect to="/" />
+  }
+
+  return (
+    <section className="add-item">
+      <h2>Add Revenue</h2>
+      <label>Revenue Type</label>
+      <select
+        className="revenue-dropdown"
+        name="RevenueCategory"
+        onChange={updateRevenueInfo}
+      >
+        <option value="Wages">Wages</option>
+        <option value="IRS Tax Refund">IRS Tax Refund</option>
+        <option value="Interest">Interest</option>
+        <option value="Other">Other</option>
+      </select>
+      <label>Description</label>
+      <input
+        type="text"
+        name="RevenueName"
+        placeholder="Enter Description"
+        onChange={updateRevenueInfo}
+      ></input>
+      <label>Receipt Date</label>
+      <input
+        type="date"
+        name="RevenueDate"
+        placeholder="Select Receipt Date"
+        onChange={updateRevenueInfo}
+      ></input>
+      <label>Item Amount</label>
+      <input
+        type="text"
+        name="RevenueAmount"
+        placeholder="Enter Amount"
+        onChange={updateRevenueInfo}
+      ></input>
+      <button onClick={addRevenueToDb}>Add Revenue</button>
+    </section>
+  )
 }
 
 export default AddRevenue

@@ -16,6 +16,9 @@ header {
   align-items: center;
   height: 50px;
   background-color: #4caf50;
+  position: fixed;
+  width: 100vw;
+  top: 0;
 }
 
 .header-logo {
@@ -29,10 +32,6 @@ header {
   font-style: italic;
   font-family: 'Alegreya Sans SC', sans-serif;
   text-shadow: 0px 0px 5px white;
-}
-
-.summary-section {
-  text-align: center;
 }
 
 /* Position and sizing of burger button */
@@ -86,7 +85,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #373a47;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
-  height: 95%;
+  top: 0;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -108,6 +107,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   display: inline-block;
   color: white;
   margin-bottom: 1rem;
+  text-decoration: none;
 }
 
 /* Styling of overlay */
@@ -116,9 +116,126 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: rgba(0, 0, 0, 0.3);
   height: 100vh;
   width: 100vh;
+  top: 0;
 }
 
-.add-item {
+.welcome-banner {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.account-summary {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.account-summary > section {
+  text-align: center;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 2rem;
+}
+
+.summary-divider {
+  width: 95vw;
+  background-color: #4caf50;
+  height: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.details-section {
+  display: grid;
+  grid-template-columns: 35% 65%;
+}
+
+.details-section > div {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  box-shadow: 0px 0px 5px black;
+}
+
+.accounts-section {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.credit-card-section {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.expense-header {
+  margin: 0;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.expense-section {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.revenue-section {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.account-divider {
+  width: 100%;
+  background-color: #4caf50;
+  height: 2px;
+}
+
+.account-row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.expense-row {
+  display: grid;
+  grid-template-columns: 25% 35% 25% 15%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.expense-column-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.expense-column-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.expense-column-3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.expense-column-4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+
+.add-bank-account {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -141,8 +258,4 @@ button {
   width: 120px;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-}
-
-.radio-button {
-  width: 20px;
 }
