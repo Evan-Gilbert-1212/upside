@@ -85,7 +85,6 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #373a47;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
-  top: 0;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -99,6 +98,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-item-list {
   color: #b8b7ad;
   padding: 0.8em;
+  height: auto !important;
 }
 
 /* Individual item */
@@ -121,7 +121,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .welcome-banner {
   text-align: center;
-  margin-top: 4rem;
+  padding-top: 3rem;
 }
 
 .account-summary {
@@ -233,6 +233,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .expense-column-4 {
   grid-column-start: 4;
   grid-column-end: 5;
+  text-align: right;
 }
 
 .add-bank-account {

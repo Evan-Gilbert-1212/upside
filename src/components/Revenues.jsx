@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
+import Moment from 'react-moment'
 
 const Revenues = () => {
   const [userRevenues, setUserRevenues] = useState({
@@ -42,7 +43,9 @@ const Revenues = () => {
                 {revenue.RevenueCategory}
               </span>
               <span className="expense-column-2">{revenue.RevenueName}</span>
-              <span className="expense-column-3">{revenue.RevenueDate}</span>
+              <span className="expense-column-3">
+                <Moment format="MM/DD/YYYY">{revenue.RevenueDate}</Moment>
+              </span>
               <span className="expense-column-4">
                 {' '}
                 <NumberFormat
