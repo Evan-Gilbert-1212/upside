@@ -44,27 +44,35 @@ const AddBankAccount = () => {
   }
 
   return (
-    <section className="add-bank-account">
-      <h2>Add Account</h2>
-      <label>Account Type</label>
-      <select
-        name="AccountType"
-        className="account-dropdown"
-        onChange={updateAccountInfo}
-      >
-        <option value="Checking">Checking</option>
-        <option value="Savings">Savings</option>
-      </select>
-      <label>Opening Balance</label>
-      <input
-        type="text"
-        placeholder="Enter Account Balance"
-        name="AccountBalance"
-        // value={accountInfo.AccountBalance}
-        onChange={updateAccountInfo}
-      ></input>
-      <button onClick={addAccountToDb}>Add Account</button>
-    </section>
+    <>
+      <div className="buffer"></div>
+      <section className="entry-form">
+        <h2>Add Bank Account</h2>
+        <section className="input-grid">
+          <div>
+            <label>Account Type</label>
+            <select
+              name="AccountType"
+              className="account-dropdown"
+              onChange={updateAccountInfo}
+            >
+              <option value="Checking">Checking</option>
+              <option value="Savings">Savings</option>
+            </select>
+          </div>
+          <div>
+            <label>Opening Balance</label>
+            <input
+              type="text"
+              placeholder="Enter Account Balance"
+              name="AccountBalance"
+              onChange={updateAccountInfo}
+            ></input>
+          </div>
+        </section>
+        <button onClick={addAccountToDb}>Add Account</button>
+      </section>
+    </>
   )
 }
 

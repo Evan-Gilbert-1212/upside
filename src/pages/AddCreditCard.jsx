@@ -40,24 +40,33 @@ const AddCreditCard = () => {
   }
 
   return (
-    <section className="add-item">
-      <h2>Add Credit Card</h2>
-      <label>Credit Card Issuer</label>
-      <input
-        type="text"
-        name="CardIssuer"
-        placeholder="Enter Credit Card Issuer"
-        onChange={updateCardInfo}
-      ></input>
-      <label>Opening Balance</label>
-      <input
-        type="text"
-        name="AccountBalance"
-        placeholder="Enter Account Balance"
-        onChange={updateCardInfo}
-      ></input>
-      <button onClick={addCreditCardToDb}>Add Credit Card</button>
-    </section>
+    <>
+      <div className="buffer"></div>
+      <section className="entry-form">
+        <h2>Add Credit Card</h2>
+        <section className="input-grid">
+          <div>
+            <label>Credit Card Issuer</label>
+            <input
+              type="text"
+              name="CardIssuer"
+              placeholder="Enter Credit Card Issuer"
+              onChange={updateCardInfo}
+            ></input>
+          </div>
+          <div>
+            <label>Opening Balance</label>
+            <input
+              type="text"
+              name="AccountBalance"
+              placeholder="Enter Account Balance"
+              onChange={updateCardInfo}
+            ></input>
+          </div>
+        </section>
+        <button onClick={addCreditCardToDb}>Add Credit Card</button>
+      </section>
+    </>
   )
 }
 

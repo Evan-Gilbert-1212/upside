@@ -38,50 +38,58 @@ const HomePage = () => {
         <section className="account-summary">
           <section>
             <h2>CASH</h2>
-            <NumberFormat
-              value={userSummary.userSummaryData.AccountBalance}
-              displayType={'text'}
-              thousandSeparator={true}
-              decimalScale={2}
-              fixedDecimalScale={true}
-              prefix={'$'}
-            />
+            <label>
+              <NumberFormat
+                value={userSummary.userSummaryData.AccountBalance}
+                displayType={'text'}
+                thousandSeparator={true}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                prefix={'$'}
+              />
+            </label>
           </section>
           <section>
-            <h2>EXPENSE TOTAL</h2>
-            <NumberFormat
-              value={userSummary.userSummaryData.ExpenseTotal}
-              displayType={'text'}
-              thousandSeparator={true}
-              decimalScale={2}
-              fixedDecimalScale={true}
-              prefix={'$'}
-            />
+            <h2>EXPENSES</h2>
+            <label>
+              <NumberFormat
+                value={userSummary.userSummaryData.ExpenseTotal}
+                displayType={'text'}
+                thousandSeparator={true}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                prefix={'$'}
+              />
+            </label>
           </section>
           <section>
-            <h2>REVENUE TOTAL</h2>
-            <NumberFormat
-              value={userSummary.userSummaryData.RevenueTotal}
-              displayType={'text'}
-              thousandSeparator={true}
-              decimalScale={2}
-              fixedDecimalScale={true}
-              prefix={'$'}
-            />
+            <h2>REVENUES</h2>
+            <label>
+              <NumberFormat
+                value={userSummary.userSummaryData.RevenueTotal}
+                displayType={'text'}
+                thousandSeparator={true}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                prefix={'$'}
+              />
+            </label>
           </section>
           <section>
             <h2>DISPOSABLE INCOME</h2>
-            <NumberFormat
-              value={
-                userSummary.userSummaryData.RevenueTotal -
-                userSummary.userSummaryData.ExpenseTotal
-              }
-              displayType={'text'}
-              thousandSeparator={true}
-              decimalScale={2}
-              fixedDecimalScale={true}
-              prefix={'$'}
-            />
+            <label>
+              <NumberFormat
+                value={
+                  userSummary.userSummaryData.RevenueTotal -
+                  userSummary.userSummaryData.ExpenseTotal
+                }
+                displayType={'text'}
+                thousandSeparator={true}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                prefix={'$'}
+              />
+            </label>
           </section>
         </section>
         <div className="summary-divider"></div>

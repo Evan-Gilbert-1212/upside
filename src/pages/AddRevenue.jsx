@@ -42,42 +42,55 @@ const AddRevenue = () => {
   }
 
   return (
-    <section className="add-item">
-      <h2>Add Revenue</h2>
-      <label>Revenue Type</label>
-      <select
-        className="revenue-dropdown"
-        name="RevenueCategory"
-        onChange={updateRevenueInfo}
-      >
-        <option value="Wages">Wages</option>
-        <option value="IRS Tax Refund">IRS Tax Refund</option>
-        <option value="Interest">Interest</option>
-        <option value="Other">Other</option>
-      </select>
-      <label>Description</label>
-      <input
-        type="text"
-        name="RevenueName"
-        placeholder="Enter Description"
-        onChange={updateRevenueInfo}
-      ></input>
-      <label>Receipt Date</label>
-      <input
-        type="date"
-        name="RevenueDate"
-        placeholder="Select Receipt Date"
-        onChange={updateRevenueInfo}
-      ></input>
-      <label>Item Amount</label>
-      <input
-        type="text"
-        name="RevenueAmount"
-        placeholder="Enter Amount"
-        onChange={updateRevenueInfo}
-      ></input>
-      <button onClick={addRevenueToDb}>Add Revenue</button>
-    </section>
+    <>
+      <div className="buffer"></div>
+      <section className="entry-form">
+        <h2>Add Revenue</h2>
+        <section className="input-grid">
+          <div>
+            <label>Revenue Type</label>
+            <select
+              className="revenue-dropdown"
+              name="RevenueCategory"
+              onChange={updateRevenueInfo}
+            >
+              <option value="Wages">Wages</option>
+              <option value="IRS Tax Refund">IRS Tax Refund</option>
+              <option value="Interest">Interest</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label>Description</label>
+            <input
+              type="text"
+              name="RevenueName"
+              placeholder="Enter Description"
+              onChange={updateRevenueInfo}
+            ></input>
+          </div>
+          <div>
+            <label>Receipt Date</label>
+            <input
+              type="date"
+              name="RevenueDate"
+              placeholder="Select Receipt Date"
+              onChange={updateRevenueInfo}
+            ></input>
+          </div>
+          <div>
+            <label>Item Amount</label>
+            <input
+              type="text"
+              name="RevenueAmount"
+              placeholder="Enter Amount"
+              onChange={updateRevenueInfo}
+            ></input>
+          </div>
+        </section>
+        <button onClick={addRevenueToDb}>Add Revenue</button>
+      </section>
+    </>
   )
 }
 

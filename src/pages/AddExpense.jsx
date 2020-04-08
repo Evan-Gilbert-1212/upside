@@ -42,50 +42,65 @@ const AddExpense = () => {
   }
 
   return (
-    <section className="add-item">
-      <h2>Add Expense</h2>
-      <label>Expense Type</label>
-      <select
-        name="ExpenseCategory"
-        className="expense-dropdown"
-        onChange={updateExpenseInfo}
-      >
-        <option value="Cable & Internet">Cable & Internet</option>
-        <option value="Car - Gas">Car - Gas</option>
-        <option value="Car - Insurance">Car - Insurance</option>
-        <option value="Cell Phone">Cell Phone</option>
-        <option value="Education">Education</option>
-        <option value="Entertainment">Entertainment</option>
-        <option value="Food">Food</option>
-        <option value="Health Insurance">Health Insurance</option>
-        <option value="Utilities - Gas">Utilities - Gas</option>
-        <option value="Utilities - Electricity">Utilities - Electricity</option>
-        <option value="Rent">Rent</option>
-        <option value="Other">Other</option>
-      </select>
-      <label>Description</label>
-      <input
-        type="text"
-        name="ExpenseName"
-        placeholder="Enter Description"
-        onChange={updateExpenseInfo}
-      ></input>
-      <label>Due Date</label>
-      <input
-        type="date"
-        name="ExpenseDate"
-        placeholder="Select Due Date"
-        onChange={updateExpenseInfo}
-      ></input>
-      <label>Item Amount</label>
-      <input
-        type="text"
-        name="ExpenseAmount"
-        placeholder="Enter Amount"
-        onChange={updateExpenseInfo}
-      ></input>
-      <button onClick={addExpenseToDb}>Add Expense</button>
-    </section>
+    <>
+      <div className="buffer"></div>
+      <section className="entry-form">
+        <h2>Add Expense</h2>
+        <section className="input-grid">
+          <div>
+            <label>Expense Type</label>
+            <select
+              name="ExpenseCategory"
+              className="expense-dropdown"
+              onChange={updateExpenseInfo}
+            >
+              <option value="Cable & Internet">Cable & Internet</option>
+              <option value="Car - Gas">Car - Gas</option>
+              <option value="Car - Insurance">Car - Insurance</option>
+              <option value="Cell Phone">Cell Phone</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Food">Food</option>
+              <option value="Health Insurance">Health Insurance</option>
+              <option value="Utilities - Gas">Utilities - Gas</option>
+              <option value="Utilities - Electricity">
+                Utilities - Electricity
+              </option>
+              <option value="Rent">Rent</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label>Description</label>
+            <input
+              type="text"
+              name="ExpenseName"
+              placeholder="Enter Description"
+              onChange={updateExpenseInfo}
+            ></input>
+          </div>
+          <div>
+            <label>Due Date</label>
+            <input
+              type="date"
+              name="ExpenseDate"
+              placeholder="Select Due Date"
+              onChange={updateExpenseInfo}
+            ></input>
+          </div>
+          <div>
+            <label>Item Amount</label>
+            <input
+              type="text"
+              name="ExpenseAmount"
+              placeholder="Enter Amount"
+              onChange={updateExpenseInfo}
+            ></input>
+          </div>
+        </section>
+        <button onClick={addExpenseToDb}>Add Expense</button>
+      </section>
+    </>
   )
 }
 
