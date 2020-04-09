@@ -6,6 +6,7 @@ import CreditCards from '../components/CreditCards'
 import Expenses from '../components/Expenses'
 import Revenues from '../components/Revenues'
 import Moment from 'react-moment'
+import LoadingIcon from '../components/LoadingIcon'
 
 const HomePage = () => {
   const [pageData, setPageData] = useState({
@@ -63,7 +64,12 @@ const HomePage = () => {
   }, [])
 
   if (!pageData.isLoaded) {
-    return <h2>Loading...</h2>
+    return (
+      <>
+        <div className="buffer"></div>
+        <LoadingIcon />
+      </>
+    )
   } else {
     return (
       <main>

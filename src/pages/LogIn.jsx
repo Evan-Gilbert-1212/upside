@@ -59,7 +59,7 @@ const LogIn = () => {
         </section>
         <label className="error-message">{errorMessage}</label>
         <button onClick={LogInUser}>Log In!</button>
-        <div className="not-a-user">
+        <div className="create-an-account">
           Not a User Yet? <a href="/signup">Create an Account!</a>
         </div>
       </section>
