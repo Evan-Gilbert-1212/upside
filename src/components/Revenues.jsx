@@ -37,7 +37,7 @@ const Revenues = (props) => {
 
   return (
     <div className="revenue-section">
-      <p className="expense-header">Upcoming Revenues</p>
+      <p className="expense-header">Revenues This Period</p>
       <div className="expense-row">
         <span className="expense-column-1">Category</span>
         <span className="expense-column-2">Description</span>
@@ -75,7 +75,7 @@ const Revenues = (props) => {
       ) : (
         <div className="no-records-found">
           No Upcoming Revenues found.{' '}
-          <a href="/add-revenue">Add a new Revenue now!</a>
+          <a href="/add-revenue">Add a new revenue now!</a>
         </div>
       )}
       <div className="account-divider"></div>

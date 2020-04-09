@@ -8,6 +8,7 @@ const AddRevenue = () => {
     RevenueName: '',
     RevenueDate: '',
     RevenueAmount: 0,
+    RecurringFrequency: 'One Time',
   })
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
@@ -91,6 +92,20 @@ const AddRevenue = () => {
               placeholder="Enter Amount"
               onChange={updateRevenueInfo}
             ></input>
+          </div>
+          <div>
+            <label>Recurring Frequency</label>
+            <select
+              className="recurring-dropdown"
+              name="RecurringFrequency"
+              onChange={updateRevenueInfo}
+            >
+              <option value="One Time">One Time</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Bi-Weekly">Bi-Weekly</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Annually">Annually</option>
+            </select>
           </div>
         </section>
         <button onClick={addRevenueToDb}>Add Revenue</button>

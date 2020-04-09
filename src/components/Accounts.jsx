@@ -59,7 +59,7 @@ const Accounts = () => {
       ) : (
         <div className="no-records-found">
           No bank accounts found.{' '}
-          <a href="/add-account">Add a Bank Account now!</a>
+          <a href="/add-account">Add a bank account now!</a>
         </div>
       )}
       <div className="account-divider"></div>

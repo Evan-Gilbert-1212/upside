@@ -59,7 +59,7 @@ const CreditCards = () => {
       ) : (
         <div className="no-records-found">
           No credit cards found.{' '}
-          <a href="/add-credit-card">Add a Credit Card now!</a>
+          <a href="/add-credit-card">Add a credit card now!</a>
         </div>
       )}
       <div className="account-divider"></div>
