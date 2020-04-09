@@ -28,8 +28,13 @@ const AddExpense = () => {
 
   const addExpenseToDb = async () => {
     const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/expense/1',
-      expenseInfo
+      'https://upside-api.herokuapp.com/api/expense',
+      expenseInfo,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
     )
 
     if (response.status === 201) {
@@ -38,7 +43,7 @@ const AddExpense = () => {
   }
 
   if (shouldRedirect) {
-    return <Redirect to="/" />
+    return <Redirect to="/home" />
   }
 
   return (

@@ -23,13 +23,17 @@ const AddBankAccount = () => {
     })
   }
 
-  // Hard-coded to UserID 1 for now, will be updated when users are added
   const addAccountToDb = async () => {
     console.log(accountInfo)
 
     const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/bankaccount/1',
-      accountInfo
+      'https://upside-api.herokuapp.com/api/bankaccount',
+      accountInfo,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
     )
 
     console.log(response.data)
@@ -40,7 +44,7 @@ const AddBankAccount = () => {
   }
 
   if (shouldRedirect) {
-    return <Redirect to="/" />
+    return <Redirect to="/home" />
   }
 
   return (

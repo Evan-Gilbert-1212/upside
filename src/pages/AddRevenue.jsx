@@ -28,8 +28,13 @@ const AddRevenue = () => {
 
   const addRevenueToDb = async () => {
     const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/revenue/1',
-      revenueInfo
+      'https://upside-api.herokuapp.com/api/revenue',
+      revenueInfo,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
     )
 
     if (response.status === 201) {
@@ -38,7 +43,7 @@ const AddRevenue = () => {
   }
 
   if (shouldRedirect) {
-    return <Redirect to="/" />
+    return <Redirect to="/home" />
   }
 
   return (

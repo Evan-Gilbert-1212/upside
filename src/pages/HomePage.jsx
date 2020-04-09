@@ -5,42 +5,83 @@ import Accounts from '../components/Accounts'
 import CreditCards from '../components/CreditCards'
 import Expenses from '../components/Expenses'
 import Revenues from '../components/Revenues'
+import Moment from 'react-moment'
 
 const HomePage = () => {
-  const [userSummary, setUserSummary] = useState({
+  const [pageData, setPageData] = useState({
     userSummaryData: {},
+    periodBeginDate: '',
+    periodEndDate: '',
     isLoaded: false,
   })
 
-  const getUserSummary = async () => {
+  const loadPageData = async () => {
+    const currentDate = new Date()
+    const currentYear = currentDate.getFullYear()
+    const currentMonth = currentDate.getMonth() + 1
+    const currentDay = currentDate.getDate()
+
+    let periodBeginDay = 0
+    let periodEndDay = 0
+
+    if (currentDay >= 1 && currentDay <= 15) {
+      periodBeginDay = 1
+      periodEndDay = 15
+    } else {
+      const lastDayOfMonth = new Date(currentYear, currentMonth, 0)
+
+      periodBeginDay = 16
+      periodEndDay = lastDayOfMonth.getDate()
+    }
+
+    const BeginDate = currentYear + '-' + currentMonth + '-' + periodBeginDay
+    const EndDate = currentYear + '-' + currentMonth + '-' + periodEndDay
+
     const response = await axios.get(
-      'https://upside-api.herokuapp.com/api/user/usersummary/1'
+      'https://upside-api.herokuapp.com/api/user/usersummary',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        params: {
+          BeginDate: BeginDate,
+          EndDate: EndDate,
+        },
+      }
     )
-    setUserSummary({
+
+    setPageData({
       userSummaryData: response.data,
+      periodBeginDate: BeginDate,
+      periodEndDate: EndDate,
       isLoaded: true,
     })
   }
 
   useEffect(() => {
-    getUserSummary()
+    loadPageData()
   }, [])
 
-  if (!userSummary.isLoaded) {
+  if (!pageData.isLoaded) {
     return <h2>Loading...</h2>
   } else {
     return (
       <main>
         <section className="welcome-banner">
-          <h1>Good Afternoon, Evan!</h1>
-          <h2>Your Account Summary:</h2>
+          <h1>Good Afternoon, {pageData.userSummaryData.FirstName}!</h1>
+          <h2>Account Summary</h2>
+          <h4>
+            for the period{' '}
+            <Moment format="MM/DD/YYYY">{pageData.periodBeginDate}</Moment> to{' '}
+            <Moment format="MM/DD/YYYY">{pageData.periodEndDate}</Moment>
+          </h4>
         </section>
         <section className="account-summary">
           <section>
             <h2>CASH</h2>
             <label>
               <NumberFormat
-                value={userSummary.userSummaryData.AccountBalance}
+                value={pageData.userSummaryData.AccountBalance}
                 displayType={'text'}
                 thousandSeparator={true}
                 decimalScale={2}
@@ -53,7 +94,7 @@ const HomePage = () => {
             <h2>EXPENSES</h2>
             <label>
               <NumberFormat
-                value={userSummary.userSummaryData.ExpenseTotal}
+                value={pageData.userSummaryData.ExpenseTotal}
                 displayType={'text'}
                 thousandSeparator={true}
                 decimalScale={2}
@@ -66,7 +107,7 @@ const HomePage = () => {
             <h2>REVENUES</h2>
             <label>
               <NumberFormat
-                value={userSummary.userSummaryData.RevenueTotal}
+                value={pageData.userSummaryData.RevenueTotal}
                 displayType={'text'}
                 thousandSeparator={true}
                 decimalScale={2}
@@ -80,8 +121,8 @@ const HomePage = () => {
             <label>
               <NumberFormat
                 value={
-                  userSummary.userSummaryData.RevenueTotal -
-                  userSummary.userSummaryData.ExpenseTotal
+                  pageData.userSummaryData.RevenueTotal -
+                  pageData.userSummaryData.ExpenseTotal
                 }
                 displayType={'text'}
                 thousandSeparator={true}
@@ -94,10 +135,21 @@ const HomePage = () => {
         </section>
         <div className="summary-divider"></div>
         <section className="details-section">
-          <Accounts />
-          <CreditCards />
-          <Expenses />
-          <Revenues />
+          <section className="account-section">
+            <Accounts />
+            <CreditCards />
+          </section>
+          <div className="vertical-divider"></div>
+          <section className="transaction-section">
+            <Expenses
+              beginDate={pageData.periodBeginDate}
+              endDate={pageData.periodEndDate}
+            />
+            <Revenues
+              beginDate={pageData.periodBeginDate}
+              endDate={pageData.periodEndDate}
+            />
+          </section>
         </section>
       </main>
     )

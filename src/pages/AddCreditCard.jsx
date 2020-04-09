@@ -26,8 +26,13 @@ const AddCreditCard = () => {
 
   const addCreditCardToDb = async () => {
     const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/creditcard/1',
-      cardInfo
+      'https://upside-api.herokuapp.com/api/creditcard',
+      cardInfo,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
     )
 
     if (response.status === 201) {
@@ -36,7 +41,7 @@ const AddCreditCard = () => {
   }
 
   if (shouldRedirect) {
-    return <Redirect to="/" />
+    return <Redirect to="/home" />
   }
 
   return (

@@ -10,7 +10,12 @@ const CreditCards = () => {
 
   const getUserCreditCards = async () => {
     const response = await axios.get(
-      'https://upside-api.herokuapp.com/api/creditcard/1'
+      'https://upside-api.herokuapp.com/api/creditcard',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
     )
     setUserCreditCards({
       userCreditCardData: response.data,
@@ -32,24 +37,31 @@ const CreditCards = () => {
           <span>Account Balance</span>
         </div>
         <div className="account-divider"></div>
-        {userCreditCards.userCreditCardData.map((card) => {
-          return (
-            <div className="account-row">
-              <span>{card.CardIssuer}</span>
-              <span>
-                {' '}
-                <NumberFormat
-                  value={card.AccountBalance}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  decimalScale={2}
-                  fixedDecimalScale={true}
-                  prefix={'$'}
-                />
-              </span>
-            </div>
-          )
-        })}
+        {userCreditCards.userCreditCardData.length > 0 ? (
+          userCreditCards.userCreditCardData.map((card) => {
+            return (
+              <div key={card.ID} className="account-row">
+                <span>{card.CardIssuer}</span>
+                <span>
+                  {' '}
+                  <NumberFormat
+                    value={card.AccountBalance}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                    prefix={'$'}
+                  />
+                </span>
+              </div>
+            )
+          })
+        ) : (
+          <div className="no-records-found">
+            No credit cards found.{' '}
+            <a href="/add-credit-card">Add a Credit Card now!</a>
+          </div>
+        )}
         <div className="account-divider"></div>
         <div className="account-row">
           <span>Total:</span>

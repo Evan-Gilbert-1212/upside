@@ -13,6 +13,23 @@ body {
   min-height: 100%;
 }
 
+.bad-input {
+  border-color: red;
+  box-shadow: 0px 0px 5px red;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.not-a-user {
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
 header {
   display: flex;
   align-items: center;
@@ -167,10 +184,23 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .details-section {
-  display: grid;
-  grid-template-columns: 35% 65%;
+  display: flex;
 
-  > div {
+  > .account-section {
+    width: 35vw;
+  }
+
+  > .vertical-divider {
+    height: auto;
+    width: 2px;
+    background-color: $primary-green;
+  }
+
+  > .transaction-section {
+    width: 65vw;
+  }
+
+  > section > div {
     margin-left: 3rem;
     margin-right: 3rem;
     margin-top: 1rem;
@@ -180,44 +210,23 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
 }
 
-.accounts-section {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 2;
-}
-
-.credit-card-section {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 2;
-  grid-row-end: 3;
-}
-
 .expense-header {
   margin: 0;
   margin-bottom: 1rem;
   padding: 0;
 }
 
-.expense-section {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 2;
-}
-
-.revenue-section {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 2;
-  grid-row-end: 3;
-}
-
 .account-divider {
   width: 100%;
   background-color: $primary-green;
   height: 2px;
+}
+
+.no-records-found {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .account-row {
@@ -273,6 +282,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
     font-weight: 400;
     text-align: center;
     margin: 0;
+  }
+
+  > h4 {
+    text-align: center;
   }
 
   > button {
