@@ -23,7 +23,7 @@ const LogIn = () => {
         if (response.status === 200) {
           localStorage.setItem('token', response.data.token)
 
-          window.location = '/home'
+          window.location = '/'
         }
       })
       .catch((error) => {

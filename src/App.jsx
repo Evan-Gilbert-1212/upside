@@ -21,7 +21,7 @@ const App = () => {
     return (
       <>
         <Menu right>
-          <a id="home" className="menu-item" href="/home">
+          <a id="home" className="menu-item" href="/">
             Home
           </a>
           <a id="add-account" className="menu-item" href="/add-account">
@@ -41,15 +41,15 @@ const App = () => {
           </a>
         </Menu>
         <header>
-          <img className="header-logo" src={logo} alt="Website Logo" />
-          <span className="website-name">Upside</span>
+          <a className="website-logo" href="/">
+            <img src={logo} alt="Website Logo" />
+            <span>Upside</span>
+          </a>
         </header>
         <Router>
           <Switch>
-            <Route exact path="/" component={LogIn}></Route>
-            <Route exact path="/signup" component={SignUp}></Route>
+            <Route exact path="/" component={HomePage}></Route>
             <Route exact path="/login" component={LogIn}></Route>
-            <Route exact path="/home" component={HomePage}></Route>
             <Route exact path="/add-account" component={AddBankAccount}></Route>
             <Route
               exact
