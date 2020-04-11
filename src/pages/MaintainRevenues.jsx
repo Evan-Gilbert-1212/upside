@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import Revenues from '../components/Revenues'
 
-const AddRevenue = () => {
+const MaintainRevenues = () => {
   const [revenueInfo, setRevenueInfo] = useState({
     RevenueCategory: 'Wages',
     RevenueName: '',
@@ -44,14 +45,15 @@ const AddRevenue = () => {
   }
 
   if (shouldRedirect) {
-    return <Redirect to="/home" />
+    return <Redirect to="/" />
   }
 
   return (
     <>
       <div className="buffer"></div>
       <section className="entry-form">
-        <h2>Add Revenue</h2>
+        <h2>Revenues</h2>
+        <h4>Add Revenue</h4>
         <section className="input-grid">
           <div>
             <label>Revenue Type</label>
@@ -107,11 +109,15 @@ const AddRevenue = () => {
               <option value="Annually">Annually</option>
             </select>
           </div>
+          <button onClick={addRevenueToDb}>Add Revenue</button>
         </section>
-        <button onClick={addRevenueToDb}>Add Revenue</button>
+      </section>
+      <section className="data-display-wide">
+        <h4>Your Revenues</h4>
+        <Revenues displayMode="Modify" />
       </section>
     </>
   )
 }
 
-export default AddRevenue
+export default MaintainRevenues

@@ -3,32 +3,63 @@ import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import Moment from 'react-moment'
 import LoadingIcon from './LoadingIcon'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const Revenues = (props) => {
-  const { beginDate, endDate } = props
+  const { displayMode, beginDate, endDate } = props
 
   const [userRevenues, setUserRevenues] = useState({
     userRevenueData: [],
     isLoaded: false,
   })
 
+  let rowType = 'expense-row'
+
+  if (displayMode === 'Modify') {
+    rowType = 'expense-row-modify'
+  }
+
+  let response = {}
+
   const getUserRevenues = async () => {
-    const response = await axios.get(
-      'https://upside-api.herokuapp.com/api/revenue',
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        params: {
-          BeginDate: beginDate,
-          EndDate: endDate,
-        },
-      }
-    )
+    if (beginDate != null && endDate != null) {
+      response = await axios.get(
+        'https://upside-api.herokuapp.com/api/revenue',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          params: {
+            BeginDate: beginDate,
+            EndDate: endDate,
+          },
+        }
+      )
+    } else {
+      response = await axios.get(
+        'https://upside-api.herokuapp.com/api/revenue/all',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+    }
+
     setUserRevenues({
       userRevenueData: response.data,
       isLoaded: true,
     })
+  }
+
+  const modifyRevenue = () => {
+    //Modify the bank account
+  }
+
+  const deleteRevenue = () => {
+    //Delete the bank account
   }
 
   useEffect(() => {
@@ -37,12 +68,17 @@ const Revenues = (props) => {
 
   return (
     <div className="revenue-section">
-      <p className="expense-header">Revenues This Period</p>
-      <div className="expense-row">
+      <div className={rowType}>
         <span className="expense-column-1">Category</span>
         <span className="expense-column-2">Description</span>
         <span className="expense-column-3">Receipt Date</span>
         <span className="expense-column-4">Amount</span>
+        {displayMode === 'Modify' && (
+          <>
+            <span className="expense-column-5">Modify</span>
+            <span className="expense-column-6">Delete</span>
+          </>
+        )}
       </div>
       <div className="account-divider"></div>
       {!userRevenues.isLoaded ? (
@@ -50,7 +86,7 @@ const Revenues = (props) => {
       ) : userRevenues.userRevenueData.length > 0 ? (
         userRevenues.userRevenueData.map((revenue) => {
           return (
-            <div key={revenue.ID} className="expense-row">
+            <div key={revenue.ID} className={rowType}>
               <span className="expense-column-1">
                 {revenue.RevenueCategory}
               </span>
@@ -69,17 +105,29 @@ const Revenues = (props) => {
                   prefix={'$'}
                 />
               </span>
+              {displayMode === 'Modify' && (
+                <>
+                  <span className="expense-column-5" onClick={modifyRevenue}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </span>
+                  <span className="expense-column-6" onClick={deleteRevenue}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </span>
+                </>
+              )}
             </div>
           )
         })
       ) : (
         <div className="no-records-found">
           No Upcoming Revenues found.{' '}
-          <a href="/add-revenue">Add a new revenue now!</a>
+          {displayMode !== 'Modify' && (
+            <a href="/revenues">Add a new revenue now!</a>
+          )}
         </div>
       )}
       <div className="account-divider"></div>
-      <div className="expense-row">
+      <div className={rowType}>
         <span className="expense-column-1">Total:</span>
         <span className="expense-column-4">
           <NumberFormat

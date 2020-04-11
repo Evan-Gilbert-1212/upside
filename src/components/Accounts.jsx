@@ -2,12 +2,23 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import LoadingIcon from './LoadingIcon'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
-const Accounts = () => {
+const Accounts = (props) => {
+  const { displayMode } = props
+
   const [userAccounts, setUserAccounts] = useState({
     userAccountData: [],
     isLoaded: false,
   })
+
+  let rowType = 'account-row'
+
+  if (displayMode === 'Modify') {
+    rowType = 'account-row-modify'
+  }
 
   const getUserAccounts = async () => {
     const response = await axios.get(
@@ -24,15 +35,29 @@ const Accounts = () => {
     })
   }
 
+  const modifyBankAccount = () => {
+    //Modify the bank account
+  }
+
+  const deleteBankAccount = () => {
+    //Delete the bank account
+  }
+
   useEffect(() => {
     getUserAccounts()
   }, [])
 
   return (
     <div className="accounts-section">
-      <div className="account-row">
-        <span>Bank Accounts</span>
-        <span>Account Balance</span>
+      <div className={rowType}>
+        <span className="account-column-1">Bank Accounts</span>
+        <span className="account-column-2">Account Balance</span>
+        {displayMode === 'Modify' && (
+          <>
+            <span className="account-column-3">Modify</span>
+            <span className="account-column-4">Delete</span>
+          </>
+        )}
       </div>
       <div className="account-divider"></div>
       {!userAccounts.isLoaded ? (
@@ -40,9 +65,9 @@ const Accounts = () => {
       ) : userAccounts.userAccountData.length > 0 ? (
         userAccounts.userAccountData.map((account) => {
           return (
-            <div key={account.ID} className="account-row">
-              <span>{account.AccountType}</span>
-              <span>
+            <div key={account.ID} className={rowType}>
+              <span className="account-column-1">{account.AccountType}</span>
+              <span className="account-column-2">
                 {' '}
                 <NumberFormat
                   value={account.AccountBalance}
@@ -53,19 +78,37 @@ const Accounts = () => {
                   prefix={'$'}
                 />
               </span>
+              {displayMode === 'Modify' && (
+                <>
+                  <span
+                    className="account-column-3"
+                    onClick={modifyBankAccount}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </span>
+                  <span
+                    className="account-column-4"
+                    onClick={deleteBankAccount}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </span>
+                </>
+              )}
             </div>
           )
         })
       ) : (
         <div className="no-records-found">
           No bank accounts found.{' '}
-          <a href="/add-account">Add a bank account now!</a>
+          {displayMode !== 'Modify' && (
+            <a href="/bank-accounts">Add a bank account now!</a>
+          )}
         </div>
       )}
       <div className="account-divider"></div>
-      <div className="account-row">
-        <span>Total:</span>
-        <span>
+      <div className={rowType}>
+        <span className="account-column-1">Total:</span>
+        <span className="account-column-2">
           <NumberFormat
             value={userAccounts.userAccountData.reduce(
               (sum, account) => sum + account.AccountBalance,

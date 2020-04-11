@@ -32,12 +32,10 @@ const LogIn = () => {
   }
 
   return (
-    <>
-      <div className="buffer"></div>
-      <section className="entry-form">
+    <section className="login-signup-page">
+      <section className="login-signup-form">
         <h2>Welcome to Upside Budget Manager</h2>
-        <h4>Please Log In!</h4>
-        <section className="input-grid">
+        <section className="login-signup-grid">
           <div>
             <label>User Name</label>
             <input
@@ -58,12 +56,12 @@ const LogIn = () => {
           </div>
         </section>
         <label className="error-message">{errorMessage}</label>
-        <button onClick={LogInUser}>Log In!</button>
+        <button onClick={LogInUser}>Log In</button>
         <div className="create-an-account">
           Not a User Yet? <a href="/signup">Create an Account!</a>
         </div>
       </section>
-    </>
+    </section>
   )
 }
 

@@ -4,11 +4,18 @@ import logo from './images/logo.png'
 import SignUp from './pages/SignUp'
 import LogIn from './pages/LogIn'
 import HomePage from './pages/HomePage'
-import AddBankAccount from './pages/AddBankAccount'
-import AddCreditCard from './pages/AddCreditCard'
-import AddExpense from './pages/AddExpense'
-import AddRevenue from './pages/AddRevenue'
+import MaintainBankAccounts from './pages/MaintainBankAccounts'
+import MaintainCreditCards from './pages/MaintainCreditCards'
+import MaintainExpenses from './pages/MaintainExpenses'
+import MaintainRevenues from './pages/MaintainRevenues'
 import { slide as Menu } from 'react-burger-menu'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { faUniversity } from '@fortawesome/free-solid-svg-icons'
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
+import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
+import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 const App = () => {
   const logout = () => {
@@ -22,22 +29,22 @@ const App = () => {
       <>
         <Menu right>
           <a id="home" className="menu-item" href="/">
-            Home
+            <FontAwesomeIcon icon={faHome} /> Home
           </a>
-          <a id="add-account" className="menu-item" href="/add-account">
-            Add Account
+          <a id="bank-accounts" className="menu-item" href="/bank-accounts">
+            <FontAwesomeIcon icon={faUniversity} /> Bank Accounts
           </a>
-          <a id="add-credit-card" className="menu-item" href="/add-credit-card">
-            Add Credit Card
+          <a id="credit-cards" className="menu-item" href="/credit-cards">
+            <FontAwesomeIcon icon={faCreditCard} /> Credit Cards
           </a>
-          <a id="add-expense" className="menu-item" href="/add-expense">
-            Add Expense
+          <a id="expenses" className="menu-item" href="/expenses">
+            <FontAwesomeIcon icon={faHandHoldingUsd} /> Expenses
           </a>
-          <a id="add-revenue" className="menu-item" href="/add-revenue">
-            Add Revenue
+          <a id="revenues" className="menu-item" href="/revenues">
+            <FontAwesomeIcon icon={faMoneyBillWave} /> Revenues
           </a>
           <a id="logout" className="menu-item" href="/login" onClick={logout}>
-            Log Out
+            <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
           </a>
         </Menu>
         <header>
@@ -50,14 +57,18 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={HomePage}></Route>
             <Route exact path="/login" component={LogIn}></Route>
-            <Route exact path="/add-account" component={AddBankAccount}></Route>
             <Route
               exact
-              path="/add-credit-card"
-              component={AddCreditCard}
+              path="/bank-accounts"
+              component={MaintainBankAccounts}
             ></Route>
-            <Route exact path="/add-expense" component={AddExpense}></Route>
-            <Route exact path="/add-revenue" component={AddRevenue}></Route>
+            <Route
+              exact
+              path="/credit-cards"
+              component={MaintainCreditCards}
+            ></Route>
+            <Route exact path="/expenses" component={MaintainExpenses}></Route>
+            <Route exact path="/revenues" component={MaintainRevenues}></Route>
           </Switch>
         </Router>
       </>

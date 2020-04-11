@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import CreditCards from '../components/CreditCards'
 
-const AddCreditCard = () => {
+const MaintainCreditCards = () => {
   const [cardInfo, setCardInfo] = useState({
     CardIssuer: '',
     AccountBalance: 0,
@@ -48,7 +49,8 @@ const AddCreditCard = () => {
     <>
       <div className="buffer"></div>
       <section className="entry-form">
-        <h2>Add Credit Card</h2>
+        <h2>Credit Cards</h2>
+        <h4>Add Credit Card</h4>
         <section className="input-grid">
           <div>
             <label>Credit Card Issuer</label>
@@ -68,11 +70,15 @@ const AddCreditCard = () => {
               onChange={updateCardInfo}
             ></input>
           </div>
+          <button onClick={addCreditCardToDb}>Add Credit Card</button>
         </section>
-        <button onClick={addCreditCardToDb}>Add Credit Card</button>
+      </section>
+      <section className="data-display">
+        <h4>Your Credit Cards</h4>
+        <CreditCards displayMode="Modify" />
       </section>
     </>
   )
 }
 
-export default AddCreditCard
+export default MaintainCreditCards

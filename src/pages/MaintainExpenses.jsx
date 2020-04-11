@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import Expenses from '../components/Expenses'
 
-const AddExpense = () => {
+const MaintainExpenses = () => {
   const [expenseInfo, setExpenseInfo] = useState({
     ExpenseCategory: 'Cable & Internet',
     ExpenseName: '',
@@ -44,14 +45,15 @@ const AddExpense = () => {
   }
 
   if (shouldRedirect) {
-    return <Redirect to="/home" />
+    return <Redirect to="/" />
   }
 
   return (
     <>
       <div className="buffer"></div>
       <section className="entry-form">
-        <h2>Add Expense</h2>
+        <h2>Expenses</h2>
+        <h4>Add Expense</h4>
         <section className="input-grid">
           <div>
             <label>Expense Type</label>
@@ -117,11 +119,15 @@ const AddExpense = () => {
               <option value="Annually">Annually</option>
             </select>
           </div>
+          <button onClick={addExpenseToDb}>Add Expense</button>
         </section>
-        <button onClick={addExpenseToDb}>Add Expense</button>
+      </section>
+      <section className="data-display-wide">
+        <h4>Your Expenses</h4>
+        <Expenses displayMode="Modify" />
       </section>
     </>
   )
 }
 
-export default AddExpense
+export default MaintainExpenses

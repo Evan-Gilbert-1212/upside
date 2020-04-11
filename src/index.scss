@@ -34,7 +34,7 @@ header {
   display: flex;
   align-items: center;
   height: 50px;
-  background-color: $primary-green;
+  background: linear-gradient($primary-yellow, $primary-green);
   position: fixed;
   width: 100vw;
   top: 0;
@@ -104,6 +104,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-menu-wrap {
   position: fixed;
   height: 100vh;
+  width: 250px !important;
 }
 
 /* General sidebar styles */
@@ -112,6 +113,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #373a47;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
+  width: 250px;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -135,6 +137,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   color: white;
   margin-bottom: 1rem;
   text-decoration: none;
+  text-align: right;
 }
 
 /* Styling of overlay */
@@ -237,15 +240,60 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .account-row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 50% 50%;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+}
+
+.account-row-modify {
+  display: grid;
+  grid-template-columns: 37% 37% 13% 13%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.account-column-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.account-column-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: right;
+}
+
+.account-column-3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.account-column-4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
 }
 
 .expense-row {
   display: grid;
   grid-template-columns: 25% 35% 25% 15%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.expense-row-modify {
+  display: grid;
+  grid-template-columns: 20% 30% 15% 15% 10% 10%;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
@@ -271,6 +319,26 @@ Note: Beware of modifying this element as it can break the animations - you shou
   text-align: right;
 }
 
+.expense-column-5 {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.expense-column-6 {
+  grid-column-start: 6;
+  grid-column-end: 7;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
 .buffer {
   padding: 3rem;
 }
@@ -281,7 +349,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   box-shadow: 0px 0px 5px $box-shadow-color;
   margin-left: auto;
   margin-right: auto;
-  width: 400px;
+  width: 500px;
   padding: 2rem;
 
   > h2 {
@@ -309,16 +377,89 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
 }
 
+.login-signup-page {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('./images/login_background.jpg');
+  background-size: cover;
+  position: absolute;
+}
+
+.login-signup-form {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 5px $box-shadow-color;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 22vh;
+  width: 400px;
+  padding: 2rem;
+  background-color: white;
+
+  > h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 2rem;
+  }
+
+  > button {
+    margin: auto;
+    margin-top: 1rem;
+    height: 25px;
+    width: 120px;
+    border-radius: 5px;
+    background-color: $primary-green;
+    color: white;
+    border-width: 0;
+  }
+
+  > .login-signup-grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-items: center;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem;
+
+      > label {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+      }
+
+      > input {
+        width: 147px;
+        height: 19px;
+        margin: 0;
+        padding: 0;
+        border: 1px solid #a9a9a9;
+        border-radius: 5px;
+      }
+
+      > select {
+        width: 151px;
+        height: 21px;
+        margin: 0;
+        padding: 0;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
 .input-grid {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 33% 33% 34%;
   justify-items: center;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  border: 1px solid black;
 
   > div {
     display: flex;
     flex-direction: column;
+    padding: 0.5rem;
 
     > label {
       font-size: 0.9rem;
@@ -329,7 +470,6 @@ Note: Beware of modifying this element as it can break the animations - you shou
       width: 147px;
       height: 19px;
       margin: 0;
-      margin-bottom: 0.5rem;
       padding: 0;
       border: 1px solid #a9a9a9;
       border-radius: 5px;
@@ -342,6 +482,44 @@ Note: Beware of modifying this element as it can break the animations - you shou
       padding: 0;
       border-radius: 5px;
     }
+  }
+
+  > button {
+    margin: auto;
+    height: 25px;
+    width: 120px;
+    border-radius: 5px;
+    background-color: $primary-green;
+    color: white;
+    border-width: 0;
+  }
+}
+
+.data-display {
+  margin-top: 2rem;
+  box-shadow: 0px 0px 5px $box-shadow-color;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  padding: 2rem;
+
+  > h4 {
+    margin-top: 0;
+    text-align: center;
+  }
+}
+
+.data-display-wide {
+  margin-top: 2rem;
+  box-shadow: 0px 0px 5px $box-shadow-color;
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
+  padding: 2rem;
+
+  > h4 {
+    margin-top: 0;
+    text-align: center;
   }
 }
 

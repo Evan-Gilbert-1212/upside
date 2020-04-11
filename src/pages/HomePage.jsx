@@ -123,14 +123,22 @@ const HomePage = () => {
           </section>
           <div className="vertical-divider"></div>
           <section className="transaction-section">
-            <Expenses
-              beginDate={pageData.userSummaryData.PeriodBeginDate}
-              endDate={pageData.userSummaryData.PeriodEndDate}
-            />
-            <Revenues
-              beginDate={pageData.userSummaryData.PeriodBeginDate}
-              endDate={pageData.userSummaryData.PeriodEndDate}
-            />
+            <div>
+              <p className="expense-header">Expenses This Period</p>
+              <Expenses
+                displayMode="View"
+                beginDate={pageData.userSummaryData.PeriodBeginDate}
+                endDate={pageData.userSummaryData.PeriodEndDate}
+              />
+            </div>
+            <div>
+              <p className="expense-header">Revenues This Period</p>
+              <Revenues
+                displayMode="View"
+                beginDate={pageData.userSummaryData.PeriodBeginDate}
+                endDate={pageData.userSummaryData.PeriodEndDate}
+              />
+            </div>
           </section>
         </section>
       </main>

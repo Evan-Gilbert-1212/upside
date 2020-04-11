@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import Accounts from '../components/Accounts'
 
-const AddBankAccount = () => {
+const MaintainBankAccounts = () => {
   const [accountInfo, setAccountInfo] = useState({
     AccountType: 'Checking',
     AccountBalance: 0,
@@ -51,7 +52,8 @@ const AddBankAccount = () => {
     <>
       <div className="buffer"></div>
       <section className="entry-form">
-        <h2>Add Bank Account</h2>
+        <h2>Bank Accounts</h2>
+        <h4>Add Account</h4>
         <section className="input-grid">
           <div>
             <label>Account Type</label>
@@ -73,11 +75,15 @@ const AddBankAccount = () => {
               onChange={updateAccountInfo}
             ></input>
           </div>
+          <button onClick={addAccountToDb}>Add Account</button>
         </section>
-        <button onClick={addAccountToDb}>Add Account</button>
+      </section>
+      <section className="data-display">
+        <h4>Your Accounts</h4>
+        <Accounts displayMode="Modify" />
       </section>
     </>
   )
 }
 
-export default AddBankAccount
+export default MaintainBankAccounts
