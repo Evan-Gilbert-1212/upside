@@ -4,11 +4,13 @@ import axios from 'axios'
 import Accounts from '../components/Accounts'
 
 const MaintainBankAccounts = () => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const [accountInfo, setAccountInfo] = useState({
     AccountType: 'Checking',
     AccountBalance: 0,
   })
-  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const updateAccountInfo = (e) => {
     const fieldName = e.target.name
@@ -28,7 +30,7 @@ const MaintainBankAccounts = () => {
     console.log(accountInfo)
 
     const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/bankaccount',
+      `${API_URL}/api/bankaccount`,
       accountInfo,
       {
         headers: {
@@ -40,12 +42,8 @@ const MaintainBankAccounts = () => {
     console.log(response.data)
 
     if (response.status === 201) {
-      setShouldRedirect(true)
+      //Any logic for successful Save
     }
-  }
-
-  if (shouldRedirect) {
-    return <Redirect to="/home" />
   }
 
   return (

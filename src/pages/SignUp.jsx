@@ -3,6 +3,9 @@ import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 
 const SignUp = () => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const [userData, setUserData] = useState({
     FirstName: '',
     LastName: '',
@@ -29,7 +32,7 @@ const SignUp = () => {
   const SignUpUser = async () => {
     console.log(userData)
     const resp = await axios
-      .post('https://upside-api.herokuapp.com/auth/signup', userData)
+      .post(`${API_URL}/auth/signup`, userData)
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('token', response.data.token)

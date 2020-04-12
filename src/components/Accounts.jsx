@@ -7,6 +7,9 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const Accounts = (props) => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const { displayMode } = props
 
   const [userAccounts, setUserAccounts] = useState({
@@ -21,14 +24,11 @@ const Accounts = (props) => {
   }
 
   const getUserAccounts = async () => {
-    const response = await axios.get(
-      'https://upside-api.herokuapp.com/api/bankaccount',
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    const response = await axios.get(`${API_URL}/api/bankaccount`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
     setUserAccounts({
       userAccountData: response.data,
       isLoaded: true,
@@ -39,8 +39,21 @@ const Accounts = (props) => {
     //Modify the bank account
   }
 
-  const deleteBankAccount = () => {
-    //Delete the bank account
+  const deleteBankAccount = (accountId) => {
+    const response = axios.delete(`${API_URL}/api/bankaccount/${accountId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    const newAccountList = userAccounts.userAccountData.filter(
+      (acc) => acc.ID !== accountId
+    )
+
+    setUserAccounts({
+      userAccountData: newAccountList,
+      isLoaded: true,
+    })
   }
 
   useEffect(() => {
@@ -88,7 +101,9 @@ const Accounts = (props) => {
                   </span>
                   <span
                     className="account-column-4"
-                    onClick={deleteBankAccount}
+                    onClick={() => {
+                      deleteBankAccount(account.ID)
+                    }}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
@@ -109,17 +124,19 @@ const Accounts = (props) => {
       <div className={rowType}>
         <span className="account-column-1">Total:</span>
         <span className="account-column-2">
-          <NumberFormat
-            value={userAccounts.userAccountData.reduce(
-              (sum, account) => sum + account.AccountBalance,
-              0
-            )}
-            displayType={'text'}
-            thousandSeparator={true}
-            decimalScale={2}
-            fixedDecimalScale={true}
-            prefix={'$'}
-          />
+          {userAccounts.isLoaded && (
+            <NumberFormat
+              value={userAccounts.userAccountData.reduce(
+                (sum, account) => sum + account.AccountBalance,
+                0
+              )}
+              displayType={'text'}
+              thousandSeparator={true}
+              decimalScale={2}
+              fixedDecimalScale={true}
+              prefix={'$'}
+            />
+          )}
         </span>
       </div>
     </div>

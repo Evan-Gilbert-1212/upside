@@ -4,6 +4,9 @@ import { Redirect } from 'react-router-dom'
 import Revenues from '../components/Revenues'
 
 const MaintainRevenues = () => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const [revenueInfo, setRevenueInfo] = useState({
     RevenueCategory: 'Wages',
     RevenueName: '',
@@ -11,7 +14,6 @@ const MaintainRevenues = () => {
     RevenueAmount: 0,
     RecurringFrequency: 'One Time',
   })
-  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const updateRevenueInfo = (e) => {
     const fieldName = e.target.name
@@ -29,23 +31,15 @@ const MaintainRevenues = () => {
   }
 
   const addRevenueToDb = async () => {
-    const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/revenue',
-      revenueInfo,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    const response = await axios.post(`${API_URL}/api/revenue`, revenueInfo, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     if (response.status === 201) {
-      setShouldRedirect(true)
+      //Any logic for successful Save
     }
-  }
-
-  if (shouldRedirect) {
-    return <Redirect to="/" />
   }
 
   return (

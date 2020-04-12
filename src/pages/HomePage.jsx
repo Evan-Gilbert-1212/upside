@@ -9,20 +9,20 @@ import Moment from 'react-moment'
 import LoadingIcon from '../components/LoadingIcon'
 
 const HomePage = () => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const [pageData, setPageData] = useState({
     userSummaryData: {},
     isLoaded: false,
   })
 
   const loadPageData = async () => {
-    const response = await axios.get(
-      'https://upside-api.herokuapp.com/api/user/usersummary',
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    const response = await axios.get(`${API_URL}/api/user/usersummary`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     setPageData({
       userSummaryData: response.data,

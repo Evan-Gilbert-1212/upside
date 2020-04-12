@@ -8,6 +8,9 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const Revenues = (props) => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const { displayMode, beginDate, endDate } = props
 
   const [userRevenues, setUserRevenues] = useState({
@@ -25,27 +28,21 @@ const Revenues = (props) => {
 
   const getUserRevenues = async () => {
     if (beginDate != null && endDate != null) {
-      response = await axios.get(
-        'https://upside-api.herokuapp.com/api/revenue',
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          params: {
-            BeginDate: beginDate,
-            EndDate: endDate,
-          },
-        }
-      )
+      response = await axios.get(`${API_URL}/api/revenue`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        params: {
+          BeginDate: beginDate,
+          EndDate: endDate,
+        },
+      })
     } else {
-      response = await axios.get(
-        'https://upside-api.herokuapp.com/api/revenue/all',
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      response = await axios.get(`${API_URL}/api/revenue/all`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
     }
 
     setUserRevenues({
@@ -58,8 +55,21 @@ const Revenues = (props) => {
     //Modify the bank account
   }
 
-  const deleteRevenue = () => {
-    //Delete the bank account
+  const deleteRevenue = (revenueId) => {
+    const response = axios.delete(`${API_URL}/api/revenue/${revenueId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    const newRevenueList = userRevenues.userRevenueData.filter(
+      (rev) => rev.ID !== revenueId
+    )
+
+    setUserRevenues({
+      userRevenueData: newRevenueList,
+      isLoaded: true,
+    })
   }
 
   useEffect(() => {
@@ -110,7 +120,12 @@ const Revenues = (props) => {
                   <span className="expense-column-5" onClick={modifyRevenue}>
                     <FontAwesomeIcon icon={faEdit} />
                   </span>
-                  <span className="expense-column-6" onClick={deleteRevenue}>
+                  <span
+                    className="expense-column-6"
+                    onClick={() => {
+                      deleteRevenue(revenue.ID)
+                    }}
+                  >
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
                 </>
@@ -130,17 +145,19 @@ const Revenues = (props) => {
       <div className={rowType}>
         <span className="expense-column-1">Total:</span>
         <span className="expense-column-4">
-          <NumberFormat
-            value={userRevenues.userRevenueData.reduce(
-              (sum, revenue) => sum + revenue.RevenueAmount,
-              0
-            )}
-            displayType={'text'}
-            thousandSeparator={true}
-            decimalScale={2}
-            fixedDecimalScale={true}
-            prefix={'$'}
-          />
+          {userRevenues.isLoaded && (
+            <NumberFormat
+              value={userRevenues.userRevenueData.reduce(
+                (sum, revenue) => sum + revenue.RevenueAmount,
+                0
+              )}
+              displayType={'text'}
+              thousandSeparator={true}
+              decimalScale={2}
+              fixedDecimalScale={true}
+              prefix={'$'}
+            />
+          )}
         </span>
       </div>
     </div>

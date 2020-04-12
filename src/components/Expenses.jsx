@@ -8,6 +8,9 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const Expenses = (props) => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const { displayMode, beginDate, endDate } = props
 
   const [userExpenses, setUserExpenses] = useState({
@@ -25,27 +28,21 @@ const Expenses = (props) => {
 
   const getUserExpenses = async () => {
     if (beginDate != null && endDate != null) {
-      response = await axios.get(
-        'https://upside-api.herokuapp.com/api/expense',
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          params: {
-            BeginDate: beginDate,
-            EndDate: endDate,
-          },
-        }
-      )
+      response = await axios.get(`${API_URL}/api/expense`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        params: {
+          BeginDate: beginDate,
+          EndDate: endDate,
+        },
+      })
     } else {
-      response = await axios.get(
-        'https://upside-api.herokuapp.com/api/expense/all',
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      response = await axios.get(`${API_URL}/api/expense/all`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
     }
 
     setUserExpenses({
@@ -58,8 +55,21 @@ const Expenses = (props) => {
     //Modify the bank account
   }
 
-  const deleteExpense = () => {
-    //Delete the bank account
+  const deleteExpense = (expenseId) => {
+    const response = axios.delete(`${API_URL}/api/expense/${expenseId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    const newExpenseList = userExpenses.userExpenseData.filter(
+      (exp) => exp.ID !== expenseId
+    )
+
+    setUserExpenses({
+      userExpenseData: newExpenseList,
+      isLoaded: true,
+    })
   }
 
   useEffect(() => {
@@ -110,7 +120,12 @@ const Expenses = (props) => {
                   <span className="expense-column-5" onClick={modifyExpense}>
                     <FontAwesomeIcon icon={faEdit} />
                   </span>
-                  <span className="expense-column-6" onClick={deleteExpense}>
+                  <span
+                    className="expense-column-6"
+                    onClick={() => {
+                      deleteExpense(expense.ID)
+                    }}
+                  >
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
                 </>
@@ -130,17 +145,19 @@ const Expenses = (props) => {
       <div className={rowType}>
         <span className="expense-column-1">Total:</span>
         <span className="expense-column-4">
-          <NumberFormat
-            value={userExpenses.userExpenseData.reduce(
-              (sum, expense) => sum + expense.ExpenseAmount,
-              0
-            )}
-            displayType={'text'}
-            thousandSeparator={true}
-            decimalScale={2}
-            fixedDecimalScale={true}
-            prefix={'$'}
-          />
+          {userExpenses.isLoaded && (
+            <NumberFormat
+              value={userExpenses.userExpenseData.reduce(
+                (sum, expense) => sum + expense.ExpenseAmount,
+                0
+              )}
+              displayType={'text'}
+              thousandSeparator={true}
+              decimalScale={2}
+              fixedDecimalScale={true}
+              prefix={'$'}
+            />
+          )}
         </span>
       </div>
     </div>

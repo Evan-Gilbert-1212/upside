@@ -7,6 +7,9 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const CreditCards = (props) => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const { displayMode } = props
 
   const [userCreditCards, setUserCreditCards] = useState({
@@ -21,14 +24,11 @@ const CreditCards = (props) => {
   }
 
   const getUserCreditCards = async () => {
-    const response = await axios.get(
-      'https://upside-api.herokuapp.com/api/creditcard',
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    const response = await axios.get(`${API_URL}/api/creditcard`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
     setUserCreditCards({
       userCreditCardData: response.data,
       isLoaded: true,
@@ -39,8 +39,21 @@ const CreditCards = (props) => {
     //Modify the credit card
   }
 
-  const deleteCreditCard = () => {
-    //Delete the credit card
+  const deleteCreditCard = (creditCardId) => {
+    const response = axios.delete(`${API_URL}/api/creditcard/${creditCardId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    const newCreditCardList = userCreditCards.userCreditCardData.filter(
+      (card) => card.ID !== creditCardId
+    )
+
+    setUserCreditCards({
+      userCreditCardData: newCreditCardList,
+      isLoaded: true,
+    })
   }
 
   useEffect(() => {
@@ -83,7 +96,12 @@ const CreditCards = (props) => {
                   <span className="account-column-3" onClick={modifyCreditCard}>
                     <FontAwesomeIcon icon={faEdit} />
                   </span>
-                  <span className="account-column-4" onClick={deleteCreditCard}>
+                  <span
+                    className="account-column-4"
+                    onClick={() => {
+                      deleteCreditCard(card.ID)
+                    }}
+                  >
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
                 </>
@@ -103,17 +121,19 @@ const CreditCards = (props) => {
       <div className={rowType}>
         <span className="account-column-1">Total:</span>
         <span className="account-column-2">
-          <NumberFormat
-            value={userCreditCards.userCreditCardData.reduce(
-              (sum, card) => sum + card.AccountBalance,
-              0
-            )}
-            displayType={'text'}
-            thousandSeparator={true}
-            decimalScale={2}
-            fixedDecimalScale={true}
-            prefix={'$'}
-          />
+          {userCreditCards.isLoaded && (
+            <NumberFormat
+              value={userCreditCards.userCreditCardData.reduce(
+                (sum, card) => sum + card.AccountBalance,
+                0
+              )}
+              displayType={'text'}
+              thousandSeparator={true}
+              decimalScale={2}
+              fixedDecimalScale={true}
+              prefix={'$'}
+            />
+          )}
         </span>
       </div>
     </div>

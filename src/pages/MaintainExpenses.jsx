@@ -4,6 +4,9 @@ import { Redirect } from 'react-router-dom'
 import Expenses from '../components/Expenses'
 
 const MaintainExpenses = () => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const [expenseInfo, setExpenseInfo] = useState({
     ExpenseCategory: 'Cable & Internet',
     ExpenseName: '',
@@ -11,7 +14,6 @@ const MaintainExpenses = () => {
     ExpenseAmount: 0,
     RecurringFrequency: 'One Time',
   })
-  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const updateExpenseInfo = (e) => {
     const fieldName = e.target.name
@@ -29,23 +31,15 @@ const MaintainExpenses = () => {
   }
 
   const addExpenseToDb = async () => {
-    const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/expense',
-      expenseInfo,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    const response = await axios.post(`${API_URL}/api/expense`, expenseInfo, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     if (response.status === 201) {
-      setShouldRedirect(true)
+      //Any logic for successful Save
     }
-  }
-
-  if (shouldRedirect) {
-    return <Redirect to="/" />
   }
 
   return (

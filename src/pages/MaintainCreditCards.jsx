@@ -4,11 +4,13 @@ import axios from 'axios'
 import CreditCards from '../components/CreditCards'
 
 const MaintainCreditCards = () => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const [cardInfo, setCardInfo] = useState({
     CardIssuer: '',
     AccountBalance: 0,
   })
-  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const updateCardInfo = (e) => {
     const fieldName = e.target.name
@@ -26,23 +28,15 @@ const MaintainCreditCards = () => {
   }
 
   const addCreditCardToDb = async () => {
-    const response = await axios.post(
-      'https://upside-api.herokuapp.com/api/creditcard',
-      cardInfo,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    const response = await axios.post(`${API_URL}/api/creditcard`, cardInfo, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     if (response.status === 201) {
-      setShouldRedirect(true)
+      //Any logic for successful Save
     }
-  }
-
-  if (shouldRedirect) {
-    return <Redirect to="/home" />
   }
 
   return (

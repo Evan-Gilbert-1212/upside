@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const LogIn = () => {
+  const API_URL = 'https://upside-api.herokuapp.com'
+  // const API_URL = 'https://localhost:5001'
+
   const [userData, setUserData] = useState({})
 
   const updateUserData = (e) => {
@@ -18,7 +21,7 @@ const LogIn = () => {
 
   const LogInUser = async () => {
     const resp = await axios
-      .post('https://upside-api.herokuapp.com/auth/login', userData)
+      .post(`${API_URL}/auth/login`, userData)
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('token', response.data.token)
