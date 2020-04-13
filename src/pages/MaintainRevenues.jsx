@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 import Revenues from '../components/Revenues'
 
 const MaintainRevenues = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const [revenueInfo, setRevenueInfo] = useState({
     RevenueCategory: 'Wages',
@@ -21,12 +19,10 @@ const MaintainRevenues = () => {
 
     setRevenueInfo((prevRevenue) => {
       if (typeof prevRevenue[fieldName] === 'number') {
-        prevRevenue[fieldName] = parseFloat(fieldValue)
+        return { ...prevRevenue, [fieldName]: parseFloat(fieldValue) }
       } else {
-        prevRevenue[fieldName] = fieldValue
+        return { ...prevRevenue, [fieldName]: fieldValue }
       }
-
-      return prevRevenue
     })
   }
 
@@ -39,6 +35,7 @@ const MaintainRevenues = () => {
 
     if (response.status === 201) {
       //Any logic for successful Save
+      window.location = '/revenues'
     }
   }
 

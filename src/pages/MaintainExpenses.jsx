@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 import Expenses from '../components/Expenses'
 
 const MaintainExpenses = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const [expenseInfo, setExpenseInfo] = useState({
     ExpenseCategory: 'Cable & Internet',
@@ -21,12 +19,10 @@ const MaintainExpenses = () => {
 
     setExpenseInfo((prevExpense) => {
       if (typeof prevExpense[fieldName] === 'number') {
-        prevExpense[fieldName] = parseFloat(fieldValue)
+        return { ...prevExpense, [fieldName]: parseFloat(fieldValue) }
       } else {
-        prevExpense[fieldName] = fieldValue
+        return { ...prevExpense, [fieldName]: fieldValue }
       }
-
-      return prevExpense
     })
   }
 
@@ -39,6 +35,7 @@ const MaintainExpenses = () => {
 
     if (response.status === 201) {
       //Any logic for successful Save
+      window.location = '/expenses'
     }
   }
 

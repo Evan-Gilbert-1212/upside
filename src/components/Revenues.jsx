@@ -6,10 +6,11 @@ import LoadingIcon from './LoadingIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const Revenues = (props) => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const { displayMode, beginDate, endDate } = props
 
@@ -17,6 +18,8 @@ const Revenues = (props) => {
     userRevenueData: [],
     isLoaded: false,
   })
+
+  const [modifiedRecord, setModifiedRecord] = useState({})
 
   let rowType = 'expense-row'
 
@@ -51,8 +54,60 @@ const Revenues = (props) => {
     })
   }
 
-  const modifyRevenue = () => {
-    //Modify the bank account
+  const updateModifiedRecord = (e) => {
+    const fieldName = e.target.name
+    const fieldValue = e.target.value
+
+    setModifiedRecord((prevModifiedRecord) => {
+      if (typeof prevModifiedRecord[fieldName] === 'number') {
+        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+      } else {
+        return { ...prevModifiedRecord, [fieldName]: fieldValue }
+      }
+    })
+  }
+
+  const modifyRevenue = (revenue) => {
+    setModifiedRecord({
+      ID: revenue.ID,
+      RevenueCategory: revenue.RevenueCategory,
+      RevenueName: revenue.RevenueName,
+      RevenueDate: revenue.RevenueDate.substring(0, 10),
+      RevenueAmount: parseFloat(revenue.RevenueAmount),
+      UserID: revenue.UserID,
+    })
+  }
+
+  const clearModifiedRecord = () => {
+    setModifiedRecord({})
+  }
+
+  const updateRevenue = (revenueData) => {
+    const response = axios.put(`${API_URL}/api/revenue`, revenueData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    const newRevenueList = userRevenues.userRevenueData.filter(
+      (rev) => rev.ID !== revenueData.ID
+    )
+
+    revenueData = { ...revenueData, User: null }
+
+    setUserRevenues({
+      userRevenueData: [...newRevenueList, revenueData].sort(function (a, b) {
+        if (a.RevenueDate < b.RevenueDate) {
+          return -1
+        }
+        if (a.RevenueDate > b.RevenueDate) {
+          return 1
+        }
+      }),
+      isLoaded: true,
+    })
+
+    setModifiedRecord({})
   }
 
   const deleteRevenue = (revenueId) => {
@@ -97,37 +152,107 @@ const Revenues = (props) => {
         userRevenues.userRevenueData.map((revenue) => {
           return (
             <div key={revenue.ID} className={rowType}>
-              <span className="expense-column-1">
-                {revenue.RevenueCategory}
-              </span>
-              <span className="expense-column-2">{revenue.RevenueName}</span>
-              <span className="expense-column-3">
-                <Moment format="MM/DD/YYYY">{revenue.RevenueDate}</Moment>
-              </span>
-              <span className="expense-column-4">
-                {' '}
-                <NumberFormat
-                  value={revenue.RevenueAmount}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  decimalScale={2}
-                  fixedDecimalScale={true}
-                  prefix={'$'}
-                />
-              </span>
-              {displayMode === 'Modify' && (
+              {revenue.ID === modifiedRecord.ID ? (
                 <>
-                  <span className="expense-column-5" onClick={modifyRevenue}>
-                    <FontAwesomeIcon icon={faEdit} />
+                  <span className="expense-column-1">
+                    <select
+                      name="RevenueCategory"
+                      className="edit-select"
+                      value={modifiedRecord.RevenueCategory}
+                      onChange={updateModifiedRecord}
+                    >
+                      <option value="Wages">Wages</option>
+                      <option value="IRS Tax Refund">IRS Tax Refund</option>
+                      <option value="Interest">Interest</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </span>
+                  <span className="expense-column-2">
+                    <input
+                      type="text"
+                      name="RevenueName"
+                      className="edit-input-text"
+                      value={modifiedRecord.RevenueName}
+                      onChange={updateModifiedRecord}
+                    ></input>
+                  </span>
+                  <span className="expense-column-3">
+                    <input
+                      type="date"
+                      name="RevenueDate"
+                      className="edit-date"
+                      value={modifiedRecord.RevenueDate}
+                      onChange={updateModifiedRecord}
+                    ></input>
+                  </span>
+                  <span className="expense-column-4">
+                    <input
+                      type="text"
+                      name="RevenueAmount"
+                      className="edit-input-number"
+                      value={modifiedRecord.RevenueAmount}
+                      onChange={updateModifiedRecord}
+                    ></input>
+                  </span>
+                  <span
+                    className="expense-column-5"
+                    onClick={() => {
+                      updateRevenue(modifiedRecord)
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCheck} />
                   </span>
                   <span
                     className="expense-column-6"
                     onClick={() => {
-                      deleteRevenue(revenue.ID)
+                      clearModifiedRecord()
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTimes} />
                   </span>
+                </>
+              ) : (
+                <>
+                  <span className="expense-column-1">
+                    {revenue.RevenueCategory}
+                  </span>
+                  <span className="expense-column-2">
+                    {revenue.RevenueName}
+                  </span>
+                  <span className="expense-column-3">
+                    <Moment format="MM/DD/YYYY">{revenue.RevenueDate}</Moment>
+                  </span>
+                  <span className="expense-column-4">
+                    {' '}
+                    <NumberFormat
+                      value={revenue.RevenueAmount}
+                      displayType={'text'}
+                      thousandSeparator={true}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      prefix={'$'}
+                    />
+                  </span>
+                  {displayMode === 'Modify' && (
+                    <>
+                      <span
+                        className="expense-column-5"
+                        onClick={() => {
+                          modifyRevenue(revenue)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </span>
+                      <span
+                        className="expense-column-6"
+                        onClick={() => {
+                          deleteRevenue(revenue.ID)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </span>
+                    </>
+                  )}
                 </>
               )}
             </div>

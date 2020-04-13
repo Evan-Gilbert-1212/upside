@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 
 const SignUp = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const [userData, setUserData] = useState({
     FirstName: '',

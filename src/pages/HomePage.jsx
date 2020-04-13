@@ -10,7 +10,6 @@ import LoadingIcon from '../components/LoadingIcon'
 
 const HomePage = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const [pageData, setPageData] = useState({
     userSummaryData: {},

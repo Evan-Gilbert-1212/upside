@@ -5,10 +5,11 @@ import LoadingIcon from './LoadingIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const Accounts = (props) => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const { displayMode } = props
 
@@ -16,6 +17,8 @@ const Accounts = (props) => {
     userAccountData: [],
     isLoaded: false,
   })
+
+  const [modifiedRecord, setModifiedRecord] = useState({})
 
   let rowType = 'account-row'
 
@@ -29,14 +32,65 @@ const Accounts = (props) => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
+
     setUserAccounts({
       userAccountData: response.data,
       isLoaded: true,
     })
   }
 
-  const modifyBankAccount = () => {
-    //Modify the bank account
+  const updateModifiedRecord = (e) => {
+    const fieldName = e.target.name
+    const fieldValue = e.target.value
+
+    setModifiedRecord((prevModifiedRecord) => {
+      if (typeof prevModifiedRecord[fieldName] === 'number') {
+        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+      } else {
+        return { ...prevModifiedRecord, [fieldName]: fieldValue }
+      }
+    })
+  }
+
+  const modifyBankAccount = (account) => {
+    setModifiedRecord({
+      ID: account.ID,
+      AccountType: account.AccountType,
+      AccountBalance: parseFloat(account.AccountBalance),
+      UserID: account.UserID,
+    })
+  }
+
+  const clearModifiedRecord = () => {
+    setModifiedRecord({})
+  }
+
+  const updateBankAccount = (accountData) => {
+    const response = axios.put(`${API_URL}/api/bankaccount`, accountData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    const newAccountList = userAccounts.userAccountData.filter(
+      (acc) => acc.ID !== accountData.ID
+    )
+
+    accountData = { ...accountData, User: null }
+
+    setUserAccounts({
+      userAccountData: [...newAccountList, accountData].sort(function (a, b) {
+        if (a.AccountType < b.AccountType) {
+          return -1
+        }
+        if (a.AccountType > b.AccountType) {
+          return 1
+        }
+      }),
+      isLoaded: true,
+    })
+
+    setModifiedRecord({})
   }
 
   const deleteBankAccount = (accountId) => {
@@ -79,34 +133,81 @@ const Accounts = (props) => {
         userAccounts.userAccountData.map((account) => {
           return (
             <div key={account.ID} className={rowType}>
-              <span className="account-column-1">{account.AccountType}</span>
-              <span className="account-column-2">
-                {' '}
-                <NumberFormat
-                  value={account.AccountBalance}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  decimalScale={2}
-                  fixedDecimalScale={true}
-                  prefix={'$'}
-                />
-              </span>
-              {displayMode === 'Modify' && (
+              {account.ID === modifiedRecord.ID ? (
                 <>
+                  <span className="account-column-1">
+                    <select
+                      name="AccountType"
+                      className="edit-select"
+                      value={modifiedRecord.AccountType}
+                      onChange={updateModifiedRecord}
+                    >
+                      <option value="Checking">Checking</option>
+                      <option value="Savings">Savings</option>
+                    </select>
+                  </span>
+                  <span className="account-column-2">
+                    <input
+                      type="text"
+                      name="AccountBalance"
+                      className="edit-input-number"
+                      value={modifiedRecord.AccountBalance}
+                      onChange={updateModifiedRecord}
+                    />
+                  </span>
                   <span
                     className="account-column-3"
-                    onClick={modifyBankAccount}
+                    onClick={() => {
+                      updateBankAccount(modifiedRecord)
+                    }}
                   >
-                    <FontAwesomeIcon icon={faEdit} />
+                    <FontAwesomeIcon icon={faCheck} />
                   </span>
                   <span
                     className="account-column-4"
                     onClick={() => {
-                      deleteBankAccount(account.ID)
+                      clearModifiedRecord()
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTimes} />
                   </span>
+                </>
+              ) : (
+                <>
+                  <span className="account-column-1">
+                    {account.AccountType}
+                  </span>
+                  <span className="account-column-2">
+                    {' '}
+                    <NumberFormat
+                      value={account.AccountBalance}
+                      displayType={'text'}
+                      thousandSeparator={true}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      prefix={'$'}
+                    />
+                  </span>
+                  {displayMode === 'Modify' && (
+                    <>
+                      <span
+                        className="account-column-3"
+                        onClick={() => {
+                          modifyBankAccount(account)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </span>
+                      <span
+                        className="account-column-4"
+                        onClick={() => {
+                          deleteBankAccount(account.ID)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </span>
+                    </>
+                  )}
                 </>
               )}
             </div>

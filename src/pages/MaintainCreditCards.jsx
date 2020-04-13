@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import CreditCards from '../components/CreditCards'
 
 const MaintainCreditCards = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const [cardInfo, setCardInfo] = useState({
     CardIssuer: '',
@@ -18,12 +16,10 @@ const MaintainCreditCards = () => {
 
     setCardInfo((prevCardInfo) => {
       if (typeof prevCardInfo[fieldName] === 'number') {
-        prevCardInfo[fieldName] = parseFloat(fieldValue)
+        return { ...prevCardInfo, [fieldName]: parseFloat(fieldValue) }
       } else {
-        prevCardInfo[fieldName] = fieldValue
+        return { ...prevCardInfo, [fieldName]: fieldValue }
       }
-
-      return prevCardInfo
     })
   }
 
@@ -36,6 +32,7 @@ const MaintainCreditCards = () => {
 
     if (response.status === 201) {
       //Any logic for successful Save
+      window.location = '/credit-cards'
     }
   }
 

@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import Accounts from '../components/Accounts'
 
 const MaintainBankAccounts = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const [accountInfo, setAccountInfo] = useState({
     AccountType: 'Checking',
@@ -18,17 +16,14 @@ const MaintainBankAccounts = () => {
 
     setAccountInfo((prevAcctInfo) => {
       if (typeof prevAcctInfo[fieldName] === 'number') {
-        prevAcctInfo[fieldName] = parseFloat(fieldValue)
+        return { ...prevAcctInfo, [fieldName]: parseFloat(fieldValue) }
       } else {
-        prevAcctInfo[fieldName] = fieldValue
+        return { ...prevAcctInfo, [fieldName]: fieldValue }
       }
-      return prevAcctInfo
     })
   }
 
   const addAccountToDb = async () => {
-    console.log(accountInfo)
-
     const response = await axios.post(
       `${API_URL}/api/bankaccount`,
       accountInfo,
@@ -39,10 +34,9 @@ const MaintainBankAccounts = () => {
       }
     )
 
-    console.log(response.data)
-
     if (response.status === 201) {
       //Any logic for successful Save
+      window.location = '/bank-accounts'
     }
   }
 

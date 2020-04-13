@@ -523,6 +523,42 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
 }
 
+.edit-input-text {
+  width: 147px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.edit-input-number {
+  width: 100px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.edit-select {
+  width: 130px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.edit-date {
+  width: 100px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
 .sk-chase {
   width: 40px;
   height: 40px;

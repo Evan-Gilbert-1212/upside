@@ -5,10 +5,11 @@ import LoadingIcon from './LoadingIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const CreditCards = (props) => {
   const API_URL = 'https://upside-api.herokuapp.com'
-  // const API_URL = 'https://localhost:5001'
 
   const { displayMode } = props
 
@@ -16,6 +17,8 @@ const CreditCards = (props) => {
     userCreditCardData: [],
     isLoaded: false,
   })
+
+  const [modifiedRecord, setModifiedRecord] = useState({})
 
   let rowType = 'account-row'
 
@@ -35,8 +38,61 @@ const CreditCards = (props) => {
     })
   }
 
-  const modifyCreditCard = () => {
-    //Modify the credit card
+  const updateModifiedRecord = (e) => {
+    const fieldName = e.target.name
+    const fieldValue = e.target.value
+
+    setModifiedRecord((prevModifiedRecord) => {
+      if (typeof prevModifiedRecord[fieldName] === 'number') {
+        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+      } else {
+        return { ...prevModifiedRecord, [fieldName]: fieldValue }
+      }
+    })
+  }
+
+  const modifyCreditCard = (creditCard) => {
+    setModifiedRecord({
+      ID: creditCard.ID,
+      CardIssuer: creditCard.CardIssuer,
+      AccountBalance: parseFloat(creditCard.AccountBalance),
+      UserID: creditCard.UserID,
+    })
+  }
+
+  const clearModifiedRecord = () => {
+    setModifiedRecord({})
+  }
+
+  const updateCreditCard = (creditCardData) => {
+    const response = axios.put(`${API_URL}/api/creditcard`, creditCardData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+
+    const newCreditCardList = userCreditCards.userCreditCardData.filter(
+      (card) => card.ID !== creditCardData.ID
+    )
+
+    creditCardData = { ...creditCardData, User: null }
+
+    setUserCreditCards({
+      userCreditCardData: [...newCreditCardList, creditCardData].sort(function (
+        a,
+        b
+      ) {
+        if (a.CardIssuer < b.CardIssuer) {
+          return -1
+        }
+        if (a.CardIssuer > b.CardIssuer) {
+          return 1
+        }
+      }),
+      isLoaded: true,
+    })
+
+    setModifiedRecord({})
   }
 
   const deleteCreditCard = (creditCardId) => {
@@ -79,31 +135,77 @@ const CreditCards = (props) => {
         userCreditCards.userCreditCardData.map((card) => {
           return (
             <div key={card.ID} className={rowType}>
-              <span className="account-column-1">{card.CardIssuer}</span>
-              <span className="account-column-2">
-                {' '}
-                <NumberFormat
-                  value={card.AccountBalance}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  decimalScale={2}
-                  fixedDecimalScale={true}
-                  prefix={'$'}
-                />
-              </span>
-              {displayMode === 'Modify' && (
+              {card.ID === modifiedRecord.ID ? (
                 <>
-                  <span className="account-column-3" onClick={modifyCreditCard}>
-                    <FontAwesomeIcon icon={faEdit} />
+                  <span className="account-column-1">
+                    <input
+                      type="text"
+                      name="CardIssuer"
+                      className="edit-input-text"
+                      value={modifiedRecord.CardIssuer}
+                      onChange={updateModifiedRecord}
+                    />
+                  </span>
+                  <span className="account-column-2">
+                    <input
+                      type="text"
+                      name="AccountBalance"
+                      className="edit-input-number"
+                      value={modifiedRecord.AccountBalance}
+                      onChange={updateModifiedRecord}
+                    />
+                  </span>
+                  <span
+                    className="account-column-3"
+                    onClick={() => {
+                      updateCreditCard(modifiedRecord)
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCheck} />
                   </span>
                   <span
                     className="account-column-4"
                     onClick={() => {
-                      deleteCreditCard(card.ID)
+                      clearModifiedRecord()
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTimes} />
                   </span>
+                </>
+              ) : (
+                <>
+                  <span className="account-column-1">{card.CardIssuer}</span>
+                  <span className="account-column-2">
+                    {' '}
+                    <NumberFormat
+                      value={card.AccountBalance}
+                      displayType={'text'}
+                      thousandSeparator={true}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      prefix={'$'}
+                    />
+                  </span>
+                  {displayMode === 'Modify' && (
+                    <>
+                      <span
+                        className="account-column-3"
+                        onClick={() => {
+                          modifyCreditCard(card)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </span>
+                      <span
+                        className="account-column-4"
+                        onClick={() => {
+                          deleteCreditCard(card.ID)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </span>
+                    </>
+                  )}
                 </>
               )}
             </div>
