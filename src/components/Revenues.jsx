@@ -8,6 +8,11 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
 
 const Revenues = (props) => {
   const API_URL = 'https://upside-api.herokuapp.com'
@@ -20,6 +25,11 @@ const Revenues = (props) => {
   })
 
   const [modifiedRecord, setModifiedRecord] = useState({})
+
+  const [deleteDialogInfo, setDeleteDialogInfo] = useState({
+    isOpen: false,
+    revenueId: 0,
+  })
 
   let rowType = 'expense-row'
 
@@ -125,6 +135,11 @@ const Revenues = (props) => {
       userRevenueData: newRevenueList,
       isLoaded: true,
     })
+
+    setDeleteDialogInfo({
+      isOpen: false,
+      revenueId: 0,
+    })
   }
 
   useEffect(() => {
@@ -133,6 +148,45 @@ const Revenues = (props) => {
 
   return (
     <div className="revenue-section">
+      <Dialog
+        open={deleteDialogInfo.isOpen}
+        onClose={() => {
+          setDeleteDialogInfo({
+            isOpen: false,
+            revenueId: 0,
+          })
+        }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this revenue?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              deleteRevenue(deleteDialogInfo.revenueId)
+            }}
+            color="primary"
+            autoFocus
+          >
+            Yes
+          </Button>
+          <Button
+            onClick={() => {
+              setDeleteDialogInfo({
+                isOpen: false,
+                revenueId: 0,
+              })
+            }}
+            color="primary"
+          >
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div className={rowType}>
         <span className="expense-column-1">Category</span>
         <span className="expense-column-2">Description</span>
@@ -243,13 +297,18 @@ const Revenues = (props) => {
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </span>
-                      <span
-                        className="expense-column-6"
-                        onClick={() => {
-                          deleteRevenue(revenue.ID)
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
+                      <span className="expense-column-6">
+                        <Button
+                          className="action-icon"
+                          onClick={() => {
+                            setDeleteDialogInfo({
+                              isOpen: true,
+                              revenueId: revenue.ID,
+                            })
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
                       </span>
                     </>
                   )}

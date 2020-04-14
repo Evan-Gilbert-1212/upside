@@ -8,6 +8,7 @@ import MaintainBankAccounts from './pages/MaintainBankAccounts'
 import MaintainCreditCards from './pages/MaintainCreditCards'
 import MaintainExpenses from './pages/MaintainExpenses'
 import MaintainRevenues from './pages/MaintainRevenues'
+import MaintainRecurringTransactions from './pages/MaintainRecurringTransactions'
 import { slide as Menu } from 'react-burger-menu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
@@ -15,6 +16,7 @@ import { faUniversity } from '@fortawesome/free-solid-svg-icons'
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons'
+import { faRedoAlt } from '@fortawesome/free-solid-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 const App = () => {
@@ -43,6 +45,13 @@ const App = () => {
           <a id="revenues" className="menu-item" href="/revenues">
             <FontAwesomeIcon icon={faMoneyBillWave} /> Revenues
           </a>
+          <a
+            id="recurring-transactions"
+            className="menu-item"
+            href="/recurring-transactions"
+          >
+            <FontAwesomeIcon icon={faRedoAlt} /> Recurring Transactions
+          </a>
           <a id="logout" className="menu-item" href="/login" onClick={logout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
           </a>
@@ -69,6 +78,11 @@ const App = () => {
             ></Route>
             <Route exact path="/expenses" component={MaintainExpenses}></Route>
             <Route exact path="/revenues" component={MaintainRevenues}></Route>
+            <Route
+              exact
+              path="/recurring-transactions"
+              component={MaintainRecurringTransactions}
+            ></Route>
           </Switch>
         </Router>
       </>

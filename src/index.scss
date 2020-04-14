@@ -11,6 +11,7 @@ html {
 body {
   margin: 0;
   min-height: 100%;
+  font-family: 'Nunito', sans-serif;
 }
 
 .bad-input {
@@ -34,11 +35,24 @@ header {
   display: flex;
   align-items: center;
   height: 50px;
+  width: 100vw;
   background: linear-gradient($primary-yellow, $primary-green);
   position: fixed;
-  width: 100vw;
   top: 0;
   box-shadow: 0px 0px 10px $box-shadow-color;
+  // animation: 3s slide-down forwards;
+  // top: -100px;
+  // position: absolute;
+}
+
+@keyframes slide-down {
+  from {
+    top: -100px;
+  }
+  to {
+    top: 0px;
+    position: fixed;
+  }
 }
 
 .website-logo {
@@ -104,7 +118,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-menu-wrap {
   position: fixed;
   height: 100vh;
-  width: 250px !important;
+  width: 280px !important;
 }
 
 /* General sidebar styles */
@@ -113,7 +127,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   background: #373a47;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
-  width: 250px;
+  width: 280px;
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -126,7 +140,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .bm-item-list {
   color: #b8b7ad;
-  padding: 0.8em;
+  padding-top: 0.8em;
   height: auto !important;
 }
 
@@ -248,7 +262,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .account-row-modify {
   display: grid;
-  grid-template-columns: 37% 37% 13% 13%;
+  grid-template-columns: 34% 34% 18% 14%;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
@@ -293,7 +307,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .expense-row-modify {
   display: grid;
-  grid-template-columns: 20% 30% 15% 15% 10% 10%;
+  grid-template-columns: 20% 25% 20% 15% 10% 10%;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
@@ -454,7 +468,6 @@ Note: Beware of modifying this element as it can break the animations - you shou
   display: grid;
   grid-template-columns: 33% 33% 34%;
   justify-items: center;
-  border: 1px solid black;
 
   > div {
     display: flex;
@@ -500,7 +513,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   box-shadow: 0px 0px 5px $box-shadow-color;
   margin-left: auto;
   margin-right: auto;
-  width: 500px;
+  width: 450px;
   padding: 2rem;
 
   > h4 {
@@ -523,8 +536,22 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
 }
 
+.data-display-extra-wide {
+  margin-top: 2rem;
+  box-shadow: 0px 0px 5px $box-shadow-color;
+  margin-left: auto;
+  margin-right: auto;
+  width: 900px;
+  padding: 2rem;
+
+  > h2 {
+    margin-top: 0;
+    text-align: center;
+  }
+}
+
 .edit-input-text {
-  width: 147px;
+  width: 160px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -533,7 +560,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .edit-input-number {
-  width: 100px;
+  width: 105px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -551,12 +578,16 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .edit-date {
-  width: 100px;
+  width: 125px;
   height: 19px;
   margin: 0;
   padding: 0;
   border: 1px solid #a9a9a9;
   border-radius: 5px;
+}
+
+.loading-buffer {
+  padding: 0.25rem;
 }
 
 .sk-chase {
@@ -643,4 +674,93 @@ Note: Beware of modifying this element as it can break the animations - you shou
   0% {
     transform: scale(1);
   }
+}
+
+.recurring-trans-row {
+  display: grid;
+  grid-template-columns: 15% 15% 20% 20% 15% 15%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.recurring-trans-row-modify {
+  display: grid;
+  grid-template-columns: 12% 12% 16% 16% 14% 10% 10% 10%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.recurring-trans-column-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.recurring-trans-column-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.recurring-trans-column-3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.recurring-trans-column-4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+
+.recurring-trans-column-5 {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  text-align: right;
+  padding-right: 0.75rem;
+}
+
+.recurring-trans-column-6 {
+  grid-column-start: 6;
+  grid-column-end: 7;
+}
+
+.recurring-trans-column-7 {
+  grid-column-start: 7;
+  grid-column-end: 8;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.recurring-trans-column-8 {
+  grid-column-start: 8;
+  grid-column-end: 9;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+/* Confirm Dialog Text */
+.MuiTypography-colorTextSecondary {
+  color: black !important;
+}
+
+/* Confirm Dialog Button Positioning */
+.MuiDialogActions-root {
+  justify-content: center !important;
+}
+
+/* Confirm Dialog Button */
+.MuiButton-textPrimary {
+  color: black !important;
+}
+
+/* Trash button icon */
+.action-icon {
+  padding: 0 !important;
+  height: 16px !important;
+  min-width: 18px !important;
+  background-color: white !important;
 }

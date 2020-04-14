@@ -71,7 +71,7 @@ const MaintainBankAccounts = () => {
         </section>
       </section>
       <section className="data-display">
-        <h4>Your Accounts</h4>
+        <h4>Your Bank Accounts</h4>
         <Accounts displayMode="Modify" />
       </section>
     </>
