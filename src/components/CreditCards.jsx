@@ -197,7 +197,7 @@ const CreditCards = (props) => {
                     <input
                       type="text"
                       name="CardIssuer"
-                      className="card-issuer-edit-input"
+                      className="card-issuer-edit"
                       value={modifiedRecord.CardIssuer}
                       onChange={updateModifiedRecord}
                     />
@@ -206,7 +206,7 @@ const CreditCards = (props) => {
                     <input
                       type="text"
                       name="AccountBalance"
-                      className="card-balance-edit-input"
+                      className="card-balance-edit"
                       value={modifiedRecord.AccountBalance}
                       onChange={updateModifiedRecord}
                     />

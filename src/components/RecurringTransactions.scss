@@ -72,24 +72,24 @@
   height: 2px;
 }
 
-.transaction-type-edit-select {
-  width: 130px;
+.transaction-type-edit {
+  width: 100px;
   height: 21px;
   margin: 0;
   padding: 0;
   border-radius: 5px;
 }
 
-.transaction-category-edit-select {
-  width: 130px;
+.transaction-category-edit {
+  width: 100px;
   height: 21px;
   margin: 0;
   padding: 0;
   border-radius: 5px;
 }
 
-.transaction-name-edit-input {
-  width: 160px;
+.transaction-name-edit {
+  width: 130px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -97,8 +97,8 @@
   border-radius: 5px;
 }
 
-.first-payment-date-edit-date {
-  width: 125px;
+.first-payment-date-edit {
+  width: 135px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -106,7 +106,7 @@
   border-radius: 5px;
 }
 
-.transaction-amount-edit-input {
+.transaction-amount-edit {
   width: 105px;
   height: 19px;
   margin: 0;
@@ -116,8 +116,8 @@
   text-align: right;
 }
 
-.recurring-frequency-edit-select {
-  width: 130px;
+.recurring-frequency-edit {
+  width: 105px;
   height: 21px;
   margin: 0;
   padding: 0;

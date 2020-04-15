@@ -194,7 +194,7 @@ const Accounts = (props) => {
                   <span className="bank-account-column-1">
                     <select
                       name="AccountType"
-                      className="account-type-edit-select"
+                      className="account-type-edit"
                       value={modifiedRecord.AccountType}
                       onChange={updateModifiedRecord}
                     >
@@ -206,7 +206,7 @@ const Accounts = (props) => {
                     <input
                       type="text"
                       name="AccountBalance"
-                      className="account-balance-edit-input"
+                      className="account-balance-edit"
                       value={modifiedRecord.AccountBalance}
                       onChange={updateModifiedRecord}
                     />

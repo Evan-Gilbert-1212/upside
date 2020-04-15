@@ -213,7 +213,7 @@ const Revenues = (props) => {
                   <span className="revenue-column-1">
                     <select
                       name="RevenueCategory"
-                      className="revenue-category-edit-select"
+                      className="revenue-category-edit"
                       value={modifiedRecord.RevenueCategory}
                       onChange={updateModifiedRecord}
                     >
@@ -227,7 +227,7 @@ const Revenues = (props) => {
                     <input
                       type="text"
                       name="RevenueName"
-                      className="revenue-name-edit-input"
+                      className="revenue-name-edit"
                       value={modifiedRecord.RevenueName}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -236,7 +236,7 @@ const Revenues = (props) => {
                     <input
                       type="date"
                       name="RevenueDate"
-                      className="revenue-date-edit-date"
+                      className="revenue-date-edit"
                       value={modifiedRecord.RevenueDate}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -245,7 +245,7 @@ const Revenues = (props) => {
                     <input
                       type="text"
                       name="RevenueAmount"
-                      className="revenue-amount-edit-input"
+                      className="revenue-amount-edit"
                       value={modifiedRecord.RevenueAmount}
                       onChange={updateModifiedRecord}
                     ></input>

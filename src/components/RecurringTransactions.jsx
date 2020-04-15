@@ -215,7 +215,7 @@ const RecurringTransactions = (props) => {
                     <span className="recurring-trans-column-1">
                       <select
                         name="TransactionType"
-                        className="transaction-type-edit-select"
+                        className="transaction-type-edit"
                         value={modifiedRecord.TransactionType}
                         onChange={updateModifiedRecord}
                       >
@@ -226,7 +226,7 @@ const RecurringTransactions = (props) => {
                     <span className="recurring-trans-column-2">
                       <select
                         name="TransactionCategory"
-                        className="transaction-category-edit-select"
+                        className="transaction-category-edit"
                         value={modifiedRecord.TransactionCategory}
                         onChange={updateModifiedRecord}
                       >
@@ -271,7 +271,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="text"
                         name="TransactionName"
-                        className="transaction-name-edit-input"
+                        className="transaction-name-edit"
                         value={modifiedRecord.TransactionName}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -280,7 +280,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="date"
                         name="FirstPaymentDate"
-                        className="first-payment-date-edit-date"
+                        className="first-payment-date-edit"
                         value={modifiedRecord.FirstPaymentDate}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -289,7 +289,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="text"
                         name="TransactionAmount"
-                        className="transaction-amount-edit-input"
+                        className="transaction-amount-edit"
                         value={modifiedRecord.TransactionAmount}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -297,7 +297,7 @@ const RecurringTransactions = (props) => {
                     <span className="recurring-trans-column-6">
                       <select
                         name="RecurringFrequency"
-                        className="recurring-frequency-edit-select"
+                        className="recurring-frequency-edit"
                         value={modifiedRecord.RecurringFrequency}
                         onChange={updateModifiedRecord}
                       >

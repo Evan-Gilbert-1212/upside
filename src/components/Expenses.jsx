@@ -213,7 +213,7 @@ const Expenses = (props) => {
                   <span className="expense-column-1">
                     <select
                       name="ExpenseCategory"
-                      className="expense-category-edit-select"
+                      className="expense-category-edit"
                       value={modifiedRecord.ExpenseCategory}
                       onChange={updateModifiedRecord}
                     >
@@ -237,7 +237,7 @@ const Expenses = (props) => {
                     <input
                       type="text"
                       name="ExpenseName"
-                      className="expense-name-edit-input"
+                      className="expense-name-edit"
                       value={modifiedRecord.ExpenseName}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -246,7 +246,7 @@ const Expenses = (props) => {
                     <input
                       type="date"
                       name="ExpenseDate"
-                      className="expense-date-edit-date"
+                      className="expense-date-edit"
                       value={modifiedRecord.ExpenseDate}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -255,7 +255,7 @@ const Expenses = (props) => {
                     <input
                       type="text"
                       name="ExpenseAmount"
-                      className="expense-amount-edit-input"
+                      className="expense-amount-edit"
                       value={modifiedRecord.ExpenseAmount}
                       onChange={updateModifiedRecord}
                     ></input>
