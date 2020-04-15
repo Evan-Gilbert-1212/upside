@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './MaintainRevenues.scss'
 import axios from 'axios'
 import Revenues from '../components/Revenues'
 
@@ -41,18 +42,14 @@ const MaintainRevenues = () => {
 
   return (
     <>
-      <div className="buffer"></div>
-      <section className="entry-form">
+      <div className="revenue-buffer"></div>
+      <section className="revenue-entry-form">
         <h2>Revenues</h2>
         <h4>Add Revenue</h4>
-        <section className="input-grid">
+        <section className="revenue-input-grid">
           <div>
             <label>Revenue Type</label>
-            <select
-              className="revenue-dropdown"
-              name="RevenueCategory"
-              onChange={updateRevenueInfo}
-            >
+            <select name="RevenueCategory" onChange={updateRevenueInfo}>
               <option value="Wages">Wages</option>
               <option value="IRS Tax Refund">IRS Tax Refund</option>
               <option value="Interest">Interest</option>
@@ -88,11 +85,7 @@ const MaintainRevenues = () => {
           </div>
           <div>
             <label>Recurring Frequency</label>
-            <select
-              className="recurring-dropdown"
-              name="RecurringFrequency"
-              onChange={updateRevenueInfo}
-            >
+            <select name="RecurringFrequency" onChange={updateRevenueInfo}>
               <option value="One Time">One Time</option>
               <option value="Weekly">Weekly</option>
               <option value="Bi-Weekly">Bi-Weekly</option>
@@ -103,7 +96,7 @@ const MaintainRevenues = () => {
           <button onClick={addRevenueToDb}>Add Revenue</button>
         </section>
       </section>
-      <section className="data-display-wide">
+      <section className="revenue-display">
         <h4>Your Revenues</h4>
         <Revenues displayMode="Modify" />
       </section>

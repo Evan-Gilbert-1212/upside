@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './MaintainExpenses.scss'
 import axios from 'axios'
 import Expenses from '../components/Expenses'
 
@@ -41,18 +42,14 @@ const MaintainExpenses = () => {
 
   return (
     <>
-      <div className="buffer"></div>
-      <section className="entry-form">
+      <div className="expense-buffer"></div>
+      <section className="expense-entry-form">
         <h2>Expenses</h2>
         <h4>Add Expense</h4>
-        <section className="input-grid">
+        <section className="expense-input-grid">
           <div>
             <label>Expense Type</label>
-            <select
-              name="ExpenseCategory"
-              className="expense-dropdown"
-              onChange={updateExpenseInfo}
-            >
+            <select name="ExpenseCategory" onChange={updateExpenseInfo}>
               <option value="Cable & Internet">Cable & Internet</option>
               <option value="Car - Gas">Car - Gas</option>
               <option value="Car - Insurance">Car - Insurance</option>
@@ -98,11 +95,7 @@ const MaintainExpenses = () => {
           </div>
           <div>
             <label>Recurring Frequency</label>
-            <select
-              className="recurring-dropdown"
-              name="RecurringFrequency"
-              onChange={updateExpenseInfo}
-            >
+            <select name="RecurringFrequency" onChange={updateExpenseInfo}>
               <option value="One Time">One Time</option>
               <option value="Weekly">Weekly</option>
               <option value="Bi-Weekly">Bi-Weekly</option>
@@ -113,7 +106,7 @@ const MaintainExpenses = () => {
           <button onClick={addExpenseToDb}>Add Expense</button>
         </section>
       </section>
-      <section className="data-display-wide">
+      <section className="expense-display">
         <h4>Your Expenses</h4>
         <Expenses displayMode="Modify" />
       </section>

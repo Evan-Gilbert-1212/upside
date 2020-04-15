@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './Expenses.scss'
+import '../ConfirmDialog.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import Moment from 'react-moment'
@@ -147,7 +149,7 @@ const Expenses = (props) => {
   }, [])
 
   return (
-    <div className="expense-section">
+    <div>
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -199,7 +201,7 @@ const Expenses = (props) => {
           </>
         )}
       </div>
-      <div className="account-divider"></div>
+      <div className="expense-divider"></div>
       {!userExpenses.isLoaded ? (
         <LoadingIcon />
       ) : userExpenses.userExpenseData.length > 0 ? (
@@ -211,7 +213,7 @@ const Expenses = (props) => {
                   <span className="expense-column-1">
                     <select
                       name="ExpenseCategory"
-                      className="edit-select"
+                      className="expense-category-edit-select"
                       value={modifiedRecord.ExpenseCategory}
                       onChange={updateModifiedRecord}
                     >
@@ -235,7 +237,7 @@ const Expenses = (props) => {
                     <input
                       type="text"
                       name="ExpenseName"
-                      className="edit-input-text"
+                      className="expense-name-edit-input"
                       value={modifiedRecord.ExpenseName}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -244,7 +246,7 @@ const Expenses = (props) => {
                     <input
                       type="date"
                       name="ExpenseDate"
-                      className="edit-date"
+                      className="expense-date-edit-date"
                       value={modifiedRecord.ExpenseDate}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -253,7 +255,7 @@ const Expenses = (props) => {
                     <input
                       type="text"
                       name="ExpenseAmount"
-                      className="edit-input-number"
+                      className="expense-amount-edit-input"
                       value={modifiedRecord.ExpenseAmount}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -335,7 +337,7 @@ const Expenses = (props) => {
           )}
         </div>
       )}
-      <div className="account-divider"></div>
+      <div className="expense-divider"></div>
       <div className={rowType}>
         <span className="expense-column-1">Total:</span>
         <span className="expense-column-4">

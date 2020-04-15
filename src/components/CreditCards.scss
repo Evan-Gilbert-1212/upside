@@ -1,0 +1,84 @@
+@import '../_variables.scss';
+
+.credit-card-row {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.credit-card-row-modify {
+  display: grid;
+  grid-template-columns: 34% 34% 18% 14%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.credit-card-column-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.credit-card-column-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: right;
+}
+
+.credit-card-column-3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.credit-card-column-4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.credit-card-divider {
+  width: 100%;
+  background-color: $primary-green;
+  height: 2px;
+}
+
+.card-issuer-edit-input {
+  width: 130px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.card-balance-edit-input {
+  width: 105px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.action-icon {
+  padding: 0 !important;
+  height: 16px !important;
+  min-width: 18px !important;
+  background-color: white !important;
+}
+
+.no-records-found {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

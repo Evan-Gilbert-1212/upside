@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './RecurringTransactions.scss'
+import '../ConfirmDialog.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import Moment from 'react-moment'
@@ -145,7 +147,7 @@ const RecurringTransactions = (props) => {
   }, [])
 
   return (
-    <div className="recurring-trans-section">
+    <div>
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -199,7 +201,7 @@ const RecurringTransactions = (props) => {
           </>
         )}
       </div>
-      <div className="account-divider"></div>
+      <div className="recurring-trans-divider"></div>
 
       {!userRecurringTransactions.isLoaded ? (
         <LoadingIcon />
@@ -213,7 +215,7 @@ const RecurringTransactions = (props) => {
                     <span className="recurring-trans-column-1">
                       <select
                         name="TransactionType"
-                        className="edit-select"
+                        className="transaction-type-edit-select"
                         value={modifiedRecord.TransactionType}
                         onChange={updateModifiedRecord}
                       >
@@ -224,7 +226,7 @@ const RecurringTransactions = (props) => {
                     <span className="recurring-trans-column-2">
                       <select
                         name="TransactionCategory"
-                        className="edit-select"
+                        className="transaction-category-edit-select"
                         value={modifiedRecord.TransactionCategory}
                         onChange={updateModifiedRecord}
                       >
@@ -269,7 +271,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="text"
                         name="TransactionName"
-                        className="edit-input-text"
+                        className="transaction-name-edit-input"
                         value={modifiedRecord.TransactionName}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -278,7 +280,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="date"
                         name="FirstPaymentDate"
-                        className="edit-date"
+                        className="first-payment-date-edit-date"
                         value={modifiedRecord.FirstPaymentDate}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -287,7 +289,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="text"
                         name="TransactionAmount"
-                        className="edit-input-number"
+                        className="transaction-amount-edit-input"
                         value={modifiedRecord.TransactionAmount}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -295,7 +297,7 @@ const RecurringTransactions = (props) => {
                     <span className="recurring-trans-column-6">
                       <select
                         name="RecurringFrequency"
-                        className="edit-select"
+                        className="recurring-frequency-edit-select"
                         value={modifiedRecord.RecurringFrequency}
                         onChange={updateModifiedRecord}
                       >
@@ -324,7 +326,7 @@ const RecurringTransactions = (props) => {
                   </>
                 ) : (
                   <>
-                    <span className="erecurring-trans-column-1">
+                    <span className="recurring-trans-column-1">
                       {transaction.TransactionType}
                     </span>
                     <span className="recurring-trans-column-2">
@@ -386,7 +388,7 @@ const RecurringTransactions = (props) => {
       ) : (
         <div className="no-records-found">No Recurring Transactions found.</div>
       )}
-      <div className="account-divider"></div>
+      <div className="recurring-trans-divider"></div>
       <div className={rowType}>
         <span className="recurring-trans-column-1">Total:</span>
         <span className="recurring-trans-column-5">

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './CreditCards.scss'
+import '../ConfirmDialog.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import LoadingIcon from './LoadingIcon'
@@ -30,10 +32,10 @@ const CreditCards = (props) => {
     creditCardId: 0,
   })
 
-  let rowType = 'account-row'
+  let rowType = 'credit-card-row'
 
   if (displayMode === 'Modify') {
-    rowType = 'account-row-modify'
+    rowType = 'credit-card-row-modify'
   }
 
   const getUserCreditCards = async () => {
@@ -132,7 +134,7 @@ const CreditCards = (props) => {
   }, [])
 
   return (
-    <div className="credit-card-section">
+    <div>
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -173,16 +175,16 @@ const CreditCards = (props) => {
         </DialogActions>
       </Dialog>
       <div className={rowType}>
-        <span className="account-column-1">Credit Cards</span>
-        <span className="account-column-2">Account Balance</span>
+        <span className="credit-card-column-1">Credit Cards</span>
+        <span className="credit-card-column-2">Account Balance</span>
         {displayMode === 'Modify' && (
           <>
-            <span className="account-column-3">Modify</span>
-            <span className="account-column-4">Delete</span>
+            <span className="credit-card-column-3">Modify</span>
+            <span className="credit-card-column-4">Delete</span>
           </>
         )}
       </div>
-      <div className="account-divider"></div>
+      <div className="credit-card-divider"></div>
       {!userCreditCards.isLoaded ? (
         <LoadingIcon />
       ) : userCreditCards.userCreditCardData.length > 0 ? (
@@ -191,26 +193,26 @@ const CreditCards = (props) => {
             <div key={card.ID} className={rowType}>
               {card.ID === modifiedRecord.ID ? (
                 <>
-                  <span className="account-column-1">
+                  <span className="credit-card-column-1">
                     <input
                       type="text"
                       name="CardIssuer"
-                      className="edit-input-text"
+                      className="card-issuer-edit-input"
                       value={modifiedRecord.CardIssuer}
                       onChange={updateModifiedRecord}
                     />
                   </span>
-                  <span className="account-column-2">
+                  <span className="credit-card-column-2">
                     <input
                       type="text"
                       name="AccountBalance"
-                      className="edit-input-number"
+                      className="card-balance-edit-input"
                       value={modifiedRecord.AccountBalance}
                       onChange={updateModifiedRecord}
                     />
                   </span>
                   <span
-                    className="account-column-3"
+                    className="credit-card-column-3"
                     onClick={() => {
                       updateCreditCard(modifiedRecord)
                     }}
@@ -218,7 +220,7 @@ const CreditCards = (props) => {
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
                   <span
-                    className="account-column-4"
+                    className="credit-card-column-4"
                     onClick={() => {
                       clearModifiedRecord()
                     }}
@@ -228,8 +230,10 @@ const CreditCards = (props) => {
                 </>
               ) : (
                 <>
-                  <span className="account-column-1">{card.CardIssuer}</span>
-                  <span className="account-column-2">
+                  <span className="credit-card-column-1">
+                    {card.CardIssuer}
+                  </span>
+                  <span className="credit-card-column-2">
                     {' '}
                     <NumberFormat
                       value={card.AccountBalance}
@@ -243,14 +247,14 @@ const CreditCards = (props) => {
                   {displayMode === 'Modify' && (
                     <>
                       <span
-                        className="account-column-3"
+                        className="credit-card-column-3"
                         onClick={() => {
                           modifyCreditCard(card)
                         }}
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </span>
-                      <span className="account-column-4">
+                      <span className="credit-card-column-4">
                         <Button
                           className="action-icon"
                           onClick={() => {
@@ -278,10 +282,10 @@ const CreditCards = (props) => {
           )}
         </div>
       )}
-      <div className="account-divider"></div>
+      <div className="credit-card-divider"></div>
       <div className={rowType}>
-        <span className="account-column-1">Total:</span>
-        <span className="account-column-2">
+        <span className="credit-card-column-1">Total:</span>
+        <span className="credit-card-column-2">
           {userCreditCards.isLoaded && (
             <NumberFormat
               value={userCreditCards.userCreditCardData.reduce(

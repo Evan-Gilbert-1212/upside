@@ -1,0 +1,16 @@
+@import './_variables.scss';
+
+/* Confirm Dialog Text */
+.MuiTypography-colorTextSecondary {
+  color: black !important;
+}
+
+/* Confirm Dialog Button Positioning */
+.MuiDialogActions-root {
+  justify-content: center !important;
+}
+
+/* Confirm Dialog Button */
+.MuiButton-textPrimary {
+  color: black !important;
+}

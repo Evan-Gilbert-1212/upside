@@ -1,0 +1,112 @@
+@import '../_variables.scss';
+
+.revenue-row {
+  display: grid;
+  grid-template-columns: 25% 35% 25% 15%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.revenue-row-modify {
+  display: grid;
+  grid-template-columns: 20% 25% 20% 15% 10% 10%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.revenue-column-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.revenue-column-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.revenue-column-3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.revenue-column-4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+  text-align: right;
+}
+
+.revenue-column-5 {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.revenue-column-6 {
+  grid-column-start: 6;
+  grid-column-end: 7;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.revenue-divider {
+  width: 100%;
+  background-color: $primary-green;
+  height: 2px;
+}
+
+.revenue-category-edit-select {
+  width: 130px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.revenue-name-edit-input {
+  width: 160px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.revenue-date-edit-date {
+  width: 125px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.revenue-amount-edit-input {
+  width: 105px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.action-icon {
+  padding: 0 !important;
+  height: 16px !important;
+  min-width: 18px !important;
+  background-color: white !important;
+}
+
+.no-records-found {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

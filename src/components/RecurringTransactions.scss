@@ -1,0 +1,139 @@
+@import '../_variables.scss';
+
+.recurring-trans-row {
+  display: grid;
+  grid-template-columns: 15% 15% 20% 20% 15% 15%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.recurring-trans-row-modify {
+  display: grid;
+  grid-template-columns: 12% 12% 16% 16% 14% 10% 10% 10%;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.recurring-trans-column-1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.recurring-trans-column-2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.recurring-trans-column-3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.recurring-trans-column-4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+
+.recurring-trans-column-5 {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  text-align: right;
+  padding-right: 0.75rem;
+}
+
+.recurring-trans-column-6 {
+  grid-column-start: 6;
+  grid-column-end: 7;
+}
+
+.recurring-trans-column-7 {
+  grid-column-start: 7;
+  grid-column-end: 8;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.recurring-trans-column-8 {
+  grid-column-start: 8;
+  grid-column-end: 9;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.recurring-trans-divider {
+  width: 100%;
+  background-color: $primary-green;
+  height: 2px;
+}
+
+.transaction-type-edit-select {
+  width: 130px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.transaction-category-edit-select {
+  width: 130px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.transaction-name-edit-input {
+  width: 160px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.first-payment-date-edit-date {
+  width: 125px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.transaction-amount-edit-input {
+  width: 105px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.recurring-frequency-edit-select {
+  width: 130px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.action-icon {
+  padding: 0 !important;
+  height: 16px !important;
+  min-width: 18px !important;
+  background-color: white !important;
+}
+
+.no-records-found {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import './LogIn.scss'
 
 const LogIn = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
@@ -34,10 +35,10 @@ const LogIn = () => {
   }
 
   return (
-    <section className="login-signup-page">
-      <section className="login-signup-form">
+    <section className="login-page">
+      <section className="login-form">
         <h2>Welcome to Upside Budget Manager</h2>
-        <section className="login-signup-grid">
+        <section className="login-grid">
           <div>
             <label>User Name</label>
             <input
@@ -57,10 +58,10 @@ const LogIn = () => {
             ></input>
           </div>
         </section>
-        <label className="error-message">{errorMessage}</label>
+        <label className="login-error-message">{errorMessage}</label>
         <button onClick={LogInUser}>Log In</button>
         <div className="create-an-account">
-          Not a User Yet? <a href="/signup">Create an Account!</a>
+          Not a user yet? <a href="/signup">Create an account!</a>
         </div>
       </section>
     </section>

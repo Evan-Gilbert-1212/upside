@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './MaintainCreditCards.scss'
 import axios from 'axios'
 import CreditCards from '../components/CreditCards'
 
@@ -38,11 +39,11 @@ const MaintainCreditCards = () => {
 
   return (
     <>
-      <div className="buffer"></div>
-      <section className="entry-form">
+      <div className="credit-card-buffer"></div>
+      <section className="credit-card-entry-form">
         <h2>Credit Cards</h2>
         <h4>Add Credit Card</h4>
-        <section className="input-grid">
+        <section className="credit-card-input-grid">
           <div>
             <label>Credit Card Issuer</label>
             <input
@@ -64,7 +65,7 @@ const MaintainCreditCards = () => {
           <button onClick={addCreditCardToDb}>Add Credit Card</button>
         </section>
       </section>
-      <section className="data-display">
+      <section className="credit-card-data-display">
         <h4>Your Credit Cards</h4>
         <CreditCards displayMode="Modify" />
       </section>

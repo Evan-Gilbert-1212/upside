@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './Accounts.scss'
+import '../ConfirmDialog.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import LoadingIcon from './LoadingIcon'
@@ -30,10 +32,10 @@ const Accounts = (props) => {
     accountId: 0,
   })
 
-  let rowType = 'account-row'
+  let rowType = 'bank-account-row'
 
   if (displayMode === 'Modify') {
-    rowType = 'account-row-modify'
+    rowType = 'bank-account-row-modify'
   }
 
   const getUserAccounts = async () => {
@@ -130,7 +132,7 @@ const Accounts = (props) => {
   }, [])
 
   return (
-    <div className="accounts-section">
+    <div>
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -171,16 +173,16 @@ const Accounts = (props) => {
         </DialogActions>
       </Dialog>
       <div className={rowType}>
-        <span className="account-column-1">Bank Accounts</span>
-        <span className="account-column-2">Account Balance</span>
+        <span className="bank-account-column-1">Bank Accounts</span>
+        <span className="bank-account-column-2">Account Balance</span>
         {displayMode === 'Modify' && (
           <>
-            <span className="account-column-3">Modify</span>
-            <span className="account-column-4">Delete</span>
+            <span className="bank-account-column-3">Modify</span>
+            <span className="bank-account-column-4">Delete</span>
           </>
         )}
       </div>
-      <div className="account-divider"></div>
+      <div className="bank-account-divider"></div>
       {!userAccounts.isLoaded ? (
         <LoadingIcon />
       ) : userAccounts.userAccountData.length > 0 ? (
@@ -189,10 +191,10 @@ const Accounts = (props) => {
             <div key={account.ID} className={rowType}>
               {account.ID === modifiedRecord.ID ? (
                 <>
-                  <span className="account-column-1">
+                  <span className="bank-account-column-1">
                     <select
                       name="AccountType"
-                      className="edit-select"
+                      className="account-type-edit-select"
                       value={modifiedRecord.AccountType}
                       onChange={updateModifiedRecord}
                     >
@@ -200,17 +202,17 @@ const Accounts = (props) => {
                       <option value="Savings">Savings</option>
                     </select>
                   </span>
-                  <span className="account-column-2">
+                  <span className="bank-account-column-2">
                     <input
                       type="text"
                       name="AccountBalance"
-                      className="edit-input-number"
+                      className="account-balance-edit-input"
                       value={modifiedRecord.AccountBalance}
                       onChange={updateModifiedRecord}
                     />
                   </span>
                   <span
-                    className="account-column-3"
+                    className="bank-account-column-3"
                     onClick={() => {
                       updateBankAccount(modifiedRecord)
                     }}
@@ -218,7 +220,7 @@ const Accounts = (props) => {
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
                   <span
-                    className="account-column-4"
+                    className="bank-account-column-4"
                     onClick={() => {
                       clearModifiedRecord()
                     }}
@@ -228,10 +230,10 @@ const Accounts = (props) => {
                 </>
               ) : (
                 <>
-                  <span className="account-column-1">
+                  <span className="bank-account-column-1">
                     {account.AccountType}
                   </span>
-                  <span className="account-column-2">
+                  <span className="bank-account-column-2">
                     {' '}
                     <NumberFormat
                       value={account.AccountBalance}
@@ -245,14 +247,14 @@ const Accounts = (props) => {
                   {displayMode === 'Modify' && (
                     <>
                       <span
-                        className="account-column-3"
+                        className="bank-account-column-3"
                         onClick={() => {
                           modifyBankAccount(account)
                         }}
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </span>
-                      <span className="account-column-4">
+                      <span className="bank-account-column-4">
                         <Button
                           className="action-icon"
                           onClick={() => {
@@ -280,10 +282,10 @@ const Accounts = (props) => {
           )}
         </div>
       )}
-      <div className="account-divider"></div>
+      <div className="bank-account-divider"></div>
       <div className={rowType}>
-        <span className="account-column-1">Total:</span>
-        <span className="account-column-2">
+        <span className="bank-account-column-1">Total:</span>
+        <span className="bank-account-column-2">
           {userAccounts.isLoaded && (
             <NumberFormat
               value={userAccounts.userAccountData.reduce(

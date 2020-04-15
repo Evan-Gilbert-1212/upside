@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './HomePage.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import Accounts from '../components/Accounts'

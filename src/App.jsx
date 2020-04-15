@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import './SiteHeader.scss'
 import logo from './images/logo.png'
 import SignUp from './pages/SignUp'
 import LogIn from './pages/LogIn'

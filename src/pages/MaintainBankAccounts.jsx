@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './MaintainBankAccounts.scss'
 import axios from 'axios'
 import Accounts from '../components/Accounts'
 
@@ -42,18 +43,14 @@ const MaintainBankAccounts = () => {
 
   return (
     <>
-      <div className="buffer"></div>
-      <section className="entry-form">
+      <div className="bank-account-buffer"></div>
+      <section className="bank-account-entry-form">
         <h2>Bank Accounts</h2>
         <h4>Add Account</h4>
-        <section className="input-grid">
+        <section className="bank-account-input-grid">
           <div>
             <label>Account Type</label>
-            <select
-              name="AccountType"
-              className="account-dropdown"
-              onChange={updateAccountInfo}
-            >
+            <select name="AccountType" onChange={updateAccountInfo}>
               <option value="Checking">Checking</option>
               <option value="Savings">Savings</option>
             </select>
@@ -70,7 +67,7 @@ const MaintainBankAccounts = () => {
           <button onClick={addAccountToDb}>Add Account</button>
         </section>
       </section>
-      <section className="data-display">
+      <section className="bank-account-data-display">
         <h4>Your Bank Accounts</h4>
         <Accounts displayMode="Modify" />
       </section>

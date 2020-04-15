@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import './Revenues.scss'
+import '../ConfirmDialog.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 import Moment from 'react-moment'
@@ -31,10 +33,10 @@ const Revenues = (props) => {
     revenueId: 0,
   })
 
-  let rowType = 'expense-row'
+  let rowType = 'revenue-row'
 
   if (displayMode === 'Modify') {
-    rowType = 'expense-row-modify'
+    rowType = 'revenue-row-modify'
   }
 
   let response = {}
@@ -147,7 +149,7 @@ const Revenues = (props) => {
   }, [])
 
   return (
-    <div className="revenue-section">
+    <div>
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -188,18 +190,18 @@ const Revenues = (props) => {
         </DialogActions>
       </Dialog>
       <div className={rowType}>
-        <span className="expense-column-1">Category</span>
-        <span className="expense-column-2">Description</span>
-        <span className="expense-column-3">Receipt Date</span>
-        <span className="expense-column-4">Amount</span>
+        <span className="revenue-column-1">Category</span>
+        <span className="revenue-column-2">Description</span>
+        <span className="revenue-column-3">Receipt Date</span>
+        <span className="revenue-column-4">Amount</span>
         {displayMode === 'Modify' && (
           <>
-            <span className="expense-column-5">Modify</span>
-            <span className="expense-column-6">Delete</span>
+            <span className="revenue-column-5">Modify</span>
+            <span className="revenue-column-6">Delete</span>
           </>
         )}
       </div>
-      <div className="account-divider"></div>
+      <div className="revenue-divider"></div>
       {!userRevenues.isLoaded ? (
         <LoadingIcon />
       ) : userRevenues.userRevenueData.length > 0 ? (
@@ -208,10 +210,10 @@ const Revenues = (props) => {
             <div key={revenue.ID} className={rowType}>
               {revenue.ID === modifiedRecord.ID ? (
                 <>
-                  <span className="expense-column-1">
+                  <span className="revenue-column-1">
                     <select
                       name="RevenueCategory"
-                      className="edit-select"
+                      className="revenue-category-edit-select"
                       value={modifiedRecord.RevenueCategory}
                       onChange={updateModifiedRecord}
                     >
@@ -221,35 +223,35 @@ const Revenues = (props) => {
                       <option value="Other">Other</option>
                     </select>
                   </span>
-                  <span className="expense-column-2">
+                  <span className="revenue-column-2">
                     <input
                       type="text"
                       name="RevenueName"
-                      className="edit-input-text"
+                      className="revenue-name-edit-input"
                       value={modifiedRecord.RevenueName}
                       onChange={updateModifiedRecord}
                     ></input>
                   </span>
-                  <span className="expense-column-3">
+                  <span className="revenue-column-3">
                     <input
                       type="date"
                       name="RevenueDate"
-                      className="edit-date"
+                      className="revenue-date-edit-date"
                       value={modifiedRecord.RevenueDate}
                       onChange={updateModifiedRecord}
                     ></input>
                   </span>
-                  <span className="expense-column-4">
+                  <span className="revenue-column-4">
                     <input
                       type="text"
                       name="RevenueAmount"
-                      className="edit-input-number"
+                      className="revenue-amount-edit-input"
                       value={modifiedRecord.RevenueAmount}
                       onChange={updateModifiedRecord}
                     ></input>
                   </span>
                   <span
-                    className="expense-column-5"
+                    className="revenue-column-5"
                     onClick={() => {
                       updateRevenue(modifiedRecord)
                     }}
@@ -257,7 +259,7 @@ const Revenues = (props) => {
                     <FontAwesomeIcon icon={faCheck} />
                   </span>
                   <span
-                    className="expense-column-6"
+                    className="revenue-column-6"
                     onClick={() => {
                       clearModifiedRecord()
                     }}
@@ -267,16 +269,16 @@ const Revenues = (props) => {
                 </>
               ) : (
                 <>
-                  <span className="expense-column-1">
+                  <span className="revenue-column-1">
                     {revenue.RevenueCategory}
                   </span>
-                  <span className="expense-column-2">
+                  <span className="revenue-column-2">
                     {revenue.RevenueName}
                   </span>
-                  <span className="expense-column-3">
+                  <span className="revenue-column-3">
                     <Moment format="MM/DD/YYYY">{revenue.RevenueDate}</Moment>
                   </span>
-                  <span className="expense-column-4">
+                  <span className="revenue-column-4">
                     {' '}
                     <NumberFormat
                       value={revenue.RevenueAmount}
@@ -290,14 +292,14 @@ const Revenues = (props) => {
                   {displayMode === 'Modify' && (
                     <>
                       <span
-                        className="expense-column-5"
+                        className="revenue-column-5"
                         onClick={() => {
                           modifyRevenue(revenue)
                         }}
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </span>
-                      <span className="expense-column-6">
+                      <span className="revenue-column-6">
                         <Button
                           className="action-icon"
                           onClick={() => {
@@ -325,10 +327,10 @@ const Revenues = (props) => {
           )}
         </div>
       )}
-      <div className="account-divider"></div>
+      <div className="revenue-divider"></div>
       <div className={rowType}>
-        <span className="expense-column-1">Total:</span>
-        <span className="expense-column-4">
+        <span className="revenue-column-1">Total:</span>
+        <span className="revenue-column-4">
           {userRevenues.isLoaded && (
             <NumberFormat
               value={userRevenues.userRevenueData.reduce(
