@@ -134,7 +134,7 @@ const CreditCards = (props) => {
   }, [])
 
   return (
-    <div>
+    <div className="credit-card-grid">
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {

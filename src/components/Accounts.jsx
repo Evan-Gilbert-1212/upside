@@ -132,7 +132,7 @@ const Accounts = (props) => {
   }, [])
 
   return (
-    <div>
+    <div className="account-grid">
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {

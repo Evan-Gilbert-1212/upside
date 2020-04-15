@@ -10,8 +10,9 @@
 }
 
 .account-summary {
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  justify-items: center;
 
   > section {
     display: flex;
@@ -23,7 +24,9 @@
     box-shadow: 0px 0px 5px $box-shadow-color;
     padding: 2rem;
     color: white;
-    width: 225px;
+    width: 60%;
+    max-width: 225px;
+    margin: 1rem;
 
     > h2 {
       text-align: center;
@@ -55,7 +58,7 @@
     width: 35vw;
   }
 
-  > .vertical-divider {
+  > .detail-divider {
     height: auto;
     width: 2px;
     background-color: $primary-green;
@@ -63,6 +66,11 @@
 
   > .transaction-section {
     width: 65vw;
+
+    > .vertical-expense-section {
+      visibility: hidden;
+      height: 0;
+    }
   }
 
   > section > div {
@@ -79,4 +87,99 @@
   margin: 0;
   margin-bottom: 1rem;
   padding: 0;
+}
+
+@media (max-width: 1200px) {
+  .details-section {
+    flex-direction: column;
+
+    > .account-section {
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+
+      > div {
+        width: 50vw;
+      }
+
+      > .account-grid {
+        margin-right: 1rem;
+      }
+
+      > .credit-card-grid {
+        margin-left: 1rem;
+      }
+    }
+
+    > .detail-divider {
+      height: 2px;
+      width: 95vw;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    > .transaction-section {
+      width: 100vw;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .account-summary {
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (max-width: 750px) {
+  .details-section {
+    > .account-section {
+      flex-direction: column;
+
+      > .account-grid {
+        margin-left: 3rem;
+        margin-right: 3rem;
+        width: auto;
+      }
+
+      > .credit-card-grid {
+        margin-left: 3rem;
+        margin-right: 3rem;
+        width: auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .account-summary {
+    grid-template-columns: 100%;
+  }
+
+  .details-section {
+    > .account-section {
+      flex-direction: column;
+
+      > .account-grid {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+
+      > .credit-card-grid {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  .transaction-section {
+    > .expense-section {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    > .revenue-section {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
 }

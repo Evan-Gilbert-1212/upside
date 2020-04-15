@@ -5,9 +5,12 @@ import NumberFormat from 'react-number-format'
 import Accounts from '../components/Accounts'
 import CreditCards from '../components/CreditCards'
 import Expenses from '../components/Expenses'
+import ExpensesVertical from '../components/ExpensesVertical'
 import Revenues from '../components/Revenues'
+import RevenuesVertical from '../components/RevenuesVertical'
 import Moment from 'react-moment'
 import LoadingIcon from '../components/LoadingIcon'
+import Media from 'react-media'
 
 const HomePage = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
@@ -121,23 +124,47 @@ const HomePage = () => {
             <Accounts />
             <CreditCards />
           </section>
-          <div className="vertical-divider"></div>
+          <div className="detail-divider"></div>
           <section className="transaction-section">
-            <div>
+            <div className="expense-section">
               <p className="expense-header">Expenses This Period</p>
-              <Expenses
-                displayMode="View"
-                beginDate={pageData.userSummaryData.PeriodBeginDate}
-                endDate={pageData.userSummaryData.PeriodEndDate}
-              />
+              <Media queries={{ horizontal: { minWidth: 700 } }}>
+                {(matches) =>
+                  matches.horizontal ? (
+                    <Expenses
+                      displayMode="View"
+                      beginDate={pageData.userSummaryData.PeriodBeginDate}
+                      endDate={pageData.userSummaryData.PeriodEndDate}
+                    />
+                  ) : (
+                    <ExpensesVertical
+                      displayMode="View"
+                      beginDate={pageData.userSummaryData.PeriodBeginDate}
+                      endDate={pageData.userSummaryData.PeriodEndDate}
+                    />
+                  )
+                }
+              </Media>
             </div>
-            <div>
+            <div className="revenue-section">
               <p className="expense-header">Revenues This Period</p>
-              <Revenues
-                displayMode="View"
-                beginDate={pageData.userSummaryData.PeriodBeginDate}
-                endDate={pageData.userSummaryData.PeriodEndDate}
-              />
+              <Media queries={{ horizontal: { minWidth: 700 } }}>
+                {(matches) =>
+                  matches.horizontal ? (
+                    <Revenues
+                      displayMode="View"
+                      beginDate={pageData.userSummaryData.PeriodBeginDate}
+                      endDate={pageData.userSummaryData.PeriodEndDate}
+                    />
+                  ) : (
+                    <RevenuesVertical
+                      displayMode="View"
+                      beginDate={pageData.userSummaryData.PeriodBeginDate}
+                      endDate={pageData.userSummaryData.PeriodEndDate}
+                    />
+                  )
+                }
+              </Media>
             </div>
           </section>
         </section>

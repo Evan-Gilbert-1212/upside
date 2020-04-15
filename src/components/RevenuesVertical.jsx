@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './Revenues.scss'
+import './RevenuesVertical.scss'
 import '../ConfirmDialog.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
@@ -32,12 +32,6 @@ const Revenues = (props) => {
     isOpen: false,
     revenueId: 0,
   })
-
-  let rowType = 'revenue-row'
-
-  if (displayMode === 'Modify') {
-    rowType = 'revenue-row-modify'
-  }
 
   let response = {}
 
@@ -189,28 +183,17 @@ const Revenues = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className={rowType}>
-        <span className="revenue-column-1">Category</span>
-        <span className="revenue-column-2">Description</span>
-        <span className="revenue-column-3">Receipt Date</span>
-        <span className="revenue-column-4">Amount</span>
-        {displayMode === 'Modify' && (
-          <>
-            <span className="revenue-column-5">Modify</span>
-            <span className="revenue-column-6">Delete</span>
-          </>
-        )}
-      </div>
       <div className="revenue-divider"></div>
       {!userRevenues.isLoaded ? (
         <LoadingIcon />
       ) : userRevenues.userRevenueData.length > 0 ? (
         userRevenues.userRevenueData.map((revenue) => {
           return (
-            <div key={revenue.ID} className={rowType}>
+            <div key={revenue.ID} className="vertical-display">
               {revenue.ID === modifiedRecord.ID ? (
                 <>
-                  <span className="revenue-column-1">
+                  <div className="data-row">
+                    <span>Category</span>
                     <select
                       name="RevenueCategory"
                       className="revenue-category-edit"
@@ -222,8 +205,9 @@ const Revenues = (props) => {
                       <option value="Interest">Interest</option>
                       <option value="Other">Other</option>
                     </select>
-                  </span>
-                  <span className="revenue-column-2">
+                  </div>
+                  <div className="data-row">
+                    <span>Description</span>
                     <input
                       type="text"
                       name="RevenueName"
@@ -231,8 +215,9 @@ const Revenues = (props) => {
                       value={modifiedRecord.RevenueName}
                       onChange={updateModifiedRecord}
                     ></input>
-                  </span>
-                  <span className="revenue-column-3">
+                  </div>
+                  <div className="data-row">
+                    <span>Receipt Date</span>
                     <input
                       type="date"
                       name="RevenueDate"
@@ -240,8 +225,9 @@ const Revenues = (props) => {
                       value={modifiedRecord.RevenueDate}
                       onChange={updateModifiedRecord}
                     ></input>
-                  </span>
-                  <span className="revenue-column-4">
+                  </div>
+                  <div className="data-row">
+                    <span>Amount</span>
                     <input
                       type="text"
                       name="RevenueAmount"
@@ -249,71 +235,96 @@ const Revenues = (props) => {
                       value={modifiedRecord.RevenueAmount}
                       onChange={updateModifiedRecord}
                     ></input>
-                  </span>
-                  <span
-                    className="revenue-column-5"
-                    onClick={() => {
-                      updateRevenue(modifiedRecord)
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCheck} />
-                  </span>
-                  <span
-                    className="revenue-column-6"
-                    onClick={() => {
-                      clearModifiedRecord()
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTimes} />
-                  </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Update</span>
+                    <span
+                      className="revenue-column-5"
+                      onClick={() => {
+                        updateRevenue(modifiedRecord)
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faCheck} />
+                    </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Cancel</span>
+                    <span
+                      className="revenue-column-6"
+                      onClick={() => {
+                        clearModifiedRecord()
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTimes} />
+                    </span>
+                  </div>
                 </>
               ) : (
                 <>
-                  <span className="revenue-column-1">
-                    {revenue.RevenueCategory}
-                  </span>
-                  <span className="revenue-column-2">
-                    {revenue.RevenueName}
-                  </span>
-                  <span className="revenue-column-3">
-                    <Moment format="MM/DD/YYYY">{revenue.RevenueDate}</Moment>
-                  </span>
-                  <span className="revenue-column-4">
-                    {' '}
-                    <NumberFormat
-                      value={revenue.RevenueAmount}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      prefix={'$'}
-                    />
-                  </span>
+                  <div className="data-row">
+                    <span>Category</span>
+                    <span className="revenue-column-1">
+                      {revenue.RevenueCategory}
+                    </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Description</span>
+                    <span className="revenue-column-2">
+                      {revenue.RevenueName}
+                    </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Receipt Date</span>
+                    <span className="revenue-column-3">
+                      <Moment format="MM/DD/YYYY">{revenue.RevenueDate}</Moment>
+                    </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Amount</span>
+                    <span className="revenue-column-4">
+                      {' '}
+                      <NumberFormat
+                        value={revenue.RevenueAmount}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                        prefix={'$'}
+                      />
+                    </span>
+                  </div>
                   {displayMode === 'Modify' && (
                     <>
-                      <span
-                        className="revenue-column-5"
-                        onClick={() => {
-                          modifyRevenue(revenue)
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </span>
-                      <span className="revenue-column-6">
-                        <Button
-                          className="action-icon"
+                      <div className="data-row">
+                        <span>Modify</span>
+                        <span
+                          className="revenue-column-5"
                           onClick={() => {
-                            setDeleteDialogInfo({
-                              isOpen: true,
-                              revenueId: revenue.ID,
-                            })
+                            modifyRevenue(revenue)
                           }}
                         >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                      </span>
+                          <FontAwesomeIcon icon={faEdit} />
+                        </span>
+                      </div>
+                      <div className="data-row">
+                        <span>Delete</span>
+                        <span className="revenue-column-6">
+                          <Button
+                            className="action-icon"
+                            onClick={() => {
+                              setDeleteDialogInfo({
+                                isOpen: true,
+                                revenueId: revenue.ID,
+                              })
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </Button>
+                        </span>
+                      </div>
                     </>
                   )}
+                  <div className="revenue-divider"></div>
                 </>
               )}
             </div>
@@ -327,10 +338,9 @@ const Revenues = (props) => {
           )}
         </div>
       )}
-      <div className="revenue-divider"></div>
-      <div className={rowType}>
-        <span className="revenue-column-1">Total:</span>
-        <span className="revenue-column-4">
+      <div className="total-row">
+        <span>Total:</span>
+        <span>
           {userRevenues.isLoaded && (
             <NumberFormat
               value={userRevenues.userRevenueData.reduce(

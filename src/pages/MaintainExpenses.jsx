@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './MaintainExpenses.scss'
 import axios from 'axios'
 import Expenses from '../components/Expenses'
+import ExpensesVertical from '../components/ExpensesVertical'
+import Media from 'react-media'
 
 const MaintainExpenses = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
@@ -108,7 +110,15 @@ const MaintainExpenses = () => {
       </section>
       <section className="expense-display">
         <h4>Your Expenses</h4>
-        <Expenses displayMode="Modify" />
+        <Media queries={{ horizontal: { minWidth: 700 } }}>
+          {(matches) =>
+            matches.horizontal ? (
+              <Expenses displayMode="Modify" />
+            ) : (
+              <ExpensesVertical displayMode="Modify" />
+            )
+          }
+        </Media>
       </section>
     </>
   )

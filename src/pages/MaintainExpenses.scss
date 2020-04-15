@@ -95,3 +95,11 @@
     text-align: center;
   }
 }
+
+@media (max-width: 950px) {
+  .expense-display {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    width: 100vw;
+  }
+}

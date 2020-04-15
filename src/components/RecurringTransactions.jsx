@@ -147,7 +147,7 @@ const RecurringTransactions = (props) => {
   }, [])
 
   return (
-    <div>
+    <div className="recurring-trans-grid">
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {

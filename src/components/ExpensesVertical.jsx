@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './Expenses.scss'
+import './ExpensesVertical.scss'
 import '../ConfirmDialog.scss'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
@@ -16,7 +16,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 
-const Expenses = (props) => {
+const ExpensesVertical = (props) => {
   const API_URL = 'https://upside-api.herokuapp.com'
 
   const { displayMode, beginDate, endDate } = props
@@ -32,12 +32,6 @@ const Expenses = (props) => {
     isOpen: false,
     expenseId: 0,
   })
-
-  let rowType = 'expense-row'
-
-  if (displayMode === 'Modify') {
-    rowType = 'expense-row-modify'
-  }
 
   let response = {}
 
@@ -189,28 +183,17 @@ const Expenses = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className={rowType}>
-        <span className="expense-column-1">Category</span>
-        <span className="expense-column-2">Description</span>
-        <span className="expense-column-3">Due Date</span>
-        <span className="expense-column-4">Amount</span>
-        {displayMode === 'Modify' && (
-          <>
-            <span className="expense-column-5">Modify</span>
-            <span className="expense-column-6">Delete</span>
-          </>
-        )}
-      </div>
       <div className="expense-divider"></div>
       {!userExpenses.isLoaded ? (
         <LoadingIcon />
       ) : userExpenses.userExpenseData.length > 0 ? (
         userExpenses.userExpenseData.map((expense) => {
           return (
-            <div key={expense.ID} className={rowType}>
+            <div key={expense.ID} className="vertical-display">
               {expense.ID === modifiedRecord.ID ? (
                 <>
-                  <span className="expense-column-1">
+                  <div className="data-row">
+                    <span>Category</span>
                     <select
                       name="ExpenseCategory"
                       className="expense-category-edit"
@@ -232,8 +215,9 @@ const Expenses = (props) => {
                       <option value="Rent">Rent</option>
                       <option value="Other">Other</option>
                     </select>
-                  </span>
-                  <span className="expense-column-2">
+                  </div>
+                  <div className="data-row">
+                    <span>Description</span>
                     <input
                       type="text"
                       name="ExpenseName"
@@ -241,8 +225,9 @@ const Expenses = (props) => {
                       value={modifiedRecord.ExpenseName}
                       onChange={updateModifiedRecord}
                     ></input>
-                  </span>
-                  <span className="expense-column-3">
+                  </div>
+                  <div className="data-row">
+                    <span>Due Date</span>
                     <input
                       type="date"
                       name="ExpenseDate"
@@ -250,8 +235,9 @@ const Expenses = (props) => {
                       value={modifiedRecord.ExpenseDate}
                       onChange={updateModifiedRecord}
                     ></input>
-                  </span>
-                  <span className="expense-column-4">
+                  </div>
+                  <div className="data-row">
+                    <span>Amount</span>
                     <input
                       type="text"
                       name="ExpenseAmount"
@@ -259,71 +245,91 @@ const Expenses = (props) => {
                       value={modifiedRecord.ExpenseAmount}
                       onChange={updateModifiedRecord}
                     ></input>
-                  </span>
-                  <span
-                    className="expense-column-5"
-                    onClick={() => {
-                      updateExpense(modifiedRecord)
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCheck} />
-                  </span>
-                  <span
-                    className="expense-column-6"
-                    onClick={() => {
-                      clearModifiedRecord()
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTimes} />
-                  </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Update</span>
+                    <span
+                      className="expense-column-5"
+                      onClick={() => {
+                        updateExpense(modifiedRecord)
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faCheck} />
+                    </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Cancel</span>
+                    <span
+                      className="expense-column-6"
+                      onClick={() => {
+                        clearModifiedRecord()
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTimes} />
+                    </span>
+                  </div>
                 </>
               ) : (
                 <>
-                  <span className="expense-column-1">
-                    {expense.ExpenseCategory}
-                  </span>
-                  <span className="expense-column-2">
-                    {expense.ExpenseName}
-                  </span>
-                  <span className="expense-column-3">
-                    <Moment format="MM/DD/YYYY">{expense.ExpenseDate}</Moment>
-                  </span>
-                  <span className="expense-column-4">
-                    {' '}
-                    <NumberFormat
-                      value={expense.ExpenseAmount}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      prefix={'$'}
-                    />
-                  </span>
+                  <div className="data-row">
+                    <span>Category</span>
+                    <span>{expense.ExpenseCategory}</span>
+                  </div>
+                  <div className="data-row">
+                    <span>Description</span>
+                    <span>{expense.ExpenseName}</span>
+                  </div>
+                  <div className="data-row">
+                    <span>Due Date</span>
+                    <span>
+                      <Moment format="MM/DD/YYYY">{expense.ExpenseDate}</Moment>
+                    </span>
+                  </div>
+                  <div className="data-row">
+                    <span>Amount</span>
+                    <span>
+                      {' '}
+                      <NumberFormat
+                        value={expense.ExpenseAmount}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                        prefix={'$'}
+                      />
+                    </span>
+                  </div>
                   {displayMode === 'Modify' && (
                     <>
-                      <span
-                        className="expense-column-5"
-                        onClick={() => {
-                          modifyExpense(expense)
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </span>
-                      <span className="expense-column-6">
-                        <Button
-                          className="action-icon"
+                      <div className="data-row">
+                        <span>Modify</span>
+                        <span
                           onClick={() => {
-                            setDeleteDialogInfo({
-                              isOpen: true,
-                              expenseId: expense.ID,
-                            })
+                            modifyExpense(expense)
                           }}
                         >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                      </span>
+                          <FontAwesomeIcon icon={faEdit} />
+                        </span>
+                      </div>
+                      <div className="data-row">
+                        <span>Delete</span>
+                        <span className="expense-column-6">
+                          <Button
+                            className="action-icon"
+                            onClick={() => {
+                              setDeleteDialogInfo({
+                                isOpen: true,
+                                expenseId: expense.ID,
+                              })
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </Button>
+                        </span>
+                      </div>
                     </>
                   )}
+                  <div className="expense-divider"></div>
                 </>
               )}
             </div>
@@ -337,10 +343,9 @@ const Expenses = (props) => {
           )}
         </div>
       )}
-      <div className="expense-divider"></div>
-      <div className={rowType}>
-        <span className="expense-column-1">Total:</span>
-        <span className="expense-column-4">
+      <div className="total-row">
+        <span>Total:</span>
+        <span>
           {userExpenses.isLoaded && (
             <NumberFormat
               value={userExpenses.userExpenseData.reduce(
@@ -360,4 +365,4 @@ const Expenses = (props) => {
   )
 }
 
-export default Expenses
+export default ExpensesVertical

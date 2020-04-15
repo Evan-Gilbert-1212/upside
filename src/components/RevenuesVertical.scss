@@ -1,0 +1,96 @@
+@import '../_variables.scss';
+
+.vertical-display {
+  display: flex;
+  flex-direction: column;
+
+  > .data-row {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.revenue-column-5 {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.revenue-column-6 {
+  grid-column-start: 6;
+  grid-column-end: 7;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.revenue-divider {
+  width: 100%;
+  background-color: $primary-green;
+  height: 2px;
+}
+
+.revenue-category-edit {
+  width: 130px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.revenue-name-edit {
+  width: 160px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.revenue-date-edit {
+  width: 125px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.revenue-amount-edit {
+  width: 105px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.action-icon {
+  padding: 0 !important;
+  height: 16px !important;
+  min-width: 18px !important;
+  background-color: white !important;
+}
+
+.no-records-found {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
