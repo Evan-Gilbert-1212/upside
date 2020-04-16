@@ -84,3 +84,19 @@
     margin-top: 1.5rem;
   }
 }
+
+@media (max-width: 500px) {
+  .login-form {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .login-form {
+    .login-grid {
+      grid-template-columns: 100%;
+    }
+  }
+}

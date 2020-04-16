@@ -89,3 +89,19 @@
     margin-top: 1.5rem;
   }
 }
+
+@media (max-width: 500px) {
+  .signup-form {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .signup-form {
+    .signup-grid {
+      grid-template-columns: 100%;
+    }
+  }
+}
