@@ -309,7 +309,7 @@ const RecurringTransactionsVertical = (props) => {
                     <div className="data-row">
                       <span>Update</span>
                       <span
-                        className="recurring-trans-column-7"
+                        className="action-icon"
                         onClick={() => {
                           updateRecurringTransaction(modifiedRecord)
                         }}
@@ -320,7 +320,7 @@ const RecurringTransactionsVertical = (props) => {
                     <div className="data-row">
                       <span>Cancel</span>
                       <span
-                        className="recurring-trans-column-8"
+                        className="action-icon"
                         onClick={() => {
                           clearModifiedRecord()
                         }}
@@ -328,6 +328,7 @@ const RecurringTransactionsVertical = (props) => {
                         <FontAwesomeIcon icon={faTimes} />
                       </span>
                     </div>
+                    <div className="recurring-trans-divider"></div>
                   </>
                 ) : (
                   <>
@@ -374,7 +375,7 @@ const RecurringTransactionsVertical = (props) => {
                         <div className="data-row">
                           <span>Modify</span>
                           <span
-                            className="recurring-trans-column-7"
+                            className="action-icon"
                             onClick={() => {
                               modifyRecurringTransaction(transaction)
                             }}
@@ -384,9 +385,9 @@ const RecurringTransactionsVertical = (props) => {
                         </div>
                         <div className="data-row">
                           <span>Delete</span>
-                          <span className="recurring-trans-column-8">
+                          <span className="action-icon">
                             <Button
-                              className="action-icon"
+                              className="dialog-action-icon"
                               onClick={() => {
                                 setDeleteDialogInfo({
                                   isOpen: true,

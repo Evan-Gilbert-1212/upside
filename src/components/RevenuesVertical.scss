@@ -19,26 +19,6 @@
   padding-bottom: 0.25rem;
 }
 
-.revenue-column-5 {
-  grid-column-start: 5;
-  grid-column-end: 6;
-  text-align: center;
-
-  :hover {
-    cursor: pointer;
-  }
-}
-
-.revenue-column-6 {
-  grid-column-start: 6;
-  grid-column-end: 7;
-  text-align: center;
-
-  :hover {
-    cursor: pointer;
-  }
-}
-
 .revenue-divider {
   width: 100%;
   background-color: $primary-green;
@@ -54,7 +34,7 @@
 }
 
 .revenue-name-edit {
-  width: 160px;
+  width: 130px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -63,7 +43,7 @@
 }
 
 .revenue-date-edit {
-  width: 125px;
+  width: 130px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -72,7 +52,7 @@
 }
 
 .revenue-amount-edit {
-  width: 105px;
+  width: 130px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -81,11 +61,17 @@
   text-align: right;
 }
 
-.action-icon {
+.dialog-action-icon {
   padding: 0 !important;
   height: 16px !important;
   min-width: 18px !important;
   background-color: white !important;
+}
+
+.action-icon {
+  :hover {
+    cursor: pointer;
+  }
 }
 
 .no-records-found {

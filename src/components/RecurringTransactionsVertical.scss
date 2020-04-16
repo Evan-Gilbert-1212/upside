@@ -19,26 +19,6 @@
   padding-bottom: 0.25rem;
 }
 
-.recurring-trans-column-7 {
-  grid-column-start: 7;
-  grid-column-end: 8;
-  text-align: center;
-
-  :hover {
-    cursor: pointer;
-  }
-}
-
-.recurring-trans-column-8 {
-  grid-column-start: 8;
-  grid-column-end: 9;
-  text-align: center;
-
-  :hover {
-    cursor: pointer;
-  }
-}
-
 .recurring-trans-divider {
   width: 100%;
   background-color: $primary-green;
@@ -46,7 +26,7 @@
 }
 
 .transaction-type-edit {
-  width: 100px;
+  width: 130px;
   height: 21px;
   margin: 0;
   padding: 0;
@@ -54,7 +34,7 @@
 }
 
 .transaction-category-edit {
-  width: 100px;
+  width: 130px;
   height: 21px;
   margin: 0;
   padding: 0;
@@ -71,7 +51,7 @@
 }
 
 .first-payment-date-edit {
-  width: 135px;
+  width: 130px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -80,7 +60,7 @@
 }
 
 .transaction-amount-edit {
-  width: 105px;
+  width: 130px;
   height: 19px;
   margin: 0;
   padding: 0;
@@ -90,18 +70,24 @@
 }
 
 .recurring-frequency-edit {
-  width: 105px;
+  width: 130px;
   height: 21px;
   margin: 0;
   padding: 0;
   border-radius: 5px;
 }
 
-.action-icon {
+.dialog-action-icon {
   padding: 0 !important;
   height: 16px !important;
   min-width: 18px !important;
   background-color: white !important;
+}
+
+.action-icon {
+  :hover {
+    cursor: pointer;
+  }
 }
 
 .no-records-found {

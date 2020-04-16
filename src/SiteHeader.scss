@@ -50,7 +50,7 @@ header {
   position: fixed;
   width: 36px;
   height: 30px;
-  right: 36px;
+  right: 24px;
   top: 10px;
 }
 
@@ -130,4 +130,10 @@ Note: Beware of modifying this element as it can break the animations - you shou
   height: 100vh;
   width: 100vh;
   top: 0;
+}
+
+@media (max-width: 400px) {
+  .bm-burger-button {
+    right: 1rem;
+  }
 }

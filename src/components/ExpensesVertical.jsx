@@ -249,7 +249,7 @@ const ExpensesVertical = (props) => {
                   <div className="data-row">
                     <span>Update</span>
                     <span
-                      className="expense-column-5"
+                      className="action-icon"
                       onClick={() => {
                         updateExpense(modifiedRecord)
                       }}
@@ -260,7 +260,7 @@ const ExpensesVertical = (props) => {
                   <div className="data-row">
                     <span>Cancel</span>
                     <span
-                      className="expense-column-6"
+                      className="action-icon"
                       onClick={() => {
                         clearModifiedRecord()
                       }}
@@ -305,6 +305,7 @@ const ExpensesVertical = (props) => {
                       <div className="data-row">
                         <span>Modify</span>
                         <span
+                          className="action-icon"
                           onClick={() => {
                             modifyExpense(expense)
                           }}
@@ -314,9 +315,9 @@ const ExpensesVertical = (props) => {
                       </div>
                       <div className="data-row">
                         <span>Delete</span>
-                        <span className="expense-column-6">
+                        <span className="action-icon">
                           <Button
-                            className="action-icon"
+                            className="dialog-action-icon"
                             onClick={() => {
                               setDeleteDialogInfo({
                                 isOpen: true,

@@ -239,7 +239,7 @@ const Revenues = (props) => {
                   <div className="data-row">
                     <span>Update</span>
                     <span
-                      className="revenue-column-5"
+                      className="action-icon"
                       onClick={() => {
                         updateRevenue(modifiedRecord)
                       }}
@@ -250,7 +250,7 @@ const Revenues = (props) => {
                   <div className="data-row">
                     <span>Cancel</span>
                     <span
-                      className="revenue-column-6"
+                      className="action-icon"
                       onClick={() => {
                         clearModifiedRecord()
                       }}
@@ -258,6 +258,7 @@ const Revenues = (props) => {
                       <FontAwesomeIcon icon={faTimes} />
                     </span>
                   </div>
+                  <div className="revenue-divider"></div>
                 </>
               ) : (
                 <>
@@ -298,7 +299,7 @@ const Revenues = (props) => {
                       <div className="data-row">
                         <span>Modify</span>
                         <span
-                          className="revenue-column-5"
+                          className="action-icon"
                           onClick={() => {
                             modifyRevenue(revenue)
                           }}
@@ -308,9 +309,9 @@ const Revenues = (props) => {
                       </div>
                       <div className="data-row">
                         <span>Delete</span>
-                        <span className="revenue-column-6">
+                        <span className="action-icon">
                           <Button
-                            className="action-icon"
+                            className="dialog-action-icon"
                             onClick={() => {
                               setDeleteDialogInfo({
                                 isOpen: true,
