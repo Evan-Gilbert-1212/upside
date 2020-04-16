@@ -23,19 +23,6 @@
   > h4 {
     text-align: center;
   }
-
-  > button {
-    margin-left: auto;
-    margin-right: auto;
-    height: 25px;
-    width: 120px;
-    margin-top: 0.25rem;
-    margin-bottom: 0.5rem;
-    border-radius: 5px;
-    background-color: $primary-green;
-    color: white;
-    border-width: 0;
-  }
 }
 
 .revenue-input-grid {
@@ -72,7 +59,9 @@
   }
 
   > button {
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.35rem;
     height: 25px;
     width: 120px;
     border-radius: 5px;
@@ -93,5 +82,31 @@
   > h4 {
     margin-top: 0;
     text-align: center;
+  }
+}
+
+@media (max-width: 800px) {
+  .revenue-display {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .revenue-entry-form {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: auto;
+  }
+
+  .revenue-input-grid {
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (max-width: 400px) {
+  .revenue-input-grid {
+    grid-template-columns: 100%;
   }
 }

@@ -331,12 +331,15 @@ const Revenues = (props) => {
           )
         })
       ) : (
-        <div className="no-records-found">
-          No Upcoming Revenues found.{' '}
-          {displayMode !== 'Modify' && (
-            <a href="/revenues">Add a new revenue now!</a>
-          )}
-        </div>
+        <>
+          <div className="no-records-found">
+            No Upcoming Revenues found.{' '}
+            {displayMode !== 'Modify' && (
+              <a href="/revenues">Add a new revenue now!</a>
+            )}
+          </div>
+          <div className="revenue-divider"></div>
+        </>
       )}
       <div className="total-row">
         <span>Total:</span>

@@ -1,0 +1,112 @@
+@import '../_variables.scss';
+
+.vertical-display {
+  display: flex;
+  flex-direction: column;
+
+  > .data-row {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.recurring-trans-column-7 {
+  grid-column-start: 7;
+  grid-column-end: 8;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.recurring-trans-column-8 {
+  grid-column-start: 8;
+  grid-column-end: 9;
+  text-align: center;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.recurring-trans-divider {
+  width: 100%;
+  background-color: $primary-green;
+  height: 2px;
+}
+
+.transaction-type-edit {
+  width: 100px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.transaction-category-edit {
+  width: 100px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.transaction-name-edit {
+  width: 130px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.first-payment-date-edit {
+  width: 135px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+}
+
+.transaction-amount-edit {
+  width: 105px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.recurring-frequency-edit {
+  width: 105px;
+  height: 21px;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.action-icon {
+  padding: 0 !important;
+  height: 16px !important;
+  min-width: 18px !important;
+  background-color: white !important;
+}
+
+.no-records-found {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

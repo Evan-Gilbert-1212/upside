@@ -17,3 +17,11 @@
     text-align: center;
   }
 }
+
+@media (max-width: 1000px) {
+  .recurring-transactions-display {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: auto;
+  }
+}

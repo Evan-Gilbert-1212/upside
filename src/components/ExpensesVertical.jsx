@@ -268,6 +268,7 @@ const ExpensesVertical = (props) => {
                       <FontAwesomeIcon icon={faTimes} />
                     </span>
                   </div>
+                  <div className="expense-divider"></div>
                 </>
               ) : (
                 <>
@@ -336,12 +337,15 @@ const ExpensesVertical = (props) => {
           )
         })
       ) : (
-        <div className="no-records-found">
-          No Upcoming Expenses found.{' '}
-          {displayMode !== 'Modify' && (
-            <a href="/expenses">Add a new expense now!</a>
-          )}
-        </div>
+        <>
+          <div className="no-records-found">
+            No Upcoming Expenses found.{' '}
+            {displayMode !== 'Modify' && (
+              <a href="/expenses">Add a new expense now!</a>
+            )}
+          </div>
+          <div className="expense-divider"></div>
+        </>
       )}
       <div className="total-row">
         <span>Total:</span>
