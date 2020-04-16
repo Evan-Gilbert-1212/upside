@@ -13,3 +13,26 @@ body {
   min-height: 100%;
   font-family: 'Nunito', sans-serif;
 }
+
+input[type='date']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  display: none;
+}
+
+input {
+  font-family: 'Nunito', sans-serif;
+}
+
+select {
+  font-family: 'Nunito', sans-serif;
+}
+
+.page-background {
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
+  // background: linear-gradient(white, $primary-green);
+  background-color: white;
+  background-attachment: fixed;
+  z-index: -1;
+}

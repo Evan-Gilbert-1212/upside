@@ -143,7 +143,7 @@ const ExpensesVertical = (props) => {
   }, [])
 
   return (
-    <div className="expense-grid">
+    <div className="expense-grid-vertical">
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -196,7 +196,7 @@ const ExpensesVertical = (props) => {
                     <span>Category</span>
                     <select
                       name="ExpenseCategory"
-                      className="expense-category-edit"
+                      className="expense-category-edit-vertical"
                       value={modifiedRecord.ExpenseCategory}
                       onChange={updateModifiedRecord}
                     >
@@ -221,7 +221,7 @@ const ExpensesVertical = (props) => {
                     <input
                       type="text"
                       name="ExpenseName"
-                      className="expense-name-edit"
+                      className="expense-name-edit-vertical"
                       value={modifiedRecord.ExpenseName}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -231,7 +231,7 @@ const ExpensesVertical = (props) => {
                     <input
                       type="date"
                       name="ExpenseDate"
-                      className="expense-date-edit"
+                      className="expense-date-edit-vertical"
                       value={modifiedRecord.ExpenseDate}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -241,7 +241,7 @@ const ExpensesVertical = (props) => {
                     <input
                       type="text"
                       name="ExpenseAmount"
-                      className="expense-amount-edit"
+                      className="expense-amount-edit-vertical"
                       value={modifiedRecord.ExpenseAmount}
                       onChange={updateModifiedRecord}
                     ></input>

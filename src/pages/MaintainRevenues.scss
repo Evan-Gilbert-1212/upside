@@ -12,6 +12,7 @@
   margin-right: auto;
   width: 500px;
   padding: 2rem;
+  background-color: white;
 
   > h2 {
     font-size: 1.5rem;
@@ -47,6 +48,7 @@
       padding: 0;
       border: 1px solid #a9a9a9;
       border-radius: 5px;
+      background-color: white;
     }
 
     > select {
@@ -55,6 +57,7 @@
       margin: 0;
       padding: 0;
       border-radius: 5px;
+      background-color: white;
     }
   }
 
@@ -78,10 +81,19 @@
   margin-right: auto;
   width: 700px;
   padding: 2rem;
+  background-color: white;
 
   > h4 {
     margin-top: 0;
     text-align: center;
+  }
+
+  > .revenue-grid {
+    display: block;
+  }
+
+  > .revenue-grid-vertical {
+    display: none;
   }
 }
 
@@ -90,6 +102,18 @@
     margin-left: 1rem;
     margin-right: 1rem;
     width: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .revenue-display {
+    > .revenue-grid {
+      display: none;
+    }
+
+    > .revenue-grid-vertical {
+      display: grid;
+    }
   }
 }
 

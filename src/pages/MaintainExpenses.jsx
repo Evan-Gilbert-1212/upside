@@ -3,7 +3,6 @@ import './MaintainExpenses.scss'
 import axios from 'axios'
 import Expenses from '../components/Expenses'
 import ExpensesVertical from '../components/ExpensesVertical'
-import Media from 'react-media'
 
 const MaintainExpenses = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
@@ -43,7 +42,7 @@ const MaintainExpenses = () => {
   }
 
   return (
-    <>
+    <section className="page-background">
       <div className="expense-buffer"></div>
       <section className="expense-entry-form">
         <h2>Expenses</h2>
@@ -110,17 +109,10 @@ const MaintainExpenses = () => {
       </section>
       <section className="expense-display">
         <h4>Your Expenses</h4>
-        <Media queries={{ horizontal: { minWidth: 700 } }}>
-          {(matches) =>
-            matches.horizontal ? (
-              <Expenses displayMode="Modify" />
-            ) : (
-              <ExpensesVertical displayMode="Modify" />
-            )
-          }
-        </Media>
+        <Expenses displayMode="Modify" />
+        <ExpensesVertical displayMode="Modify" />
       </section>
-    </>
+    </section>
   )
 }
 

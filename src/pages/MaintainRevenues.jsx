@@ -3,7 +3,6 @@ import './MaintainRevenues.scss'
 import axios from 'axios'
 import Revenues from '../components/Revenues'
 import RevenuesVertical from '../components/RevenuesVertical'
-import Media from 'react-media'
 
 const MaintainRevenues = () => {
   const API_URL = 'https://upside-api.herokuapp.com'
@@ -43,7 +42,7 @@ const MaintainRevenues = () => {
   }
 
   return (
-    <>
+    <section className="page-background">
       <div className="revenue-buffer"></div>
       <section className="revenue-entry-form">
         <h2>Revenues</h2>
@@ -100,17 +99,10 @@ const MaintainRevenues = () => {
       </section>
       <section className="revenue-display">
         <h4>Your Revenues</h4>
-        <Media queries={{ horizontal: { minWidth: 700 } }}>
-          {(matches) =>
-            matches.horizontal ? (
-              <Revenues displayMode="Modify" />
-            ) : (
-              <RevenuesVertical displayMode="Modify" />
-            )
-          }
-        </Media>
+        <Revenues displayMode="Modify" />
+        <RevenuesVertical displayMode="Modify" />
       </section>
-    </>
+    </section>
   )
 }
 

@@ -141,7 +141,7 @@ const RecurringTransactionsVertical = (props) => {
   }, [])
 
   return (
-    <div className="recurring-trans-grid">
+    <div className="recurring-trans-grid-vertical">
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -196,7 +196,7 @@ const RecurringTransactionsVertical = (props) => {
                       <span>
                         <select
                           name="TransactionType"
-                          className="transaction-type-edit"
+                          className="transaction-type-edit-vertical"
                           value={modifiedRecord.TransactionType}
                           onChange={updateModifiedRecord}
                         >
@@ -210,7 +210,7 @@ const RecurringTransactionsVertical = (props) => {
                       <span>
                         <select
                           name="TransactionCategory"
-                          className="transaction-category-edit"
+                          className="transaction-category-edit-vertical"
                           value={modifiedRecord.TransactionCategory}
                           onChange={updateModifiedRecord}
                         >
@@ -260,7 +260,7 @@ const RecurringTransactionsVertical = (props) => {
                         <input
                           type="text"
                           name="TransactionName"
-                          className="transaction-name-edit"
+                          className="transaction-name-edit-vertical"
                           value={modifiedRecord.TransactionName}
                           onChange={updateModifiedRecord}
                         ></input>
@@ -272,7 +272,7 @@ const RecurringTransactionsVertical = (props) => {
                         <input
                           type="date"
                           name="FirstPaymentDate"
-                          className="first-payment-date-edit"
+                          className="first-payment-date-edit-vertical"
                           value={modifiedRecord.FirstPaymentDate}
                           onChange={updateModifiedRecord}
                         ></input>
@@ -284,7 +284,7 @@ const RecurringTransactionsVertical = (props) => {
                         <input
                           type="text"
                           name="TransactionAmount"
-                          className="transaction-amount-edit"
+                          className="transaction-amount-edit-vertical"
                           value={modifiedRecord.TransactionAmount}
                           onChange={updateModifiedRecord}
                         ></input>
@@ -295,7 +295,7 @@ const RecurringTransactionsVertical = (props) => {
                       <span>
                         <select
                           name="RecurringFrequency"
-                          className="recurring-frequency-edit"
+                          className="recurring-frequency-edit-vertical"
                           value={modifiedRecord.RecurringFrequency}
                           onChange={updateModifiedRecord}
                         >

@@ -56,6 +56,14 @@
 
   > .account-section {
     width: 35vw;
+
+    > .account-grid {
+      background-color: white;
+    }
+
+    > .credit-card-grid {
+      background-color: white;
+    }
   }
 
   > .detail-divider {
@@ -67,9 +75,28 @@
   > .transaction-section {
     width: 65vw;
 
-    > .vertical-expense-section {
-      visibility: hidden;
-      height: 0;
+    > .expense-section {
+      background-color: white;
+
+      .expense-grid {
+        display: block;
+      }
+
+      .expense-grid-vertical {
+        display: none;
+      }
+    }
+
+    > .revenue-section {
+      background-color: white;
+
+      .revenue-grid {
+        display: block;
+      }
+
+      .revenue-grid-vertical {
+        display: none;
+      }
     }
   }
 
@@ -145,6 +172,32 @@
         margin-left: 3rem;
         margin-right: 3rem;
         width: auto;
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .details-section {
+    > .transaction-section {
+      > .expense-section {
+        .expense-grid {
+          display: none;
+        }
+
+        .expense-grid-vertical {
+          display: block;
+        }
+      }
+
+      > .revenue-section {
+        .revenue-grid {
+          display: none;
+        }
+
+        .revenue-grid-vertical {
+          display: block;
+        }
       }
     }
   }

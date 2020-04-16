@@ -42,7 +42,7 @@ const MaintainBankAccounts = () => {
   }
 
   return (
-    <>
+    <section className="page-background">
       <div className="bank-account-buffer"></div>
       <section className="bank-account-entry-form">
         <h2>Bank Accounts</h2>
@@ -71,7 +71,7 @@ const MaintainBankAccounts = () => {
         <h4>Your Bank Accounts</h4>
         <Accounts displayMode="Modify" />
       </section>
-    </>
+    </section>
   )
 }
 

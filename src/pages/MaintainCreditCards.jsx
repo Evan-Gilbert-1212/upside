@@ -38,7 +38,7 @@ const MaintainCreditCards = () => {
   }
 
   return (
-    <>
+    <section className="page-background">
       <div className="credit-card-buffer"></div>
       <section className="credit-card-entry-form">
         <h2>Credit Cards</h2>
@@ -69,7 +69,7 @@ const MaintainCreditCards = () => {
         <h4>Your Credit Cards</h4>
         <CreditCards displayMode="Modify" />
       </section>
-    </>
+    </section>
   )
 }
 

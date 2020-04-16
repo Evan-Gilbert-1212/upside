@@ -143,7 +143,7 @@ const Revenues = (props) => {
   }, [])
 
   return (
-    <div className="revenue-grid">
+    <div className="revenue-grid-vertical">
       <Dialog
         open={deleteDialogInfo.isOpen}
         onClose={() => {
@@ -196,7 +196,7 @@ const Revenues = (props) => {
                     <span>Category</span>
                     <select
                       name="RevenueCategory"
-                      className="revenue-category-edit"
+                      className="revenue-category-edit-vertical"
                       value={modifiedRecord.RevenueCategory}
                       onChange={updateModifiedRecord}
                     >
@@ -211,7 +211,7 @@ const Revenues = (props) => {
                     <input
                       type="text"
                       name="RevenueName"
-                      className="revenue-name-edit"
+                      className="revenue-name-edit-vertical"
                       value={modifiedRecord.RevenueName}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -221,7 +221,7 @@ const Revenues = (props) => {
                     <input
                       type="date"
                       name="RevenueDate"
-                      className="revenue-date-edit"
+                      className="revenue-date-edit-vertical"
                       value={modifiedRecord.RevenueDate}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -231,7 +231,7 @@ const Revenues = (props) => {
                     <input
                       type="text"
                       name="RevenueAmount"
-                      className="revenue-amount-edit"
+                      className="revenue-amount-edit-vertical"
                       value={modifiedRecord.RevenueAmount}
                       onChange={updateModifiedRecord}
                     ></input>

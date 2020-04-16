@@ -11,10 +11,19 @@
   margin-right: auto;
   width: 900px;
   padding: 2rem;
+  background-color: white;
 
   > h2 {
     margin-top: 0;
     text-align: center;
+  }
+
+  > .recurring-trans-grid {
+    display: block;
+  }
+
+  > .recurring-trans-grid-vertical {
+    display: none;
   }
 }
 
@@ -23,5 +32,17 @@
     margin-left: 1rem;
     margin-right: 1rem;
     width: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .recurring-transactions-display {
+    > .recurring-trans-grid {
+      display: none;
+    }
+
+    > .recurring-trans-grid-vertical {
+      display: block;
+    }
   }
 }

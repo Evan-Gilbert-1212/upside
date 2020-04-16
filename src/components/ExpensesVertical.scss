@@ -25,15 +25,16 @@
   height: 2px;
 }
 
-.expense-category-edit {
+.expense-category-edit-vertical {
   width: 130px;
   height: 21px;
   margin: 0;
   padding: 0;
   border-radius: 5px;
+  background-color: white;
 }
 
-.expense-name-edit {
+.expense-name-edit-vertical {
   width: 130px;
   height: 19px;
   margin: 0;
@@ -42,16 +43,17 @@
   border-radius: 5px;
 }
 
-.expense-date-edit {
+.expense-date-edit-vertical {
   width: 130px;
   height: 19px;
   margin: 0;
   padding: 0;
   border: 1px solid #a9a9a9;
   border-radius: 5px;
+  background-color: white;
 }
 
-.expense-amount-edit {
+.expense-amount-edit-vertical {
   width: 130px;
   height: 19px;
   margin: 0;
