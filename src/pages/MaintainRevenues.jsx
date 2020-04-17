@@ -117,7 +117,7 @@ const MaintainRevenues = () => {
             ></input>
           </div>
           <div>
-            <label>Item Amount</label>
+            <label>Amount</label>
             <input
               type="text"
               name="RevenueAmount"
