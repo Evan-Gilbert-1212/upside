@@ -11,13 +11,22 @@ const MaintainCreditCards = () => {
     AccountBalance: 0,
   })
 
+  const [errorResult, setErrorResult] = useState({
+    errorMessage: '',
+    cardIssuerClass: '',
+  })
+
   const updateCardInfo = (e) => {
     const fieldName = e.target.name
     const fieldValue = e.target.value
 
     setCardInfo((prevCardInfo) => {
       if (typeof prevCardInfo[fieldName] === 'number') {
-        return { ...prevCardInfo, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevCardInfo, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevCardInfo, [fieldName]: 0 }
+        }
       } else {
         return { ...prevCardInfo, [fieldName]: fieldValue }
       }
@@ -25,16 +34,23 @@ const MaintainCreditCards = () => {
   }
 
   const addCreditCardToDb = async () => {
-    const response = await axios.post(`${API_URL}/api/creditcard`, cardInfo, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-
-    if (response.status === 201) {
-      //Any logic for successful Save
-      window.location = '/credit-cards'
-    }
+    const resp = await axios
+      .post(`${API_URL}/api/creditcard`, cardInfo, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          window.location = '/credit-cards'
+        }
+      })
+      .catch((error) => {
+        setErrorResult({
+          errorMessage: error.response.data,
+          cardIssuerClass: 'bad-input',
+        })
+      })
   }
 
   return (
@@ -50,6 +66,7 @@ const MaintainCreditCards = () => {
               type="text"
               name="CardIssuer"
               placeholder="Enter Credit Card Issuer"
+              className={errorResult.cardIssuerClass}
               onChange={updateCardInfo}
             ></input>
           </div>
@@ -64,6 +81,9 @@ const MaintainCreditCards = () => {
           </div>
           <button onClick={addCreditCardToDb}>Add Credit Card</button>
         </section>
+        <label className="add-card-error-message">
+          {errorResult.errorMessage}
+        </label>
       </section>
       <section className="credit-card-data-display">
         <h4>Your Credit Cards</h4>

@@ -17,7 +17,11 @@ const MaintainBankAccounts = () => {
 
     setAccountInfo((prevAcctInfo) => {
       if (typeof prevAcctInfo[fieldName] === 'number') {
-        return { ...prevAcctInfo, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevAcctInfo, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevAcctInfo, [fieldName]: 0 }
+        }
       } else {
         return { ...prevAcctInfo, [fieldName]: fieldValue }
       }

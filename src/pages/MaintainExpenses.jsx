@@ -10,9 +10,15 @@ const MaintainExpenses = () => {
   const [expenseInfo, setExpenseInfo] = useState({
     ExpenseCategory: 'Cable & Internet',
     ExpenseName: '',
-    ExpenseDate: '',
+    ExpenseDate: new Date(0),
     ExpenseAmount: 0,
     RecurringFrequency: 'One Time',
+  })
+
+  const [errorResult, setErrorResult] = useState({
+    errorMessage: '',
+    expenseDateClass: '',
+    expenseAmountClass: '',
   })
 
   const updateExpenseInfo = (e) => {
@@ -20,8 +26,26 @@ const MaintainExpenses = () => {
     const fieldValue = e.target.value
 
     setExpenseInfo((prevExpense) => {
-      if (typeof prevExpense[fieldName] === 'number') {
-        return { ...prevExpense, [fieldName]: parseFloat(fieldValue) }
+      if (
+        Object.prototype.toString.call(prevExpense[fieldName]) ===
+        '[object Date]'
+      ) {
+        if (fieldValue != '') {
+          const dateArr = fieldValue.split('-')
+
+          return {
+            ...prevExpense,
+            [fieldName]: new Date(dateArr[0], dateArr[1] - 1, dateArr[2]),
+          }
+        } else {
+          return { ...prevExpense, [fieldName]: new Date(0) }
+        }
+      } else if (typeof prevExpense[fieldName] === 'number') {
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevExpense, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevExpense, [fieldName]: 0 }
+        }
       } else {
         return { ...prevExpense, [fieldName]: fieldValue }
       }
@@ -29,16 +53,34 @@ const MaintainExpenses = () => {
   }
 
   const addExpenseToDb = async () => {
-    const response = await axios.post(`${API_URL}/api/expense`, expenseInfo, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    console.log(expenseInfo)
 
-    if (response.status === 201) {
-      //Any logic for successful Save
-      window.location = '/expenses'
-    }
+    const resp = await axios
+      .post(`${API_URL}/api/expense`, expenseInfo, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          window.location = '/expenses'
+        }
+      })
+      .catch((error) => {
+        if (error.response.data.includes('Due Date')) {
+          setErrorResult({
+            errorMessage: error.response.data,
+            expenseDateClass: 'bad-input',
+            expenseAmountClass: '',
+          })
+        } else if (error.response.data.includes('Amount')) {
+          setErrorResult({
+            errorMessage: error.response.data,
+            expenseDateClass: '',
+            expenseAmountClass: 'bad-input',
+          })
+        }
+      })
   }
 
   return (
@@ -82,15 +124,17 @@ const MaintainExpenses = () => {
               type="date"
               name="ExpenseDate"
               placeholder="Select Due Date"
+              className={errorResult.expenseDateClass}
               onChange={updateExpenseInfo}
             ></input>
           </div>
           <div>
-            <label>Item Amount</label>
+            <label>Amount</label>
             <input
               type="text"
               name="ExpenseAmount"
               placeholder="Enter Amount"
+              className={errorResult.expenseAmountClass}
               onChange={updateExpenseInfo}
             ></input>
           </div>
@@ -106,6 +150,9 @@ const MaintainExpenses = () => {
           </div>
           <button onClick={addExpenseToDb}>Add Expense</button>
         </section>
+        <label className="add-expense-error-message">
+          {errorResult.errorMessage}
+        </label>
       </section>
       <section className="expense-display">
         <h4>Your Expenses</h4>

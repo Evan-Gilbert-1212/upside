@@ -291,7 +291,7 @@ const RecurringTransactionsVertical = (props) => {
                       </span>
                     </div>
                     <div className="data-row">
-                      <span>Recurring Frequency</span>
+                      <span>Frequency</span>
                       <span>
                         <select
                           name="RecurringFrequency"
@@ -367,7 +367,7 @@ const RecurringTransactionsVertical = (props) => {
                       </span>
                     </div>
                     <div className="data-row">
-                      <span>Recurring Frequency</span>
+                      <span>Frequency</span>
                       <span>{transaction.RecurringFrequency}</span>
                     </div>
                     {displayMode === 'Modify' && (
