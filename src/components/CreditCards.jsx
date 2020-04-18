@@ -32,6 +32,11 @@ const CreditCards = (props) => {
     creditCardId: 0,
   })
 
+  const [errorResult, setErrorResult] = useState({
+    errorMessage: '',
+    cardIssuerClass: 'card-issuer-edit',
+  })
+
   let rowType = 'credit-card-row'
 
   if (displayMode === 'Modify') {
@@ -56,7 +61,11 @@ const CreditCards = (props) => {
 
     setModifiedRecord((prevModifiedRecord) => {
       if (typeof prevModifiedRecord[fieldName] === 'number') {
-        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevModifiedRecord, [fieldName]: 0 }
+        }
       } else {
         return { ...prevModifiedRecord, [fieldName]: fieldValue }
       }
@@ -74,37 +83,56 @@ const CreditCards = (props) => {
 
   const clearModifiedRecord = () => {
     setModifiedRecord({})
+
+    setErrorResult({
+      errorMessage: '',
+      cardIssuerClass: 'card-issuer-edit',
+    })
   }
 
   const updateCreditCard = (creditCardData) => {
-    const response = axios.put(`${API_URL}/api/creditcard`, creditCardData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    const resp = axios
+      .put(`${API_URL}/api/creditcard`, creditCardData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const newCreditCardList = userCreditCards.userCreditCardData.filter(
+            (card) => card.ID !== creditCardData.ID
+          )
 
-    const newCreditCardList = userCreditCards.userCreditCardData.filter(
-      (card) => card.ID !== creditCardData.ID
-    )
+          creditCardData = { ...creditCardData, User: null }
 
-    creditCardData = { ...creditCardData, User: null }
+          setUserCreditCards({
+            userCreditCardData: [...newCreditCardList, creditCardData].sort(
+              function (a, b) {
+                if (a.CardIssuer < b.CardIssuer) {
+                  return -1
+                }
+                if (a.CardIssuer > b.CardIssuer) {
+                  return 1
+                }
+              }
+            ),
+            isLoaded: true,
+          })
 
-    setUserCreditCards({
-      userCreditCardData: [...newCreditCardList, creditCardData].sort(function (
-        a,
-        b
-      ) {
-        if (a.CardIssuer < b.CardIssuer) {
-          return -1
+          setModifiedRecord({})
+
+          setErrorResult({
+            errorMessage: '',
+            cardIssuerClass: 'card-issuer-edit',
+          })
         }
-        if (a.CardIssuer > b.CardIssuer) {
-          return 1
-        }
-      }),
-      isLoaded: true,
-    })
-
-    setModifiedRecord({})
+      })
+      .catch((error) => {
+        setErrorResult({
+          errorMessage: error.response.data,
+          cardIssuerClass: 'card-issuer-edit bad-input',
+        })
+      })
   }
 
   const deleteCreditCard = (creditCardId) => {
@@ -197,7 +225,7 @@ const CreditCards = (props) => {
                     <input
                       type="text"
                       name="CardIssuer"
-                      className="card-issuer-edit"
+                      className={errorResult.cardIssuerClass}
                       value={modifiedRecord.CardIssuer}
                       onChange={updateModifiedRecord}
                     />
@@ -227,6 +255,11 @@ const CreditCards = (props) => {
                   >
                     <FontAwesomeIcon icon={faTimes} />
                   </span>
+                  {errorResult.errorMessage !== '' && (
+                    <div className="modify-error-message">
+                      <label>{errorResult.errorMessage}</label>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>

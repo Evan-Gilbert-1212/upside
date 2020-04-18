@@ -33,6 +33,12 @@ const RecurringTransactions = (props) => {
     recurringTransId: 0,
   })
 
+  const [errorResult, setErrorResult] = useState({
+    errorMessage: '',
+    transactionDateClass: 'first-payment-date-edit',
+    transactionAmountClass: 'transaction-amount-edit',
+  })
+
   let rowType = 'recurring-trans-row'
 
   if (displayMode === 'Modify') {
@@ -58,7 +64,11 @@ const RecurringTransactions = (props) => {
 
     setModifiedRecord((prevModifiedRecord) => {
       if (typeof prevModifiedRecord[fieldName] === 'number') {
-        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevModifiedRecord, [fieldName]: 0 }
+        }
       } else {
         return { ...prevModifiedRecord, [fieldName]: fieldValue }
       }
@@ -80,41 +90,73 @@ const RecurringTransactions = (props) => {
 
   const clearModifiedRecord = () => {
     setModifiedRecord({})
+
+    setErrorResult({
+      errorMessage: '',
+      transactionDateClass: 'first-payment-date-edit',
+      transactionAmountClass: 'transaction-amount-edit',
+    })
   }
 
   const updateRecurringTransaction = (recurringTransactionData) => {
-    const response = axios.put(
-      `${API_URL}/api/recurringtransaction`,
-      recurringTransactionData,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    if (recurringTransactionData.FirstPaymentDate === '') {
+      setErrorResult({
+        errorMessage: 'Due Date cannot be blank.',
+        transactionDateClass: 'first-payment-date-edit bad-input',
+        transactionAmountClass: 'transaction-amount-edit',
+      })
+    } else {
+      const resp = axios
+        .put(`${API_URL}/api/recurringtransaction`, recurringTransactionData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const newRecurringTransactionList = userRecurringTransactions.userRecurringTransactionData.filter(
+              (trans) => trans.ID !== recurringTransactionData.ID
+            )
 
-    const newRecurringTransactionList = userRecurringTransactions.userRecurringTransactionData.filter(
-      (trans) => trans.ID !== recurringTransactionData.ID
-    )
+            recurringTransactionData = {
+              ...recurringTransactionData,
+              User: null,
+            }
 
-    recurringTransactionData = { ...recurringTransactionData, User: null }
+            setUserRecurringTransactions({
+              userRecurringTransactionData: [
+                ...newRecurringTransactionList,
+                recurringTransactionData,
+              ].sort(function (a, b) {
+                if (a.FirstPaymentDate < b.FirstPaymentDate) {
+                  return -1
+                }
+                if (a.FirstPaymentDate > b.FirstPaymentDate) {
+                  return 1
+                }
+              }),
+              isLoaded: true,
+            })
 
-    setUserRecurringTransactions({
-      userRecurringTransactionData: [
-        ...newRecurringTransactionList,
-        recurringTransactionData,
-      ].sort(function (a, b) {
-        if (a.FirstPaymentDate < b.FirstPaymentDate) {
-          return -1
-        }
-        if (a.FirstPaymentDate > b.FirstPaymentDate) {
-          return 1
-        }
-      }),
-      isLoaded: true,
-    })
+            setModifiedRecord({})
 
-    setModifiedRecord({})
+            setErrorResult({
+              errorMessage: '',
+              transactionDateClass: 'first-payment-date-edit',
+              transactionAmountClass: 'transaction-amount-edit',
+            })
+          }
+        })
+        .catch((error) => {
+          if (error.response.data.includes('Amount')) {
+            setErrorResult({
+              errorMessage: error.response.data,
+              transactionDateClass: 'first-payment-date-edit',
+              transactionAmountClass: 'transaction-amount-edit bad-input',
+            })
+          }
+        })
+    }
   }
 
   const deleteRecurringTransaction = (recurringTransId) => {
@@ -213,15 +255,7 @@ const RecurringTransactions = (props) => {
                 {transaction.ID === modifiedRecord.ID ? (
                   <>
                     <span className="recurring-trans-column-1">
-                      <select
-                        name="TransactionType"
-                        className="transaction-type-edit"
-                        value={modifiedRecord.TransactionType}
-                        onChange={updateModifiedRecord}
-                      >
-                        <option value="Expense">Expense</option>
-                        <option value="Revenue">Revenue</option>
-                      </select>
+                      {modifiedRecord.TransactionType}
                     </span>
                     <span className="recurring-trans-column-2">
                       <select
@@ -280,7 +314,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="date"
                         name="FirstPaymentDate"
-                        className="first-payment-date-edit"
+                        className={errorResult.transactionDateClass}
                         value={modifiedRecord.FirstPaymentDate}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -289,7 +323,7 @@ const RecurringTransactions = (props) => {
                       <input
                         type="text"
                         name="TransactionAmount"
-                        className="transaction-amount-edit"
+                        className={errorResult.transactionAmountClass}
                         value={modifiedRecord.TransactionAmount}
                         onChange={updateModifiedRecord}
                       ></input>
@@ -323,6 +357,11 @@ const RecurringTransactions = (props) => {
                     >
                       <FontAwesomeIcon icon={faTimes} />
                     </span>
+                    {errorResult.errorMessage !== '' && (
+                      <div className="modify-error-message">
+                        <label>{errorResult.errorMessage}</label>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>

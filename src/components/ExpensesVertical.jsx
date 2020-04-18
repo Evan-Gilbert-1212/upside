@@ -33,6 +33,12 @@ const ExpensesVertical = (props) => {
     expenseId: 0,
   })
 
+  const [errorResult, setErrorResult] = useState({
+    errorMessage: '',
+    expenseDateClass: 'expense-date-edit-vertical',
+    expenseAmountClass: 'expense-amount-edit-vertical',
+  })
+
   let response = {}
 
   const getUserExpenses = async () => {
@@ -66,7 +72,11 @@ const ExpensesVertical = (props) => {
 
     setModifiedRecord((prevModifiedRecord) => {
       if (typeof prevModifiedRecord[fieldName] === 'number') {
-        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevModifiedRecord, [fieldName]: 0 }
+        }
       } else {
         return { ...prevModifiedRecord, [fieldName]: fieldValue }
       }
@@ -86,34 +96,70 @@ const ExpensesVertical = (props) => {
 
   const clearModifiedRecord = () => {
     setModifiedRecord({})
+
+    setErrorResult({
+      errorMessage: '',
+      expenseDateClass: 'expense-date-edit-vertical',
+      expenseAmountClass: 'expense-amount-edit-vertical',
+    })
   }
 
   const updateExpense = (expenseData) => {
-    const response = axios.put(`${API_URL}/api/expense`, expenseData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    if (expenseData.ExpenseDate === '') {
+      setErrorResult({
+        errorMessage: 'Due Date cannot be blank.',
+        expenseDateClass: 'expense-date-edit-vertical bad-input',
+        expenseAmountClass: 'expense-amount-edit-vertical',
+      })
+    } else {
+      const resp = axios
+        .put(`${API_URL}/api/expense`, expenseData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const newExpenseList = userExpenses.userExpenseData.filter(
+              (exp) => exp.ID !== expenseData.ID
+            )
 
-    const newExpenseList = userExpenses.userExpenseData.filter(
-      (exp) => exp.ID !== expenseData.ID
-    )
+            expenseData = { ...expenseData, User: null }
 
-    expenseData = { ...expenseData, User: null }
+            setUserExpenses({
+              userExpenseData: [...newExpenseList, expenseData].sort(function (
+                a,
+                b
+              ) {
+                if (a.ExpenseDate < b.ExpenseDate) {
+                  return -1
+                }
+                if (a.ExpenseDate > b.ExpenseDate) {
+                  return 1
+                }
+              }),
+              isLoaded: true,
+            })
 
-    setUserExpenses({
-      userExpenseData: [...newExpenseList, expenseData].sort(function (a, b) {
-        if (a.ExpenseDate < b.ExpenseDate) {
-          return -1
-        }
-        if (a.ExpenseDate > b.ExpenseDate) {
-          return 1
-        }
-      }),
-      isLoaded: true,
-    })
+            setModifiedRecord({})
 
-    setModifiedRecord({})
+            setErrorResult({
+              errorMessage: '',
+              expenseDateClass: 'expense-date-edit-vertical',
+              expenseAmountClass: 'expense-amount-edit-vertical',
+            })
+          }
+        })
+        .catch((error) => {
+          if (error.response.data.includes('Amount')) {
+            setErrorResult({
+              errorMessage: error.response.data,
+              expenseDateClass: 'expense-date-edit-vertical',
+              expenseAmountClass: 'expense-amount-edit-vertical bad-input',
+            })
+          }
+        })
+    }
   }
 
   const deleteExpense = (expenseId) => {
@@ -231,21 +277,31 @@ const ExpensesVertical = (props) => {
                     <input
                       type="date"
                       name="ExpenseDate"
-                      className="expense-date-edit-vertical"
+                      className={errorResult.expenseDateClass}
                       value={modifiedRecord.ExpenseDate}
                       onChange={updateModifiedRecord}
                     ></input>
                   </div>
+                  {errorResult.errorMessage.includes('Due Date') && (
+                    <div className="modify-error-message">
+                      <label>{errorResult.errorMessage}</label>
+                    </div>
+                  )}
                   <div className="data-row">
                     <span>Amount</span>
                     <input
                       type="text"
                       name="ExpenseAmount"
-                      className="expense-amount-edit-vertical"
+                      className={errorResult.expenseAmountClass}
                       value={modifiedRecord.ExpenseAmount}
                       onChange={updateModifiedRecord}
                     ></input>
                   </div>
+                  {errorResult.errorMessage.includes('Amount') && (
+                    <div className="modify-error-message">
+                      <label>{errorResult.errorMessage}</label>
+                    </div>
+                  )}
                   <div className="data-row">
                     <span>Update</span>
                     <span

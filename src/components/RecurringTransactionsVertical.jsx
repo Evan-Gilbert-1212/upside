@@ -33,6 +33,12 @@ const RecurringTransactionsVertical = (props) => {
     recurringTransId: 0,
   })
 
+  const [errorResult, setErrorResult] = useState({
+    errorMessage: '',
+    transactionDateClass: 'first-payment-date-edit-vertical',
+    transactionAmountClass: 'transaction-amount-edit-vertical',
+  })
+
   const getUsersRecurringTransactions = async () => {
     const response = await axios.get(`${API_URL}/api/recurringtransaction`, {
       headers: {
@@ -52,7 +58,11 @@ const RecurringTransactionsVertical = (props) => {
 
     setModifiedRecord((prevModifiedRecord) => {
       if (typeof prevModifiedRecord[fieldName] === 'number') {
-        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevModifiedRecord, [fieldName]: 0 }
+        }
       } else {
         return { ...prevModifiedRecord, [fieldName]: fieldValue }
       }
@@ -74,41 +84,74 @@ const RecurringTransactionsVertical = (props) => {
 
   const clearModifiedRecord = () => {
     setModifiedRecord({})
+
+    setErrorResult({
+      errorMessage: '',
+      transactionDateClass: 'first-payment-date-edit-vertical',
+      transactionAmountClass: 'transaction-amount-edit-vertical',
+    })
   }
 
   const updateRecurringTransaction = (recurringTransactionData) => {
-    const response = axios.put(
-      `${API_URL}/api/recurringtransaction`,
-      recurringTransactionData,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    if (recurringTransactionData.FirstPaymentDate === '') {
+      setErrorResult({
+        errorMessage: 'First Payment Date cannot be blank.',
+        transactionDateClass: 'first-payment-date-edit bad-input',
+        transactionAmountClass: 'transaction-amount-edit',
+      })
+    } else {
+      const resp = axios
+        .put(`${API_URL}/api/recurringtransaction`, recurringTransactionData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const newRecurringTransactionList = userRecurringTransactions.userRecurringTransactionData.filter(
+              (trans) => trans.ID !== recurringTransactionData.ID
+            )
 
-    const newRecurringTransactionList = userRecurringTransactions.userRecurringTransactionData.filter(
-      (trans) => trans.ID !== recurringTransactionData.ID
-    )
+            recurringTransactionData = {
+              ...recurringTransactionData,
+              User: null,
+            }
 
-    recurringTransactionData = { ...recurringTransactionData, User: null }
+            setUserRecurringTransactions({
+              userRecurringTransactionData: [
+                ...newRecurringTransactionList,
+                recurringTransactionData,
+              ].sort(function (a, b) {
+                if (a.FirstPaymentDate < b.FirstPaymentDate) {
+                  return -1
+                }
+                if (a.FirstPaymentDate > b.FirstPaymentDate) {
+                  return 1
+                }
+              }),
+              isLoaded: true,
+            })
 
-    setUserRecurringTransactions({
-      userRecurringTransactionData: [
-        ...newRecurringTransactionList,
-        recurringTransactionData,
-      ].sort(function (a, b) {
-        if (a.FirstPaymentDate < b.FirstPaymentDate) {
-          return -1
-        }
-        if (a.FirstPaymentDate > b.FirstPaymentDate) {
-          return 1
-        }
-      }),
-      isLoaded: true,
-    })
+            setModifiedRecord({})
 
-    setModifiedRecord({})
+            setErrorResult({
+              errorMessage: '',
+              transactionDateClass: 'first-payment-date-edit-vertical',
+              transactionAmountClass: 'transaction-amount-edit-vertical',
+            })
+          }
+        })
+        .catch((error) => {
+          if (error.response.data.includes('Amount')) {
+            setErrorResult({
+              errorMessage: error.response.data,
+              transactionDateClass: 'first-payment-date-edit-vertical',
+              transactionAmountClass:
+                'transaction-amount-edit-vertical bad-input',
+            })
+          }
+        })
+    }
   }
 
   const deleteRecurringTransaction = (recurringTransId) => {
@@ -272,24 +315,36 @@ const RecurringTransactionsVertical = (props) => {
                         <input
                           type="date"
                           name="FirstPaymentDate"
-                          className="first-payment-date-edit-vertical"
+                          className={errorResult.transactionDateClass}
                           value={modifiedRecord.FirstPaymentDate}
                           onChange={updateModifiedRecord}
                         ></input>
                       </span>
                     </div>
+                    {errorResult.errorMessage.includes(
+                      'First Payment Date'
+                    ) && (
+                      <div className="modify-error-message">
+                        <label>{errorResult.errorMessage}</label>
+                      </div>
+                    )}
                     <div className="data-row">
                       <span>Amount</span>
                       <span>
                         <input
                           type="text"
                           name="TransactionAmount"
-                          className="transaction-amount-edit-vertical"
+                          className={errorResult.transactionAmountClass}
                           value={modifiedRecord.TransactionAmount}
                           onChange={updateModifiedRecord}
                         ></input>
                       </span>
                     </div>
+                    {errorResult.errorMessage.includes('Amount') && (
+                      <div className="modify-error-message">
+                        <label>{errorResult.errorMessage}</label>
+                      </div>
+                    )}
                     <div className="data-row">
                       <span>Frequency</span>
                       <span>

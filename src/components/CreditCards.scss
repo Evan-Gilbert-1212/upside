@@ -60,6 +60,19 @@
   border-radius: 5px;
 }
 
+.bad-input {
+  border-color: red;
+  box-shadow: 0px 0px 3px red;
+}
+
+.modify-error-message {
+  grid-column-start: 1;
+  grid-column-end: 5;
+  color: red;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 .card-balance-edit {
   width: 120px;
   height: 19px;

@@ -33,6 +33,12 @@ const Revenues = (props) => {
     revenueId: 0,
   })
 
+  const [errorResult, setErrorResult] = useState({
+    errorMessage: '',
+    revenueDateClass: 'revenue-date-edit',
+    revenueAmountClass: 'revenue-amount-edit',
+  })
+
   let rowType = 'revenue-row'
 
   if (displayMode === 'Modify') {
@@ -72,7 +78,11 @@ const Revenues = (props) => {
 
     setModifiedRecord((prevModifiedRecord) => {
       if (typeof prevModifiedRecord[fieldName] === 'number') {
-        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevModifiedRecord, [fieldName]: 0 }
+        }
       } else {
         return { ...prevModifiedRecord, [fieldName]: fieldValue }
       }
@@ -92,34 +102,70 @@ const Revenues = (props) => {
 
   const clearModifiedRecord = () => {
     setModifiedRecord({})
+
+    setErrorResult({
+      errorMessage: '',
+      revenueDateClass: 'revenue-date-edit',
+      revenueAmountClass: 'revenue-amount-edit',
+    })
   }
 
   const updateRevenue = (revenueData) => {
-    const response = axios.put(`${API_URL}/api/revenue`, revenueData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    if (revenueData.RevenueDate === '') {
+      setErrorResult({
+        errorMessage: 'Receipt Date cannot be blank.',
+        revenueDateClass: 'revenue-date-edit bad-input',
+        revenueAmountClass: 'revenue-amount-edit',
+      })
+    } else {
+      const resp = axios
+        .put(`${API_URL}/api/revenue`, revenueData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const newRevenueList = userRevenues.userRevenueData.filter(
+              (rev) => rev.ID !== revenueData.ID
+            )
 
-    const newRevenueList = userRevenues.userRevenueData.filter(
-      (rev) => rev.ID !== revenueData.ID
-    )
+            revenueData = { ...revenueData, User: null }
 
-    revenueData = { ...revenueData, User: null }
+            setUserRevenues({
+              userRevenueData: [...newRevenueList, revenueData].sort(function (
+                a,
+                b
+              ) {
+                if (a.RevenueDate < b.RevenueDate) {
+                  return -1
+                }
+                if (a.RevenueDate > b.RevenueDate) {
+                  return 1
+                }
+              }),
+              isLoaded: true,
+            })
 
-    setUserRevenues({
-      userRevenueData: [...newRevenueList, revenueData].sort(function (a, b) {
-        if (a.RevenueDate < b.RevenueDate) {
-          return -1
-        }
-        if (a.RevenueDate > b.RevenueDate) {
-          return 1
-        }
-      }),
-      isLoaded: true,
-    })
+            setModifiedRecord({})
 
-    setModifiedRecord({})
+            setErrorResult({
+              errorMessage: '',
+              revenueDateClass: 'revenue-date-edit',
+              revenueAmountClass: 'revenue-amount-edit',
+            })
+          }
+        })
+        .catch((error) => {
+          if (error.response.data.includes('Amount')) {
+            setErrorResult({
+              errorMessage: error.response.data,
+              revenueDateClass: 'revenue-date-edit',
+              revenueAmountClass: 'revenue-amount-edit bad-input',
+            })
+          }
+        })
+    }
   }
 
   const deleteRevenue = (revenueId) => {
@@ -236,7 +282,7 @@ const Revenues = (props) => {
                     <input
                       type="date"
                       name="RevenueDate"
-                      className="revenue-date-edit"
+                      className={errorResult.revenueDateClass}
                       value={modifiedRecord.RevenueDate}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -245,7 +291,7 @@ const Revenues = (props) => {
                     <input
                       type="text"
                       name="RevenueAmount"
-                      className="revenue-amount-edit"
+                      className={errorResult.revenueAmountClass}
                       value={modifiedRecord.RevenueAmount}
                       onChange={updateModifiedRecord}
                     ></input>
@@ -266,6 +312,11 @@ const Revenues = (props) => {
                   >
                     <FontAwesomeIcon icon={faTimes} />
                   </span>
+                  {errorResult.errorMessage !== '' && (
+                    <div className="modify-error-message">
+                      <label>{errorResult.errorMessage}</label>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
