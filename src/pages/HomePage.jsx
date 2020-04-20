@@ -26,6 +26,8 @@ const HomePage = () => {
       },
     })
 
+    console.log(response.data)
+
     setPageData({
       userSummaryData: response.data,
       isLoaded: true,

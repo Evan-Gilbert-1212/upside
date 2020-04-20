@@ -24,9 +24,15 @@ const LogIn = () => {
       .post(`${API_URL}/auth/login`, userData)
       .then((response) => {
         if (response.status === 200) {
-          localStorage.setItem('token', response.data.token)
+          if (response.data.userInfo.displayPeriod === null) {
+            localStorage.setItem('temp-token', response.data.token)
 
-          window.location = '/'
+            window.location = '/new-user-setup'
+          } else {
+            localStorage.setItem('token', response.data.token)
+
+            window.location = '/'
+          }
         }
       })
       .catch((error) => {

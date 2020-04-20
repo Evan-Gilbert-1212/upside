@@ -7,6 +7,17 @@
 .welcome-banner {
   text-align: center;
   padding-top: 3rem;
+
+  > h1 {
+    font-size: 2rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  > h2 {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .account-summary {

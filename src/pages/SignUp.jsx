@@ -34,9 +34,9 @@ const SignUp = () => {
       .post(`${API_URL}/auth/signup`, userData)
       .then((response) => {
         if (response.status === 200) {
-          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('temp-token', response.data.token)
 
-          window.location = '/'
+          window.location = '/new-user-setup'
         }
       })
       .catch((error) => {

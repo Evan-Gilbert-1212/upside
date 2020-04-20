@@ -1,0 +1,67 @@
+@import '../_variables.scss';
+
+.new-user-setup-buffer {
+  padding: 2rem;
+}
+
+.new-user-setup {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  box-shadow: 0px 0px 5px $box-shadow-color;
+
+  > h2 {
+    text-align: center;
+  }
+
+  > p {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.radio-selection {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: grid;
+  grid-template-columns: 5% 95%;
+
+  > input {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+
+  > label {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.button-section {
+  text-align: center;
+
+  > .button-disabled {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 25px;
+    width: 120px;
+    border-radius: 5px;
+    background-color: darkgray;
+    color: gray;
+    border-width: 0;
+    pointer-events: none;
+  }
+
+  > .button-enabled {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 25px;
+    width: 120px;
+    border-radius: 5px;
+    background-color: $primary-green;
+    color: white;
+    border-width: 0;
+  }
+}

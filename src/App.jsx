@@ -19,6 +19,7 @@ import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons'
 import { faRedoAlt } from '@fortawesome/free-solid-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import NewUserSetup from './pages/NewUserSetup'
 
 const App = () => {
   const logout = () => {
@@ -27,7 +28,16 @@ const App = () => {
     window.location = '/login'
   }
 
-  if (localStorage.getItem('token')) {
+  if (localStorage.getItem('temp-token')) {
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/new-user-setup" component={NewUserSetup}></Route>
+          <Route exact path="*" component={LogIn}></Route>
+        </Switch>
+      </Router>
+    )
+  } else if (localStorage.getItem('token')) {
     return (
       <>
         <Menu right>
