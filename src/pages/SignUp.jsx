@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import './SignUp.scss'
 import config from '../config'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import LoadingIcon from '../components/LoadingIcon'
 
 const SignUp = () => {
   const [userData, setUserData] = useState({
@@ -13,9 +17,12 @@ const SignUp = () => {
 
   const [errorResult, setErrorResult] = useState({
     errorMessage: '',
+    firstNameClass: '',
     userNameClass: '',
     passwordClass: '',
   })
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const updateUserData = (e) => {
     const fieldName = e.target.name
@@ -28,7 +35,8 @@ const SignUp = () => {
   }
 
   const SignUpUser = async () => {
-    console.log(userData)
+    setIsLoading(true)
+
     const resp = await axios
       .post(`${config.API_URL}/auth/signup`, userData)
       .then((response) => {
@@ -39,14 +47,27 @@ const SignUp = () => {
         }
       })
       .catch((error) => {
-        if (error.response.data.includes('User Name')) {
+        setIsLoading(false)
+
+        if (error.response.data.includes('First Name')) {
           setErrorResult({
             errorMessage: error.response.data,
+            firstNameClass: 'bad-input',
+            userNameClass: '',
+            passwordClass: '',
+          })
+        } else if (error.response.data.includes('User Name')) {
+          setErrorResult({
+            errorMessage: error.response.data,
+            firstNameClass: '',
             userNameClass: 'bad-input',
+            passwordClass: '',
           })
         } else if (error.response.data.includes('Password')) {
           setErrorResult({
             errorMessage: error.response.data,
+            firstNameClass: '',
+            userNameClass: '',
             passwordClass: 'bad-input',
           })
         }
@@ -55,6 +76,18 @@ const SignUp = () => {
 
   return (
     <section className="signup-page">
+      <Dialog
+        open={isLoading}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Signing Up...
+            <LoadingIcon />
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
       <section className="signup-form">
         <h2>Welcome to Upside Budget Manager</h2>
         <section className="signup-grid">
@@ -64,6 +97,7 @@ const SignUp = () => {
               type="text"
               name="FirstName"
               placeholder="First Name"
+              className={errorResult.firstNameClass}
               onChange={updateUserData}
             ></input>
           </div>

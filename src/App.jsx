@@ -18,8 +18,10 @@ import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons'
 import { faRedoAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCog } from '@fortawesome/free-solid-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import NewUserSetup from './pages/NewUserSetup'
+import AccountSettings from './pages/AccountSettings'
 
 const App = () => {
   const logout = () => {
@@ -68,6 +70,13 @@ const App = () => {
           >
             <FontAwesomeIcon icon={faRedoAlt} /> Recurring Transactions
           </a>
+          <a
+            id="account-settings"
+            className="menu-item"
+            href="/account-settings"
+          >
+            <FontAwesomeIcon icon={faCog} /> Account Settings
+          </a>
           <a id="logout" className="menu-item" href="/login" onClick={logout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
           </a>
@@ -98,6 +107,11 @@ const App = () => {
               exact
               path="/recurring-transactions"
               component={MaintainRecurringTransactions}
+            ></Route>
+            <Route
+              exact
+              path="/account-settings"
+              component={AccountSettings}
             ></Route>
           </Switch>
         </Router>

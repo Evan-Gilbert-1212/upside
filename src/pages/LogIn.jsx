@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import './LogIn.scss'
 import config from '../config'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import LoadingIcon from '../components/LoadingIcon'
 
 const LogIn = () => {
   const [userData, setUserData] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   const updateUserData = (e) => {
     const fieldName = e.target.name
@@ -19,6 +24,8 @@ const LogIn = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const LogInUser = async () => {
+    setIsLoading(true)
+
     const resp = await axios
       .post(`${config.API_URL}/auth/login`, userData)
       .then((response) => {
@@ -36,11 +43,24 @@ const LogIn = () => {
       })
       .catch((error) => {
         setErrorMessage('Login Unsuccessful. Please Try Again.')
+        setIsLoading(false)
       })
   }
 
   return (
     <section className="login-page">
+      <Dialog
+        open={isLoading}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Logging In...
+            <LoadingIcon />
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
       <section className="login-form">
         <h2>Welcome to Upside Budget Manager</h2>
         <section className="login-grid">

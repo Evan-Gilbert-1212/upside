@@ -1,0 +1,80 @@
+@import '../_variables.scss';
+
+.account-settings-page {
+  > .account-settings-buffer {
+    padding: 1.5rem;
+  }
+
+  > h2 {
+    text-align: center;
+  }
+
+  > .account-settings {
+    border: 1px solid black;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+
+    > h4 {
+      margin-top: 0;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    > .settings-radio-selection {
+      margin-left: 1rem;
+      margin-right: 1rem;
+      display: grid;
+      grid-template-columns: 5% 95%;
+
+      > input {
+        grid-column-start: 1;
+        grid-column-end: 2;
+      }
+
+      > label {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        padding-bottom: 0.5rem;
+      }
+    }
+
+    > .wages-status-ok {
+      display: flex;
+      justify-content: center;
+      color: $primary-green;
+    }
+
+    > .wages-status-incomplete {
+      display: flex;
+      justify-content: center;
+      color: red;
+    }
+  }
+
+  > .button-section {
+    > .save-settings-button {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      height: 25px;
+      width: 120px;
+      border-radius: 5px;
+      background-color: $primary-green;
+      color: white;
+      border-width: 0;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .settings-radio-selection {
+    grid-template-columns: 7% 93%;
+  }
+}
+
+@media (max-width: 350px) {
+  .settings-radio-selection {
+    grid-template-columns: 10% 90%;
+  }
+}

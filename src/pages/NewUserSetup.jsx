@@ -89,6 +89,7 @@ const NewUserSetup = () => {
             paycheck information.
           </label>
         </div>
+        <p>This option can be changed later in the "Account Settings" page.</p>
         <div className="button-section">
           <button className={buttonClass} onClick={updateUserDisplayPeriod}>
             Continue
