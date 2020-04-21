@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import './SignUp.scss'
+import config from '../config'
 
 const SignUp = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const [userData, setUserData] = useState({
     FirstName: '',
     LastName: '',
@@ -31,7 +30,7 @@ const SignUp = () => {
   const SignUpUser = async () => {
     console.log(userData)
     const resp = await axios
-      .post(`${API_URL}/auth/signup`, userData)
+      .post(`${config.API_URL}/auth/signup`, userData)
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('temp-token', response.data.token)

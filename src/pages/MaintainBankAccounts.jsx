@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import './MaintainBankAccounts.scss'
 import axios from 'axios'
 import Accounts from '../components/Accounts'
+import config from '../config'
 
 const MaintainBankAccounts = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const [accountInfo, setAccountInfo] = useState({
     AccountType: 'Checking',
     AccountBalance: 0,
@@ -30,7 +29,7 @@ const MaintainBankAccounts = () => {
 
   const addAccountToDb = async () => {
     const response = await axios.post(
-      `${API_URL}/api/bankaccount`,
+      `${config.API_URL}/api/bankaccount`,
       accountInfo,
       {
         headers: {

@@ -33,6 +33,11 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/new-user-setup" component={NewUserSetup}></Route>
+          <Route
+            exact
+            path="/add-wages"
+            render={() => <MaintainRevenues mode="Wages" />}
+          ></Route>
           <Route exact path="*" component={LogIn}></Route>
         </Switch>
       </Router>

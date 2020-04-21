@@ -15,10 +15,9 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import config from '../config'
 
 const RecurringTransactions = (props) => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const { displayMode } = props
 
   const [userRecurringTransactions, setUserRecurringTransactions] = useState({
@@ -46,11 +45,14 @@ const RecurringTransactions = (props) => {
   }
 
   const getUsersRecurringTransactions = async () => {
-    const response = await axios.get(`${API_URL}/api/recurringtransaction`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    const response = await axios.get(
+      `${config.API_URL}/api/recurringtransaction`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
 
     setUserRecurringTransactions({
       userRecurringTransactionData: response.data,
@@ -107,11 +109,15 @@ const RecurringTransactions = (props) => {
       })
     } else {
       const resp = axios
-        .put(`${API_URL}/api/recurringtransaction`, recurringTransactionData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+        .put(
+          `${config.API_URL}/api/recurringtransaction`,
+          recurringTransactionData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        )
         .then((response) => {
           if (response.status === 200) {
             const newRecurringTransactionList = userRecurringTransactions.userRecurringTransactionData.filter(
@@ -161,7 +167,7 @@ const RecurringTransactions = (props) => {
 
   const deleteRecurringTransaction = (recurringTransId) => {
     const response = axios.delete(
-      `${API_URL}/api/recurringtransaction/${recurringTransId}`,
+      `${config.API_URL}/api/recurringtransaction/${recurringTransId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

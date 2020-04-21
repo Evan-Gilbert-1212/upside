@@ -10,23 +10,20 @@ import Revenues from '../components/Revenues'
 import RevenuesVertical from '../components/RevenuesVertical'
 import Moment from 'react-moment'
 import LoadingIcon from '../components/LoadingIcon'
+import config from '../config'
 
 const HomePage = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const [pageData, setPageData] = useState({
     userSummaryData: {},
     isLoaded: false,
   })
 
   const loadPageData = async () => {
-    const response = await axios.get(`${API_URL}/api/user/usersummary`, {
+    const response = await axios.get(`${config.API_URL}/api/user/usersummary`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
-
-    console.log(response.data)
 
     setPageData({
       userSummaryData: response.data,

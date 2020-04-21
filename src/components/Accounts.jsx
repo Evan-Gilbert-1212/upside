@@ -14,10 +14,9 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import config from '../config'
 
 const Accounts = (props) => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const { displayMode } = props
 
   const [userAccounts, setUserAccounts] = useState({
@@ -39,7 +38,7 @@ const Accounts = (props) => {
   }
 
   const getUserAccounts = async () => {
-    const response = await axios.get(`${API_URL}/api/bankaccount`, {
+    const response = await axios.get(`${config.API_URL}/api/bankaccount`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -78,11 +77,15 @@ const Accounts = (props) => {
   }
 
   const updateBankAccount = (accountData) => {
-    const response = axios.put(`${API_URL}/api/bankaccount`, accountData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    const response = axios.put(
+      `${config.API_URL}/api/bankaccount`,
+      accountData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
 
     const newAccountList = userAccounts.userAccountData.filter(
       (acc) => acc.ID !== accountData.ID
@@ -106,11 +109,14 @@ const Accounts = (props) => {
   }
 
   const deleteBankAccount = (accountId) => {
-    const response = axios.delete(`${API_URL}/api/bankaccount/${accountId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    const response = axios.delete(
+      `${config.API_URL}/api/bankaccount/${accountId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
 
     const newAccountList = userAccounts.userAccountData.filter(
       (acc) => acc.ID !== accountId

@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import './NewUserSetup.scss'
 import axios from 'axios'
+import config from '../config'
 
 const NewUserSetup = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const [buttonClass, setButtonClass] = useState('button-disabled')
   const [displayPeriod, setDisplayPeriod] = useState('')
 
@@ -19,7 +18,7 @@ const NewUserSetup = () => {
   const updateUserDisplayPeriod = async () => {
     const resp = await axios
       .patch(
-        `${API_URL}/api/user/updateperiod/`,
+        `${config.API_URL}/api/user/updateperiod/`,
         { displayPeriod: displayPeriod },
         {
           headers: {
@@ -29,14 +28,17 @@ const NewUserSetup = () => {
       )
       .then((response) => {
         if (response.status === 200) {
-          //Successfully updated displayPeriod
-          var userToken = localStorage.getItem('temp-token')
+          if (displayPeriod === 'Monthly') {
+            var userToken = localStorage.getItem('temp-token')
 
-          localStorage.removeItem('temp-token')
+            localStorage.removeItem('temp-token')
 
-          localStorage.setItem('token', userToken)
+            localStorage.setItem('token', userToken)
 
-          window.location = '/'
+            window.location = '/'
+          } else if (displayPeriod === 'Wages') {
+            window.location = '/add-wages'
+          }
         }
       })
       .catch((error) => {
@@ -45,7 +47,7 @@ const NewUserSetup = () => {
   }
 
   return (
-    <>
+    <section className="new-user-setup-page">
       <div className="new-user-setup-buffer"></div>
       <div className="new-user-setup">
         <h2>Welcome to Upside Budget Manager</h2>
@@ -80,9 +82,9 @@ const NewUserSetup = () => {
             onClick={updateDisplayPeriod}
           ></input>
           <label for="Wages">
-            By Wages - this option will set your period to be between paychecks.
-            A period will start on the date you get a paycheck, and the period
-            will end the day before your next paycheck is scheduled to be
+            By Paycheck - this option will set your period to be between
+            paychecks. Periods will start on the date you receive a paycheck,
+            and will end the day before your next paycheck is scheduled to be
             recieved. To use this option, you will be prompted to add recurring
             paycheck information.
           </label>
@@ -93,7 +95,7 @@ const NewUserSetup = () => {
           </button>
         </div>
       </div>
-    </>
+    </section>
   )
 }
 

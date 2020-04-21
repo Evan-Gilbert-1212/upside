@@ -3,10 +3,9 @@ import './MaintainExpenses.scss'
 import axios from 'axios'
 import Expenses from '../components/Expenses'
 import ExpensesVertical from '../components/ExpensesVertical'
+import config from '../config'
 
 const MaintainExpenses = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const [expenseInfo, setExpenseInfo] = useState({
     ExpenseCategory: 'Cable & Internet',
     ExpenseName: '',
@@ -56,7 +55,7 @@ const MaintainExpenses = () => {
     console.log(expenseInfo)
 
     const resp = await axios
-      .post(`${API_URL}/api/expense`, expenseInfo, {
+      .post(`${config.API_URL}/api/expense`, expenseInfo, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

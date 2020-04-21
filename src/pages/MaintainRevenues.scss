@@ -24,6 +24,39 @@
   > h4 {
     text-align: center;
   }
+
+  > .setup-message {
+    text-align: center;
+  }
+
+  > .setup-message-hidden {
+    display: none;
+  }
+
+  > .complete-setup-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.35rem;
+    height: 25px;
+    width: 120px;
+    border-radius: 5px;
+    background-color: $primary-green;
+    color: white;
+    border-width: 0;
+  }
+
+  > .complete-setup-button-disabled {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.35rem;
+    height: 25px;
+    width: 120px;
+    border-radius: 5px;
+    background-color: darkgray;
+    color: gray;
+    border-width: 0;
+    pointer-events: none;
+  }
 }
 
 .revenue-input-grid {
@@ -58,6 +91,11 @@
       padding: 0;
       border-radius: 5px;
       background-color: white;
+    }
+
+    > .revenue-category-disabled {
+      opacity: 0.6;
+      pointer-events: none;
     }
 
     > .bad-input {

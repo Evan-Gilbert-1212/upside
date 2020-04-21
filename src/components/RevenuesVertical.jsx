@@ -15,10 +15,9 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import config from '../config'
 
 const Revenues = (props) => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const { displayMode, beginDate, endDate } = props
 
   const [userRevenues, setUserRevenues] = useState({
@@ -43,7 +42,7 @@ const Revenues = (props) => {
 
   const getUserRevenues = async () => {
     if (beginDate != null && endDate != null) {
-      response = await axios.get(`${API_URL}/api/revenue`, {
+      response = await axios.get(`${config.API_URL}/api/revenue`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -52,18 +51,40 @@ const Revenues = (props) => {
           EndDate: endDate,
         },
       })
-    } else {
-      response = await axios.get(`${API_URL}/api/revenue/all`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-    }
 
-    setUserRevenues({
-      userRevenueData: response.data,
-      isLoaded: true,
-    })
+      setUserRevenues({
+        userRevenueData: response.data,
+        isLoaded: true,
+      })
+    } else {
+      if (displayMode === 'Modify') {
+        response = await axios.get(`${config.API_URL}/api/revenue/all`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+
+        setUserRevenues({
+          userRevenueData: response.data,
+          isLoaded: true,
+        })
+      } else if (displayMode === 'Wages') {
+        response = await axios.get(`${config.API_URL}/api/revenue/all`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('temp-token')}`,
+          },
+        })
+
+        const wageRecords = response.data.filter(
+          (item) => item.RevenueCategory === 'Wages'
+        )
+
+        setUserRevenues({
+          userRevenueData: wageRecords,
+          isLoaded: true,
+        })
+      }
+    }
   }
 
   const updateModifiedRecord = (e) => {
@@ -113,7 +134,7 @@ const Revenues = (props) => {
       })
     } else {
       const response = axios
-        .put(`${API_URL}/api/revenue`, revenueData, {
+        .put(`${config.API_URL}/api/revenue`, revenueData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -163,11 +184,14 @@ const Revenues = (props) => {
   }
 
   const deleteRevenue = (revenueId) => {
-    const response = axios.delete(`${API_URL}/api/revenue/${revenueId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    const response = axios.delete(
+      `${config.API_URL}/api/revenue/${revenueId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
 
     const newRevenueList = userRevenues.userRevenueData.filter(
       (rev) => rev.ID !== revenueId
@@ -350,7 +374,7 @@ const Revenues = (props) => {
                       />
                     </span>
                   </div>
-                  {displayMode === 'Modify' && (
+                  {displayMode !== 'View' && (
                     <>
                       <div className="data-row">
                         <span>Modify</span>
@@ -391,7 +415,7 @@ const Revenues = (props) => {
         <>
           <div className="no-records-found">
             No Upcoming Revenues found.{' '}
-            {displayMode !== 'Modify' && (
+            {displayMode === 'View' && (
               <a href="/revenues">Add a new revenue now!</a>
             )}
           </div>

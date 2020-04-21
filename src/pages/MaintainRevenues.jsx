@@ -1,11 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './MaintainRevenues.scss'
 import axios from 'axios'
 import Revenues from '../components/Revenues'
 import RevenuesVertical from '../components/RevenuesVertical'
+import config from '../config'
 
-const MaintainRevenues = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
+const MaintainRevenues = (props) => {
+  const mode = props.mode
+
+  let screenHeader = ''
+  let screenCaption = ''
+  let summaryCaption = ''
+  let categoryClassName = ''
+  let revenueGridMode = ''
+
+  if (mode === 'Wages') {
+    screenHeader = 'Wages'
+    screenCaption = 'Add Wages'
+    categoryClassName = 'revenue-category-disabled'
+    summaryCaption = 'Your Wages'
+    revenueGridMode = 'Wages'
+  } else {
+    screenHeader = 'Revenues'
+    screenCaption = 'Add Revenues'
+    categoryClassName = ''
+    summaryCaption = 'Your Revenues'
+    revenueGridMode = 'Modify'
+  }
 
   const [revenueInfo, setRevenueInfo] = useState({
     RevenueCategory: 'Wages',
@@ -20,6 +41,30 @@ const MaintainRevenues = () => {
     revenueDateClass: '',
     revenueAmountClass: '',
   })
+
+  const [setupItemClasses, setSetupItemClasses] = useState({
+    setupMessageClass: 'setup-message',
+    setupButtonClass: 'complete-setup-button-disabled',
+  })
+
+  const CheckForWagesRecords = async () => {
+    const response = await axios.get(`${config.API_URL}/api/revenue/all`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('temp-token')}`,
+      },
+    })
+
+    const wagesRecords = response.data.filter(
+      (item) => item.RevenueCategory === 'Wages'
+    )
+
+    if (wagesRecords.length > 0) {
+      setSetupItemClasses({
+        setupMessageClass: 'setup-message-hidden',
+        setupButtonClass: 'complete-setup-button',
+      })
+    }
+  }
 
   const updateRevenueInfo = (e) => {
     const fieldName = e.target.name
@@ -52,16 +97,38 @@ const MaintainRevenues = () => {
     })
   }
 
+  const completeUserSetup = () => {
+    var userToken = localStorage.getItem('temp-token')
+
+    localStorage.removeItem('temp-token')
+
+    localStorage.setItem('token', userToken)
+
+    window.location = '/'
+  }
+
   const addRevenueToDb = async () => {
+    const token = ''
+
+    if (mode === 'Wages') {
+      token = localStorage.getItem('temp-token')
+    } else {
+      token = localStorage.getItem('token')
+    }
+
     const resp = await axios
-      .post(`${API_URL}/api/revenue`, revenueInfo, {
+      .post(`${config.API_URL}/api/revenue`, revenueInfo, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
         if (response.status === 201) {
-          window.location = '/revenues'
+          if (mode === 'Wages') {
+            window.location = '/add-wages'
+          } else {
+            window.location = '/revenues'
+          }
         }
       })
       .catch((error) => {
@@ -80,17 +147,26 @@ const MaintainRevenues = () => {
         }
       })
   }
+  useEffect(() => {
+    if (mode === 'Wages') {
+      CheckForWagesRecords()
+    }
+  }, [])
 
   return (
     <section className="page-background">
       <div className="revenue-buffer"></div>
       <section className="revenue-entry-form">
-        <h2>Revenues</h2>
-        <h4>Add Revenue</h4>
+        <h2>{screenHeader}</h2>
+        <h4>{screenCaption}</h4>
         <section className="revenue-input-grid">
           <div>
             <label>Revenue Type</label>
-            <select name="RevenueCategory" onChange={updateRevenueInfo}>
+            <select
+              name="RevenueCategory"
+              className={categoryClassName}
+              onChange={updateRevenueInfo}
+            >
               <option value="Wages">Wages</option>
               <option value="IRS Tax Refund">IRS Tax Refund</option>
               <option value="Interest">Interest</option>
@@ -129,23 +205,36 @@ const MaintainRevenues = () => {
           <div>
             <label>Recurring Frequency</label>
             <select name="RecurringFrequency" onChange={updateRevenueInfo}>
-              <option value="One Time">One Time</option>
+              {mode !== 'Wages' && <option value="One Time">One Time</option>}
               <option value="Weekly">Weekly</option>
               <option value="Bi-Weekly">Bi-Weekly</option>
               <option value="Monthly">Monthly</option>
               <option value="Annually">Annually</option>
             </select>
           </div>
-          <button onClick={addRevenueToDb}>Add Revenue</button>
+          <button onClick={addRevenueToDb}>{screenCaption}</button>
         </section>
         <label className="add-revenue-error-message">
           {errorResult.errorMessage}
         </label>
+        {mode === 'Wages' && (
+          <>
+            <label className={setupItemClasses.setupMessageClass}>
+              To complete setup, add at least 1 recurring "Wages" transaction.
+            </label>
+            <button
+              className={setupItemClasses.setupButtonClass}
+              onClick={completeUserSetup}
+            >
+              Complete Setup
+            </button>
+          </>
+        )}
       </section>
       <section className="revenue-display">
-        <h4>Your Revenues</h4>
-        <Revenues displayMode="Modify" />
-        <RevenuesVertical displayMode="Modify" />
+        <h4>{summaryCaption}</h4>
+        <Revenues displayMode={revenueGridMode} />
+        <RevenuesVertical displayMode={revenueGridMode} />
       </section>
     </section>
   )

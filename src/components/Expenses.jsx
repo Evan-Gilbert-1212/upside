@@ -15,10 +15,9 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import config from '../config'
 
 const Expenses = (props) => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const { displayMode, beginDate, endDate } = props
 
   const [userExpenses, setUserExpenses] = useState({
@@ -49,7 +48,7 @@ const Expenses = (props) => {
 
   const getUserExpenses = async () => {
     if (beginDate != null && endDate != null) {
-      response = await axios.get(`${API_URL}/api/expense`, {
+      response = await axios.get(`${config.API_URL}/api/expense`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -59,7 +58,7 @@ const Expenses = (props) => {
         },
       })
     } else {
-      response = await axios.get(`${API_URL}/api/expense/all`, {
+      response = await axios.get(`${config.API_URL}/api/expense/all`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -119,7 +118,7 @@ const Expenses = (props) => {
       })
     } else {
       const resp = axios
-        .put(`${API_URL}/api/expense`, expenseData, {
+        .put(`${config.API_URL}/api/expense`, expenseData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -169,11 +168,14 @@ const Expenses = (props) => {
   }
 
   const deleteExpense = (expenseId) => {
-    const response = axios.delete(`${API_URL}/api/expense/${expenseId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    const response = axios.delete(
+      `${config.API_URL}/api/expense/${expenseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
 
     const newExpenseList = userExpenses.userExpenseData.filter(
       (exp) => exp.ID !== expenseId

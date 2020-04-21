@@ -14,10 +14,9 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import config from '../config'
 
 const CreditCards = (props) => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const { displayMode } = props
 
   const [userCreditCards, setUserCreditCards] = useState({
@@ -44,7 +43,7 @@ const CreditCards = (props) => {
   }
 
   const getUserCreditCards = async () => {
-    const response = await axios.get(`${API_URL}/api/creditcard`, {
+    const response = await axios.get(`${config.API_URL}/api/creditcard`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -92,7 +91,7 @@ const CreditCards = (props) => {
 
   const updateCreditCard = (creditCardData) => {
     const resp = axios
-      .put(`${API_URL}/api/creditcard`, creditCardData, {
+      .put(`${config.API_URL}/api/creditcard`, creditCardData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -136,11 +135,14 @@ const CreditCards = (props) => {
   }
 
   const deleteCreditCard = (creditCardId) => {
-    const response = axios.delete(`${API_URL}/api/creditcard/${creditCardId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+    const response = axios.delete(
+      `${config.API_URL}/api/creditcard/${creditCardId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
 
     const newCreditCardList = userCreditCards.userCreditCardData.filter(
       (card) => card.ID !== creditCardId

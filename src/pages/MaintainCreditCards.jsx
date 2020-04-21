@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import './MaintainCreditCards.scss'
 import axios from 'axios'
 import CreditCards from '../components/CreditCards'
+import config from '../config'
 
 const MaintainCreditCards = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const [cardInfo, setCardInfo] = useState({
     CardIssuer: '',
     AccountBalance: 0,
@@ -35,7 +34,7 @@ const MaintainCreditCards = () => {
 
   const addCreditCardToDb = async () => {
     const resp = await axios
-      .post(`${API_URL}/api/creditcard`, cardInfo, {
+      .post(`${config.API_URL}/api/creditcard`, cardInfo, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

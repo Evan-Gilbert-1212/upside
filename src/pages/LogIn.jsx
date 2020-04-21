@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import './LogIn.scss'
+import config from '../config'
 
 const LogIn = () => {
-  const API_URL = 'https://upside-api.herokuapp.com'
-
   const [userData, setUserData] = useState({})
 
   const updateUserData = (e) => {
@@ -21,7 +20,7 @@ const LogIn = () => {
 
   const LogInUser = async () => {
     const resp = await axios
-      .post(`${API_URL}/auth/login`, userData)
+      .post(`${config.API_URL}/auth/login`, userData)
       .then((response) => {
         if (response.status === 200) {
           if (response.data.userInfo.displayPeriod === null) {
