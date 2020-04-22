@@ -34,10 +34,6 @@ const NewUserSetup = () => {
 
           localStorage.setItem('token', userToken)
 
-          var expirationDate = new Date()
-          expirationDate.setHours(expirationDate.getHours() + 10)
-          localStorage.setItem('exp-date', expirationDate)
-
           if (displayPeriod === 'Monthly') {
             window.location = '/'
           } else if (displayPeriod === 'Wages') {

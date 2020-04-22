@@ -26,18 +26,8 @@ import AccountSettings from './pages/AccountSettings'
 const App = () => {
   const logout = () => {
     localStorage.removeItem('token')
-    localStorage.removeItem('exp-date')
 
     window.location = '/login'
-  }
-
-  if (localStorage.getItem('exp-date')) {
-    if (Date.parse(localStorage.getItem('exp-date')) < new Date()) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('exp-date')
-
-      window.location = '/login'
-    }
   }
 
   if (localStorage.getItem('temp-token')) {
