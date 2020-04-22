@@ -37,6 +37,10 @@ const LogIn = () => {
           } else {
             localStorage.setItem('token', response.data.token)
 
+            var expirationDate = new Date()
+            expirationDate.setHours(expirationDate.getHours() + 10)
+            localStorage.setItem('exp-date', expirationDate)
+
             window.location = '/'
           }
         }

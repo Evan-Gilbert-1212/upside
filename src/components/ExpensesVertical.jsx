@@ -38,6 +38,12 @@ const ExpensesVertical = (props) => {
     expenseAmountClass: 'expense-amount-edit-vertical',
   })
 
+  const [filters, setFilters] = useState({
+    FilterCategory: '',
+    FilterDueDate: '',
+    FilterAmount: 0,
+  })
+
   let response = {}
 
   const getUserExpenses = async () => {
@@ -186,6 +192,31 @@ const ExpensesVertical = (props) => {
     })
   }
 
+  const filterExpenses = (e) => {
+    const fieldName = e.target.name
+    const fieldValue = e.target.value
+
+    setFilters((prevFilter) => {
+      if (typeof prevFilter[fieldName] === 'number') {
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevFilter, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevFilter, [fieldName]: 0 }
+        }
+      } else {
+        return { ...prevFilter, [fieldName]: fieldValue }
+      }
+    })
+  }
+
+  const clearFilters = () => {
+    setFilters({
+      FilterCategory: '',
+      FilterDueDate: '',
+      FilterAmount: 0,
+    })
+  }
+
   useEffect(() => {
     getUserExpenses()
   }, [])
@@ -231,170 +262,243 @@ const ExpensesVertical = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {displayMode === 'Modify' && (
+        <div className="filter-section">
+          <div className="expense-divider"></div>
+          <p>Filters</p>
+          <div className="data-row">
+            <span>Category</span>
+            <select
+              name="FilterCategory"
+              className="expense-column-1"
+              value={filters.FilterCategory}
+              onChange={filterExpenses}
+            >
+              <option value="" disabled selected hidden>
+                Category Filter
+              </option>
+              <option value="Cable & Internet">Cable & Internet</option>
+              <option value="Car - Gas">Car - Gas</option>
+              <option value="Car - Insurance">Car - Insurance</option>
+              <option value="Cell Phone">Cell Phone</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Food">Food</option>
+              <option value="Health Insurance">Health Insurance</option>
+              <option value="Utilities - Gas">Utilities - Gas</option>
+              <option value="Utilities - Electricity">
+                Utilities - Electricity
+              </option>
+              <option value="Rent">Rent</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div className="data-row">
+            <span>Receipt Date</span>
+            <input
+              type="date"
+              name="FilterDueDate"
+              className="expense-column-3"
+              value={filters.FilterDueDate}
+              onChange={filterExpenses}
+            ></input>
+          </div>
+          <div className="data-row">
+            <span>Amount</span>
+            <span className="expense-column-4">
+              <input
+                type="text"
+                name="FilterAmount"
+                value={filters.FilterAmount}
+                onChange={filterExpenses}
+              ></input>
+            </span>
+          </div>
+          <div className="button-section">
+            <button className="expense-column-button" onClick={clearFilters}>
+              Clear Filters
+            </button>
+          </div>
+        </div>
+      )}
       <div className="expense-divider"></div>
       {!userExpenses.isLoaded ? (
         <LoadingIcon />
       ) : userExpenses.userExpenseData.length > 0 ? (
-        userExpenses.userExpenseData.map((expense) => {
-          return (
-            <div key={expense.ID} className="vertical-display">
-              {expense.ID === modifiedRecord.ID ? (
-                <>
-                  <div className="data-row">
-                    <span>Category</span>
-                    <select
-                      name="ExpenseCategory"
-                      className="expense-category-edit-vertical"
-                      value={modifiedRecord.ExpenseCategory}
-                      onChange={updateModifiedRecord}
-                    >
-                      <option value="Cable & Internet">Cable & Internet</option>
-                      <option value="Car - Gas">Car - Gas</option>
-                      <option value="Car - Insurance">Car - Insurance</option>
-                      <option value="Cell Phone">Cell Phone</option>
-                      <option value="Education">Education</option>
-                      <option value="Entertainment">Entertainment</option>
-                      <option value="Food">Food</option>
-                      <option value="Health Insurance">Health Insurance</option>
-                      <option value="Utilities - Gas">Utilities - Gas</option>
-                      <option value="Utilities - Electricity">
-                        Utilities - Electricity
-                      </option>
-                      <option value="Rent">Rent</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                  <div className="data-row">
-                    <span>Description</span>
-                    <input
-                      type="text"
-                      name="ExpenseName"
-                      className="expense-name-edit-vertical"
-                      value={modifiedRecord.ExpenseName}
-                      onChange={updateModifiedRecord}
-                    ></input>
-                  </div>
-                  <div className="data-row">
-                    <span>Due Date</span>
-                    <input
-                      type="date"
-                      name="ExpenseDate"
-                      className={errorResult.expenseDateClass}
-                      value={modifiedRecord.ExpenseDate}
-                      onChange={updateModifiedRecord}
-                    ></input>
-                  </div>
-                  {errorResult.errorMessage.includes('Due Date') && (
-                    <div className="modify-error-message">
-                      <label>{errorResult.errorMessage}</label>
+        userExpenses.userExpenseData
+          .filter(
+            (expense) =>
+              expense.ExpenseCategory.includes(filters.FilterCategory) &&
+              expense.ExpenseDate.includes(filters.FilterDueDate) &&
+              (expense.ExpenseAmount === filters.FilterAmount ||
+                filters.FilterAmount === 0)
+          )
+          .map((expense) => {
+            return (
+              <div key={expense.ID} className="vertical-display">
+                {expense.ID === modifiedRecord.ID ? (
+                  <>
+                    <div className="data-row">
+                      <span>Category</span>
+                      <select
+                        name="ExpenseCategory"
+                        className="expense-category-edit-vertical"
+                        value={modifiedRecord.ExpenseCategory}
+                        onChange={updateModifiedRecord}
+                      >
+                        <option value="Cable & Internet">
+                          Cable & Internet
+                        </option>
+                        <option value="Car - Gas">Car - Gas</option>
+                        <option value="Car - Insurance">Car - Insurance</option>
+                        <option value="Cell Phone">Cell Phone</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Food">Food</option>
+                        <option value="Health Insurance">
+                          Health Insurance
+                        </option>
+                        <option value="Utilities - Gas">Utilities - Gas</option>
+                        <option value="Utilities - Electricity">
+                          Utilities - Electricity
+                        </option>
+                        <option value="Rent">Rent</option>
+                        <option value="Other">Other</option>
+                      </select>
                     </div>
-                  )}
-                  <div className="data-row">
-                    <span>Amount</span>
-                    <input
-                      type="text"
-                      name="ExpenseAmount"
-                      className={errorResult.expenseAmountClass}
-                      value={modifiedRecord.ExpenseAmount}
-                      onChange={updateModifiedRecord}
-                    ></input>
-                  </div>
-                  {errorResult.errorMessage.includes('Amount') && (
-                    <div className="modify-error-message">
-                      <label>{errorResult.errorMessage}</label>
+                    <div className="data-row">
+                      <span>Description</span>
+                      <input
+                        type="text"
+                        name="ExpenseName"
+                        className="expense-name-edit-vertical"
+                        value={modifiedRecord.ExpenseName}
+                        onChange={updateModifiedRecord}
+                      ></input>
                     </div>
-                  )}
-                  <div className="data-row">
-                    <span>Update</span>
-                    <span
-                      className="action-icon"
-                      onClick={() => {
-                        updateExpense(modifiedRecord)
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faCheck} />
-                    </span>
-                  </div>
-                  <div className="data-row">
-                    <span>Cancel</span>
-                    <span
-                      className="action-icon"
-                      onClick={() => {
-                        clearModifiedRecord()
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTimes} />
-                    </span>
-                  </div>
-                  <div className="expense-divider"></div>
-                </>
-              ) : (
-                <>
-                  <div className="data-row">
-                    <span>Category</span>
-                    <span>{expense.ExpenseCategory}</span>
-                  </div>
-                  <div className="data-row">
-                    <span>Description</span>
-                    <span>{expense.ExpenseName}</span>
-                  </div>
-                  <div className="data-row">
-                    <span>Due Date</span>
-                    <span>
-                      <Moment format="MM/DD/YYYY">{expense.ExpenseDate}</Moment>
-                    </span>
-                  </div>
-                  <div className="data-row">
-                    <span>Amount</span>
-                    <span>
-                      {' '}
-                      <NumberFormat
-                        value={expense.ExpenseAmount}
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        decimalScale={2}
-                        fixedDecimalScale={true}
-                        prefix={'$'}
-                      />
-                    </span>
-                  </div>
-                  {displayMode === 'Modify' && (
-                    <>
-                      <div className="data-row">
-                        <span>Modify</span>
-                        <span
-                          className="action-icon"
-                          onClick={() => {
-                            modifyExpense(expense)
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </span>
+                    <div className="data-row">
+                      <span>Due Date</span>
+                      <input
+                        type="date"
+                        name="ExpenseDate"
+                        className={errorResult.expenseDateClass}
+                        value={modifiedRecord.ExpenseDate}
+                        onChange={updateModifiedRecord}
+                      ></input>
+                    </div>
+                    {errorResult.errorMessage.includes('Due Date') && (
+                      <div className="modify-error-message">
+                        <label>{errorResult.errorMessage}</label>
                       </div>
-                      <div className="data-row">
-                        <span>Delete</span>
-                        <span className="action-icon">
-                          <Button
-                            className="dialog-action-icon"
+                    )}
+                    <div className="data-row">
+                      <span>Amount</span>
+                      <input
+                        type="text"
+                        name="ExpenseAmount"
+                        className={errorResult.expenseAmountClass}
+                        value={modifiedRecord.ExpenseAmount}
+                        onChange={updateModifiedRecord}
+                      ></input>
+                    </div>
+                    {errorResult.errorMessage.includes('Amount') && (
+                      <div className="modify-error-message">
+                        <label>{errorResult.errorMessage}</label>
+                      </div>
+                    )}
+                    <div className="data-row">
+                      <span>Update</span>
+                      <span
+                        className="action-icon"
+                        onClick={() => {
+                          updateExpense(modifiedRecord)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>
+                    </div>
+                    <div className="data-row">
+                      <span>Cancel</span>
+                      <span
+                        className="action-icon"
+                        onClick={() => {
+                          clearModifiedRecord()
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTimes} />
+                      </span>
+                    </div>
+                    <div className="expense-divider"></div>
+                  </>
+                ) : (
+                  <>
+                    <div className="data-row">
+                      <span>Category</span>
+                      <span>{expense.ExpenseCategory}</span>
+                    </div>
+                    <div className="data-row">
+                      <span>Description</span>
+                      <span>{expense.ExpenseName}</span>
+                    </div>
+                    <div className="data-row">
+                      <span>Due Date</span>
+                      <span>
+                        <Moment format="MM/DD/YYYY">
+                          {expense.ExpenseDate}
+                        </Moment>
+                      </span>
+                    </div>
+                    <div className="data-row">
+                      <span>Amount</span>
+                      <span>
+                        {' '}
+                        <NumberFormat
+                          value={expense.ExpenseAmount}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          decimalScale={2}
+                          fixedDecimalScale={true}
+                          prefix={'$'}
+                        />
+                      </span>
+                    </div>
+                    {displayMode === 'Modify' && (
+                      <>
+                        <div className="data-row">
+                          <span>Modify</span>
+                          <span
+                            className="action-icon"
                             onClick={() => {
-                              setDeleteDialogInfo({
-                                isOpen: true,
-                                expenseId: expense.ID,
-                              })
+                              modifyExpense(expense)
                             }}
                           >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </Button>
-                        </span>
-                      </div>
-                    </>
-                  )}
-                  <div className="expense-divider"></div>
-                </>
-              )}
-            </div>
-          )
-        })
+                            <FontAwesomeIcon icon={faEdit} />
+                          </span>
+                        </div>
+                        <div className="data-row">
+                          <span>Delete</span>
+                          <span className="action-icon">
+                            <Button
+                              className="dialog-action-icon"
+                              onClick={() => {
+                                setDeleteDialogInfo({
+                                  isOpen: true,
+                                  expenseId: expense.ID,
+                                })
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    <div className="expense-divider"></div>
+                  </>
+                )}
+              </div>
+            )
+          })
       ) : (
         <>
           <div className="no-records-found">
@@ -411,10 +515,15 @@ const ExpensesVertical = (props) => {
         <span>
           {userExpenses.isLoaded && (
             <NumberFormat
-              value={userExpenses.userExpenseData.reduce(
-                (sum, expense) => sum + expense.ExpenseAmount,
-                0
-              )}
+              value={userExpenses.userExpenseData
+                .filter(
+                  (expense) =>
+                    expense.ExpenseCategory.includes(filters.FilterCategory) &&
+                    expense.ExpenseDate.includes(filters.FilterDueDate) &&
+                    (expense.ExpenseAmount === filters.FilterAmount ||
+                      filters.FilterAmount === 0)
+                )
+                .reduce((sum, expense) => sum + expense.ExpenseAmount, 0)}
               displayType={'text'}
               thousandSeparator={true}
               decimalScale={2}

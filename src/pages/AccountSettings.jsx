@@ -6,6 +6,7 @@ import config from '../config'
 const AccountSettings = () => {
   const [displayPeriod, setDisplayPeriod] = useState('')
   const [hasWagesRecords, setHasWagesRecords] = useState(false)
+  const [tokenValidated, setTokenValidated] = useState('')
 
   const CheckForWagesRecords = async () => {
     if (displayPeriod === 'Wages') {
@@ -40,10 +41,10 @@ const AccountSettings = () => {
       )
       .then((response) => {
         if (response.status === 200) {
-          //Successfully Saved
           //If user selected "By Paycheck" and has no wage records, redirect them to Add Wages
-          //if (displayPeriod === 'Wages' && !hasWageRecords)
-          //  Redirect
+          if (displayPeriod === 'Wages' && !hasWagesRecords) {
+            window.location = '/add-wages'
+          }
         }
       })
       .catch((error) => {
@@ -59,6 +60,18 @@ const AccountSettings = () => {
     })
 
     setDisplayPeriod(response.data.DisplayPeriod)
+  }
+
+  const validateToken = async () => {
+    const response = await axios.post(`${config.API_URL}/auth/verifytoken`, {
+      tokenToValidate: localStorage.getItem('token'),
+    })
+
+    if (response.data === true) {
+      setTokenValidated('Validated')
+    } else {
+      setTokenValidated('Not Validated')
+    }
   }
 
   useEffect(() => {
@@ -125,6 +138,10 @@ const AccountSettings = () => {
         <button className="save-settings-button" onClick={saveSettings}>
           Save Settings
         </button>
+      </div>
+      <div className="test-section">
+        <button onClick={validateToken}>Validate Token</button>
+        <label>{tokenValidated}</label>
       </div>
     </div>
   )

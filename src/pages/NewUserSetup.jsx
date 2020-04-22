@@ -28,13 +28,17 @@ const NewUserSetup = () => {
       )
       .then((response) => {
         if (response.status === 200) {
+          var userToken = localStorage.getItem('temp-token')
+
+          localStorage.removeItem('temp-token')
+
+          localStorage.setItem('token', userToken)
+
+          var expirationDate = new Date()
+          expirationDate.setHours(expirationDate.getHours() + 10)
+          localStorage.setItem('exp-date', expirationDate)
+
           if (displayPeriod === 'Monthly') {
-            var userToken = localStorage.getItem('temp-token')
-
-            localStorage.removeItem('temp-token')
-
-            localStorage.setItem('token', userToken)
-
             window.location = '/'
           } else if (displayPeriod === 'Wages') {
             window.location = '/add-wages'

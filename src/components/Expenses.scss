@@ -1,5 +1,64 @@
 @import '../_variables.scss';
 
+.filter-section {
+  > p {
+    margin: 0;
+    margin-top: 0.25rem;
+  }
+
+  > div {
+    > select {
+      width: 115px;
+      height: 21px;
+      margin: 0;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding: 0;
+      border-radius: 5px;
+      background-color: white;
+    }
+
+    > input[type='date'] {
+      width: 115px;
+      height: 19px;
+      margin: 0;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding: 0;
+      border: 1px solid #a9a9a9;
+      border-radius: 5px;
+      background-color: white;
+    }
+
+    > span {
+      margin-top: auto;
+      margin-bottom: auto;
+      > input[type='text'] {
+        width: 85px;
+        height: 19px;
+        margin: 0;
+        padding: 0;
+        border: 1px solid #a9a9a9;
+        border-radius: 5px;
+        text-align: right;
+      }
+    }
+
+    > .expense-column-button {
+      grid-column-start: 5;
+      grid-column-end: 7;
+      margin-left: auto;
+      margin-right: auto;
+      height: 25px;
+      width: 100px;
+      border-radius: 5px;
+      background-color: $primary-green;
+      color: white;
+      border-width: 0;
+    }
+  }
+}
+
 .expense-row {
   display: grid;
   grid-template-columns: 25% 35% 25% 15%;

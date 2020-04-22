@@ -242,16 +242,8 @@ const RecurringTransactionsVertical = (props) => {
                   <>
                     <div className="data-row">
                       <span>Transaction Type</span>
-                      <span>
-                        <select
-                          name="TransactionType"
-                          className="transaction-type-edit-vertical"
-                          value={modifiedRecord.TransactionType}
-                          onChange={updateModifiedRecord}
-                        >
-                          <option value="Expense">Expense</option>
-                          <option value="Revenue">Revenue</option>
-                        </select>
+                      <span className="recurring-trans-column-1">
+                        {modifiedRecord.TransactionType}
                       </span>
                     </div>
                     <div className="data-row">

@@ -50,7 +50,7 @@ const MaintainRevenues = (props) => {
   const CheckForWagesRecords = async () => {
     const response = await axios.get(`${config.API_URL}/api/revenue/all`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('temp-token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
 
@@ -98,28 +98,14 @@ const MaintainRevenues = (props) => {
   }
 
   const completeUserSetup = () => {
-    var userToken = localStorage.getItem('temp-token')
-
-    localStorage.removeItem('temp-token')
-
-    localStorage.setItem('token', userToken)
-
     window.location = '/'
   }
 
   const addRevenueToDb = async () => {
-    const token = ''
-
-    if (mode === 'Wages') {
-      token = localStorage.getItem('temp-token')
-    } else {
-      token = localStorage.getItem('token')
-    }
-
     const resp = await axios
       .post(`${config.API_URL}/api/revenue`, revenueInfo, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       })
       .then((response) => {

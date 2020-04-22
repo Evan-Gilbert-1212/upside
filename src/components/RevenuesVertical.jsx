@@ -38,6 +38,12 @@ const Revenues = (props) => {
     revenueAmountClass: 'revenue-amount-edit-vertical',
   })
 
+  const [filters, setFilters] = useState({
+    FilterCategory: '',
+    FilterReceiptDate: '',
+    FilterAmount: 0,
+  })
+
   let response = {}
 
   const getUserRevenues = async () => {
@@ -208,6 +214,31 @@ const Revenues = (props) => {
     })
   }
 
+  const filterRevenues = (e) => {
+    const fieldName = e.target.name
+    const fieldValue = e.target.value
+
+    setFilters((prevFilter) => {
+      if (typeof prevFilter[fieldName] === 'number') {
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevFilter, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevFilter, [fieldName]: 0 }
+        }
+      } else {
+        return { ...prevFilter, [fieldName]: fieldValue }
+      }
+    })
+  }
+
+  const clearFilters = () => {
+    setFilters({
+      FilterCategory: '',
+      FilterReceiptDate: '',
+      FilterAmount: 0,
+    })
+  }
+
   useEffect(() => {
     getUserRevenues()
   }, [])
@@ -253,164 +284,223 @@ const Revenues = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {displayMode === 'Modify' && (
+        <div className="filter-section">
+          <div className="revenue-divider"></div>
+          <p>Filters</p>
+          <div className="data-row">
+            <span>Category</span>
+            <select
+              name="FilterCategory"
+              className="revenue-column-1"
+              value={filters.FilterCategory}
+              onChange={filterRevenues}
+            >
+              <option value="" disabled selected hidden>
+                Category Filter
+              </option>
+              <option value="Wages">Wages</option>
+              <option value="IRS Tax Refund">IRS Tax Refund</option>
+              <option value="Interest">Interest</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div className="data-row">
+            <span>Receipt Date</span>
+            <input
+              type="date"
+              name="FilterReceiptDate"
+              className="revenue-column-3"
+              value={filters.FilterReceiptDate}
+              onChange={filterRevenues}
+            ></input>
+          </div>
+          <div className="data-row">
+            <span>Amount</span>
+            <span className="revenue-column-4">
+              <input
+                type="text"
+                name="FilterAmount"
+                value={filters.FilterAmount}
+                onChange={filterRevenues}
+              ></input>
+            </span>
+          </div>
+          <div className="button-section">
+            <button className="revenue-column-button" onClick={clearFilters}>
+              Clear Filters
+            </button>
+          </div>
+        </div>
+      )}
       <div className="revenue-divider"></div>
       {!userRevenues.isLoaded ? (
         <LoadingIcon />
       ) : userRevenues.userRevenueData.length > 0 ? (
-        userRevenues.userRevenueData.map((revenue) => {
-          return (
-            <div key={revenue.ID} className="vertical-display">
-              {revenue.ID === modifiedRecord.ID ? (
-                <>
-                  <div className="data-row">
-                    <span>Category</span>
-                    <select
-                      name="RevenueCategory"
-                      className="revenue-category-edit-vertical"
-                      value={modifiedRecord.RevenueCategory}
-                      onChange={updateModifiedRecord}
-                    >
-                      <option value="Wages">Wages</option>
-                      <option value="IRS Tax Refund">IRS Tax Refund</option>
-                      <option value="Interest">Interest</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                  <div className="data-row">
-                    <span>Description</span>
-                    <input
-                      type="text"
-                      name="RevenueName"
-                      className="revenue-name-edit-vertical"
-                      value={modifiedRecord.RevenueName}
-                      onChange={updateModifiedRecord}
-                    ></input>
-                  </div>
-                  <div className="data-row">
-                    <span>Receipt Date</span>
-                    <input
-                      type="date"
-                      name="RevenueDate"
-                      className={errorResult.revenueDateClass}
-                      value={modifiedRecord.RevenueDate}
-                      onChange={updateModifiedRecord}
-                    ></input>
-                  </div>
-                  {errorResult.errorMessage.includes('Receipt Date') && (
-                    <div className="modify-error-message">
-                      <label>{errorResult.errorMessage}</label>
+        userRevenues.userRevenueData
+          .filter(
+            (revenue) =>
+              revenue.RevenueCategory.includes(filters.FilterCategory) &&
+              revenue.RevenueDate.includes(filters.FilterReceiptDate) &&
+              (revenue.RevenueAmount === filters.FilterAmount ||
+                filters.FilterAmount === 0)
+          )
+          .map((revenue) => {
+            return (
+              <div key={revenue.ID} className="vertical-display">
+                {revenue.ID === modifiedRecord.ID ? (
+                  <>
+                    <div className="data-row">
+                      <span>Category</span>
+                      <select
+                        name="RevenueCategory"
+                        className="revenue-category-edit-vertical"
+                        value={modifiedRecord.RevenueCategory}
+                        onChange={updateModifiedRecord}
+                      >
+                        <option value="Wages">Wages</option>
+                        <option value="IRS Tax Refund">IRS Tax Refund</option>
+                        <option value="Interest">Interest</option>
+                        <option value="Other">Other</option>
+                      </select>
                     </div>
-                  )}
-                  <div className="data-row">
-                    <span>Amount</span>
-                    <input
-                      type="text"
-                      name="RevenueAmount"
-                      className={errorResult.revenueAmountClass}
-                      value={modifiedRecord.RevenueAmount}
-                      onChange={updateModifiedRecord}
-                    ></input>
-                  </div>
-                  {errorResult.errorMessage.includes('Amount') && (
-                    <div className="modify-error-message">
-                      <label>{errorResult.errorMessage}</label>
+                    <div className="data-row">
+                      <span>Description</span>
+                      <input
+                        type="text"
+                        name="RevenueName"
+                        className="revenue-name-edit-vertical"
+                        value={modifiedRecord.RevenueName}
+                        onChange={updateModifiedRecord}
+                      ></input>
                     </div>
-                  )}
-                  <div className="data-row">
-                    <span>Update</span>
-                    <span
-                      className="action-icon"
-                      onClick={() => {
-                        updateRevenue(modifiedRecord)
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faCheck} />
-                    </span>
-                  </div>
-                  <div className="data-row">
-                    <span>Cancel</span>
-                    <span
-                      className="action-icon"
-                      onClick={() => {
-                        clearModifiedRecord()
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTimes} />
-                    </span>
-                  </div>
-                  <div className="revenue-divider"></div>
-                </>
-              ) : (
-                <>
-                  <div className="data-row">
-                    <span>Category</span>
-                    <span className="revenue-column-1">
-                      {revenue.RevenueCategory}
-                    </span>
-                  </div>
-                  <div className="data-row">
-                    <span>Description</span>
-                    <span className="revenue-column-2">
-                      {revenue.RevenueName}
-                    </span>
-                  </div>
-                  <div className="data-row">
-                    <span>Receipt Date</span>
-                    <span className="revenue-column-3">
-                      <Moment format="MM/DD/YYYY">{revenue.RevenueDate}</Moment>
-                    </span>
-                  </div>
-                  <div className="data-row">
-                    <span>Amount</span>
-                    <span className="revenue-column-4">
-                      {' '}
-                      <NumberFormat
-                        value={revenue.RevenueAmount}
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        decimalScale={2}
-                        fixedDecimalScale={true}
-                        prefix={'$'}
-                      />
-                    </span>
-                  </div>
-                  {displayMode !== 'View' && (
-                    <>
-                      <div className="data-row">
-                        <span>Modify</span>
-                        <span
-                          className="action-icon"
-                          onClick={() => {
-                            modifyRevenue(revenue)
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </span>
+                    <div className="data-row">
+                      <span>Receipt Date</span>
+                      <input
+                        type="date"
+                        name="RevenueDate"
+                        className={errorResult.revenueDateClass}
+                        value={modifiedRecord.RevenueDate}
+                        onChange={updateModifiedRecord}
+                      ></input>
+                    </div>
+                    {errorResult.errorMessage.includes('Receipt Date') && (
+                      <div className="modify-error-message">
+                        <label>{errorResult.errorMessage}</label>
                       </div>
-                      <div className="data-row">
-                        <span>Delete</span>
-                        <span className="action-icon">
-                          <Button
-                            className="dialog-action-icon"
+                    )}
+                    <div className="data-row">
+                      <span>Amount</span>
+                      <input
+                        type="text"
+                        name="RevenueAmount"
+                        className={errorResult.revenueAmountClass}
+                        value={modifiedRecord.RevenueAmount}
+                        onChange={updateModifiedRecord}
+                      ></input>
+                    </div>
+                    {errorResult.errorMessage.includes('Amount') && (
+                      <div className="modify-error-message">
+                        <label>{errorResult.errorMessage}</label>
+                      </div>
+                    )}
+                    <div className="data-row">
+                      <span>Update</span>
+                      <span
+                        className="action-icon"
+                        onClick={() => {
+                          updateRevenue(modifiedRecord)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>
+                    </div>
+                    <div className="data-row">
+                      <span>Cancel</span>
+                      <span
+                        className="action-icon"
+                        onClick={() => {
+                          clearModifiedRecord()
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTimes} />
+                      </span>
+                    </div>
+                    <div className="revenue-divider"></div>
+                  </>
+                ) : (
+                  <>
+                    <div className="data-row">
+                      <span>Category</span>
+                      <span className="revenue-column-1">
+                        {revenue.RevenueCategory}
+                      </span>
+                    </div>
+                    <div className="data-row">
+                      <span>Description</span>
+                      <span className="revenue-column-2">
+                        {revenue.RevenueName}
+                      </span>
+                    </div>
+                    <div className="data-row">
+                      <span>Receipt Date</span>
+                      <span className="revenue-column-3">
+                        <Moment format="MM/DD/YYYY">
+                          {revenue.RevenueDate}
+                        </Moment>
+                      </span>
+                    </div>
+                    <div className="data-row">
+                      <span>Amount</span>
+                      <span className="revenue-column-4">
+                        {' '}
+                        <NumberFormat
+                          value={revenue.RevenueAmount}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          decimalScale={2}
+                          fixedDecimalScale={true}
+                          prefix={'$'}
+                        />
+                      </span>
+                    </div>
+                    {displayMode !== 'View' && (
+                      <>
+                        <div className="data-row">
+                          <span>Modify</span>
+                          <span
+                            className="action-icon"
                             onClick={() => {
-                              setDeleteDialogInfo({
-                                isOpen: true,
-                                revenueId: revenue.ID,
-                              })
+                              modifyRevenue(revenue)
                             }}
                           >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </Button>
-                        </span>
-                      </div>
-                    </>
-                  )}
-                  <div className="revenue-divider"></div>
-                </>
-              )}
-            </div>
-          )
-        })
+                            <FontAwesomeIcon icon={faEdit} />
+                          </span>
+                        </div>
+                        <div className="data-row">
+                          <span>Delete</span>
+                          <span className="action-icon">
+                            <Button
+                              className="dialog-action-icon"
+                              onClick={() => {
+                                setDeleteDialogInfo({
+                                  isOpen: true,
+                                  revenueId: revenue.ID,
+                                })
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    <div className="revenue-divider"></div>
+                  </>
+                )}
+              </div>
+            )
+          })
       ) : (
         <>
           <div className="no-records-found">
@@ -427,10 +517,15 @@ const Revenues = (props) => {
         <span>
           {userRevenues.isLoaded && (
             <NumberFormat
-              value={userRevenues.userRevenueData.reduce(
-                (sum, revenue) => sum + revenue.RevenueAmount,
-                0
-              )}
+              value={userRevenues.userRevenueData
+                .filter(
+                  (revenue) =>
+                    revenue.RevenueCategory.includes(filters.FilterCategory) &&
+                    revenue.RevenueDate.includes(filters.FilterReceiptDate) &&
+                    (revenue.RevenueAmount === filters.FilterAmount ||
+                      filters.FilterAmount === 0)
+                )
+                .reduce((sum, revenue) => sum + revenue.RevenueAmount, 0)}
               displayType={'text'}
               thousandSeparator={true}
               decimalScale={2}
