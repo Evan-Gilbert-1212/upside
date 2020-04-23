@@ -22,12 +22,30 @@ import { faCog } from '@fortawesome/free-solid-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import NewUserSetup from './pages/NewUserSetup'
 import AccountSettings from './pages/AccountSettings'
+import config from './config'
+import axios from 'axios'
 
 const App = () => {
   const logout = () => {
     localStorage.removeItem('token')
 
     window.location = '/login'
+  }
+
+  const validateToken = async () => {
+    const response = await axios.post(`${config.API_URL}/auth/verifytoken`, {
+      tokenToValidate: localStorage.getItem('token'),
+    })
+
+    if (response.data === false) {
+      localStorage.removeItem('token')
+
+      window.location = '/login'
+    }
+  }
+
+  if (localStorage.getItem('token')) {
+    validateToken()
   }
 
   if (localStorage.getItem('temp-token')) {

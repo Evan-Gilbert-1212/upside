@@ -83,7 +83,7 @@ const Revenues = (props) => {
       } else if (displayMode === 'Wages') {
         response = await axios.get(`${config.API_URL}/api/revenue/all`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('temp-token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         })
 
@@ -318,7 +318,7 @@ const Revenues = (props) => {
             ></input>
             <span className="revenue-column-4">
               <input
-                type="text"
+                type="number"
                 name="FilterAmount"
                 value={filters.FilterAmount}
                 onChange={filterRevenues}
@@ -393,10 +393,10 @@ const Revenues = (props) => {
                     </span>
                     <span className="revenue-column-4">
                       <input
-                        type="text"
+                        type="number"
                         name="RevenueAmount"
                         className={errorResult.revenueAmountClass}
-                        value={modifiedRecord.RevenueAmount}
+                        value={modifiedRecord.RevenueAmount.toString()}
                         onChange={updateModifiedRecord}
                       ></input>
                     </span>

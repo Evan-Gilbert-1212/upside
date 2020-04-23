@@ -11,7 +11,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 5px $box-shadow-color;
+  box-shadow: 0px 0px 10px $box-shadow-color;
   margin-left: auto;
   margin-right: auto;
   margin-top: 22vh;
@@ -82,6 +82,33 @@
     font-size: 0.75rem;
     text-align: center;
     margin-top: 1.5rem;
+  }
+}
+
+footer {
+  display: flex;
+  background-color: white;
+  box-shadow: 0px 0px 10px black;
+  height: 45px;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+
+  > label {
+    padding-left: 0.5rem;
+  }
+
+  > div {
+    > a {
+      color: black;
+      font-size: 2.25rem;
+      padding-right: 0.25rem;
+      padding-left: 0.25rem;
+    }
+
+    padding-right: 0.5rem;
   }
 }
 

@@ -330,10 +330,10 @@ const RecurringTransactionsVertical = (props) => {
                       <span>Amount</span>
                       <span>
                         <input
-                          type="text"
+                          type="number"
                           name="TransactionAmount"
                           className={errorResult.transactionAmountClass}
-                          value={modifiedRecord.TransactionAmount}
+                          value={modifiedRecord.TransactionAmount.toString()}
                           onChange={updateModifiedRecord}
                         ></input>
                       </span>

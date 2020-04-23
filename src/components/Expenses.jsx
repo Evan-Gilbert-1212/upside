@@ -306,7 +306,7 @@ const Expenses = (props) => {
             ></input>
             <span className="expense-column-4">
               <input
-                type="text"
+                type="number"
                 name="FilterAmount"
                 value={filters.FilterAmount}
                 onChange={filterExpenses}
@@ -395,10 +395,10 @@ const Expenses = (props) => {
                     </span>
                     <span className="expense-column-4">
                       <input
-                        type="text"
+                        type="number"
                         name="ExpenseAmount"
                         className={errorResult.expenseAmountClass}
-                        value={modifiedRecord.ExpenseAmount}
+                        value={modifiedRecord.ExpenseAmount.toString()}
                         onChange={updateModifiedRecord}
                       ></input>
                     </span>

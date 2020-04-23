@@ -234,10 +234,10 @@ const CreditCards = (props) => {
                   </span>
                   <span className="credit-card-column-2">
                     <input
-                      type="text"
+                      type="number"
                       name="AccountBalance"
                       className="card-balance-edit"
-                      value={modifiedRecord.AccountBalance}
+                      value={modifiedRecord.AccountBalance.toString()}
                       onChange={updateModifiedRecord}
                     />
                   </span>

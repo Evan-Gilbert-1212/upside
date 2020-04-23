@@ -6,6 +6,9 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import LoadingIcon from '../components/LoadingIcon'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 const LogIn = () => {
   const [userData, setUserData] = useState({})
@@ -89,6 +92,17 @@ const LogIn = () => {
           Not a user yet? <a href="/signup">Create an account!</a>
         </div>
       </section>
+      <footer>
+        <label>Created by Evan Gilbert</label>
+        <div>
+          <a href="https://www.linkedin.com/in/evangilbert1212/">
+            <FontAwesomeIcon icon={faLinkedin} />
+          </a>
+          <a href="https://github.com/Evan-Gilbert-1212">
+            <FontAwesomeIcon icon={faGithub} />
+          </a>
+        </div>
+      </footer>
     </section>
   )
 }

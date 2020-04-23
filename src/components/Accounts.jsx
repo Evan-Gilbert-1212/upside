@@ -56,7 +56,11 @@ const Accounts = (props) => {
 
     setModifiedRecord((prevModifiedRecord) => {
       if (typeof prevModifiedRecord[fieldName] === 'number') {
-        return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        if (parseFloat(fieldValue) > 0) {
+          return { ...prevModifiedRecord, [fieldName]: parseFloat(fieldValue) }
+        } else {
+          return { ...prevModifiedRecord, [fieldName]: 0 }
+        }
       } else {
         return { ...prevModifiedRecord, [fieldName]: fieldValue }
       }
@@ -210,10 +214,10 @@ const Accounts = (props) => {
                   </span>
                   <span className="bank-account-column-2">
                     <input
-                      type="text"
+                      type="number"
                       name="AccountBalance"
                       className="account-balance-edit"
-                      value={modifiedRecord.AccountBalance}
+                      value={modifiedRecord.AccountBalance.toString()}
                       onChange={updateModifiedRecord}
                     />
                   </span>

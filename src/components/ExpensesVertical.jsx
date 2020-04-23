@@ -307,7 +307,7 @@ const ExpensesVertical = (props) => {
             <span>Amount</span>
             <span className="expense-column-4">
               <input
-                type="text"
+                type="number"
                 name="FilterAmount"
                 value={filters.FilterAmount}
                 onChange={filterExpenses}
@@ -394,10 +394,10 @@ const ExpensesVertical = (props) => {
                     <div className="data-row">
                       <span>Amount</span>
                       <input
-                        type="text"
+                        type="number"
                         name="ExpenseAmount"
                         className={errorResult.expenseAmountClass}
-                        value={modifiedRecord.ExpenseAmount}
+                        value={modifiedRecord.ExpenseAmount.toString()}
                         onChange={updateModifiedRecord}
                       ></input>
                     </div>
