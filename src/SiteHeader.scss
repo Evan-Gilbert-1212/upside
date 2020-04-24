@@ -5,7 +5,7 @@ header {
   align-items: center;
   height: 50px;
   width: 100vw;
-  background-color: $primary-green;
+  background-color: hsl(0, 0%, 20%);
   position: fixed;
   top: 0;
   box-shadow: 0px 0px 10px $box-shadow-color;
@@ -27,8 +27,7 @@ header {
     font-size: 2.5rem;
     font-style: italic;
     font-family: 'Alegreya Sans SC', sans-serif;
-    // text-shadow: 0px 0px 5px white;
-    color: black;
+    color: white;
   }
 }
 
@@ -45,13 +44,13 @@ header {
 /* Color/shape of burger icon bars */
 
 .bm-burger-bars {
-  background: black;
+  background: white;
 }
 
 /* Color/shape of burger icon bars on hover*/
 
 .bm-burger-bars-hover {
-  background: #355454;
+  background: whitesmoke;
 }
 
 /* Position and sizing of clickable cross button */
