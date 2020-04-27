@@ -28,8 +28,6 @@ import axios from 'axios'
 const App = () => {
   const logout = () => {
     localStorage.removeItem('token')
-
-    window.location = '/login'
   }
 
   const validateToken = async () => {
@@ -95,7 +93,7 @@ const App = () => {
           >
             <FontAwesomeIcon icon={faCog} /> Account Settings
           </a>
-          <a id="logout" className="menu-item" href="" onClick={logout}>
+          <a id="logout" className="menu-item" href="/login" onClick={logout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
           </a>
         </Menu>

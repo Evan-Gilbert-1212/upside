@@ -66,7 +66,7 @@ const LogIn = () => {
     })
 
     const resp = await axios
-      .post(`${config.API_URL}/auth/createdemouser`)
+      .post(`${config.API_URL}/auth/demouser`)
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('token', response.data.token)
@@ -120,16 +120,22 @@ const LogIn = () => {
         <div className="create-demo-account">
           Want to try it out first?{' '}
           <a onClick={CreateDemoAccount}>View demo account.*</a>
-          <p>* Demo accounts will be pre-filled with sample data.</p>
+          <p>* Demo account will be pre-filled with sample data.</p>
         </div>
       </section>
       <footer>
         <label>Created by Evan Gilbert</label>
         <div>
-          <a href="https://www.linkedin.com/in/evangilbert1212/">
+          <a
+            title="Evan Gilberts LinkedIn Profile"
+            href="https://www.linkedin.com/in/evangilbert1212/"
+          >
             <FontAwesomeIcon icon={faLinkedin} />
           </a>
-          <a href="https://github.com/Evan-Gilbert-1212">
+          <a
+            title="Evan Gilberts GitHub Repository"
+            href="https://github.com/Evan-Gilbert-1212"
+          >
             <FontAwesomeIcon icon={faGithub} />
           </a>
         </div>

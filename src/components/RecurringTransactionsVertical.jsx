@@ -97,7 +97,7 @@ const RecurringTransactionsVertical = (props) => {
   const updateRecurringTransaction = (recurringTransactionData) => {
     if (recurringTransactionData.FirstPaymentDate === '') {
       setErrorResult({
-        errorMessage: 'First Payment Date cannot be blank.',
+        errorMessage: 'Begin Date cannot be blank.',
         transactionDateClass: 'first-payment-date-edit bad-input',
         transactionAmountClass: 'transaction-amount-edit',
       })
