@@ -241,7 +241,7 @@ const RecurringTransactionsVertical = (props) => {
                 {transaction.ID === modifiedRecord.ID ? (
                   <>
                     <div className="data-row">
-                      <span>Transaction Type</span>
+                      <span>Type</span>
                       <span className="recurring-trans-column-1">
                         {modifiedRecord.TransactionType}
                       </span>
@@ -308,7 +308,7 @@ const RecurringTransactionsVertical = (props) => {
                       </span>
                     </div>
                     <div className="data-row">
-                      <span>First Payment Date</span>
+                      <span>Begin Date</span>
                       <span>
                         <input
                           type="date"
@@ -386,7 +386,7 @@ const RecurringTransactionsVertical = (props) => {
                 ) : (
                   <>
                     <div className="data-row">
-                      <span>Transaction Type</span>
+                      <span>Type</span>
                       <span>{transaction.TransactionType}</span>
                     </div>
                     <div className="data-row">
@@ -398,7 +398,7 @@ const RecurringTransactionsVertical = (props) => {
                       <span>{transaction.TransactionName}</span>
                     </div>
                     <div className="data-row">
-                      <span>First Payment Date</span>
+                      <span>Begin Date</span>
                       <span>
                         <Moment format="MM/DD/YYYY">
                           {transaction.FirstPaymentDate}

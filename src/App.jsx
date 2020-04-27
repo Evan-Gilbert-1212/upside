@@ -79,7 +79,7 @@ const App = () => {
             <FontAwesomeIcon icon={faHandHoldingUsd} /> Expenses
           </a>
           <a id="revenues" className="menu-item" href="/revenues">
-            <FontAwesomeIcon icon={faMoneyBillWave} /> Revenues
+            <FontAwesomeIcon icon={faMoneyBillWave} /> Income
           </a>
           <a
             id="recurring-transactions"
@@ -95,7 +95,7 @@ const App = () => {
           >
             <FontAwesomeIcon icon={faCog} /> Account Settings
           </a>
-          <a id="logout" className="menu-item" href="/login" onClick={logout}>
+          <a id="logout" className="menu-item" href="" onClick={logout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
           </a>
         </Menu>

@@ -236,12 +236,12 @@ const RecurringTransactions = (props) => {
         </DialogActions>
       </Dialog>
       <div className={rowType}>
-        <span className="recurring-trans-column-1">Transaction Type</span>
+        <span className="recurring-trans-column-1">Type</span>
         <span className="recurring-trans-column-2">Category</span>
         <span className="recurring-trans-column-3">Name</span>
-        <span className="recurring-trans-column-4">First Payment Date</span>
+        <span className="recurring-trans-column-4">Begin Date</span>
         <span className="recurring-trans-column-5">Amount</span>
-        <span className="recurring-trans-column-6">Recurring Frequency</span>
+        <span className="recurring-trans-column-6">Frequency</span>
         {displayMode === 'Modify' && (
           <>
             <span className="recurring-trans-column-7">Modify</span>

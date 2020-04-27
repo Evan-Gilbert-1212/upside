@@ -25,7 +25,10 @@ const SignUp = () => {
     passwordClass: '',
   })
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [loadingState, setLoadingState] = useState({
+    loadingMessage: '',
+    showDialog: false,
+  })
 
   const updateUserData = (e) => {
     const fieldName = e.target.name
@@ -38,7 +41,10 @@ const SignUp = () => {
   }
 
   const SignUpUser = async () => {
-    setIsLoading(true)
+    setLoadingState({
+      loadingMessage: 'Signing Up...',
+      showDialog: true,
+    })
 
     const resp = await axios
       .post(`${config.API_URL}/auth/signup`, userData)
@@ -50,7 +56,10 @@ const SignUp = () => {
         }
       })
       .catch((error) => {
-        setIsLoading(false)
+        setLoadingState({
+          loadingMessage: '',
+          showDialog: false,
+        })
 
         if (error.response.data.includes('First Name')) {
           setErrorResult({
@@ -77,16 +86,33 @@ const SignUp = () => {
       })
   }
 
+  const CreateDemoAccount = async () => {
+    setLoadingState({
+      loadingMessage: 'Logging in to Demo Account...',
+      showDialog: true,
+    })
+
+    const resp = await axios
+      .post(`${config.API_URL}/auth/createdemouser`)
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem('token', response.data.token)
+
+          window.location = '/'
+        }
+      })
+  }
+
   return (
     <section className="signup-page">
       <Dialog
-        open={isLoading}
+        open={loadingState.showDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Signing Up...
+            {loadingState.loadingMessage}
             <LoadingIcon />
           </DialogContentText>
         </DialogContent>
@@ -140,6 +166,11 @@ const SignUp = () => {
         <button onClick={SignUpUser}>Sign Up</button>
         <div className="log-in-now">
           Already a user? <a href="/login">Log in now!</a>
+        </div>
+        <div className="create-demo-account">
+          Want to try it out first?{' '}
+          <a onClick={CreateDemoAccount}>View demo account.*</a>
+          <p>* Demo accounts will be pre-filled with sample data.</p>
         </div>
       </section>
       <footer>

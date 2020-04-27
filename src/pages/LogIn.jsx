@@ -12,7 +12,10 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 const LogIn = () => {
   const [userData, setUserData] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
+  const [loadingState, setLoadingState] = useState({
+    loadingMessage: '',
+    showDialog: false,
+  })
 
   const updateUserData = (e) => {
     const fieldName = e.target.name
@@ -27,7 +30,10 @@ const LogIn = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const LogInUser = async () => {
-    setIsLoading(true)
+    setLoadingState({
+      loadingMessage: 'Logging In...',
+      showDialog: true,
+    })
 
     const resp = await axios
       .post(`${config.API_URL}/auth/login`, userData)
@@ -46,20 +52,40 @@ const LogIn = () => {
       })
       .catch((error) => {
         setErrorMessage('Login Unsuccessful. Please Try Again.')
-        setIsLoading(false)
+        setLoadingState({
+          loadingMessage: '',
+          showDialog: false,
+        })
+      })
+  }
+
+  const CreateDemoAccount = async () => {
+    setLoadingState({
+      loadingMessage: 'Logging in to Demo Account...',
+      showDialog: true,
+    })
+
+    const resp = await axios
+      .post(`${config.API_URL}/auth/createdemouser`)
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem('token', response.data.token)
+
+          window.location = '/'
+        }
       })
   }
 
   return (
     <section className="login-page">
       <Dialog
-        open={isLoading}
+        open={loadingState.showDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Logging In...
+            {loadingState.loadingMessage}
             <LoadingIcon />
           </DialogContentText>
         </DialogContent>
@@ -90,6 +116,11 @@ const LogIn = () => {
         <button onClick={LogInUser}>Log In</button>
         <div className="create-an-account">
           Not a user yet? <a href="/signup">Create an account!</a>
+        </div>
+        <div className="create-demo-account">
+          Want to try it out first?{' '}
+          <a onClick={CreateDemoAccount}>View demo account.*</a>
+          <p>* Demo accounts will be pre-filled with sample data.</p>
         </div>
       </section>
       <footer>

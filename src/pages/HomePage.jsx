@@ -87,7 +87,7 @@ const HomePage = () => {
             </label>
           </section>
           <section>
-            <h2>REVENUES</h2>
+            <h2>INCOME</h2>
             <label>
               <NumberFormat
                 value={pageData.userSummaryData.RevenueTotal}
@@ -138,7 +138,7 @@ const HomePage = () => {
               />
             </div>
             <div className="revenue-section">
-              <p className="expense-header">Revenues This Period</p>
+              <p className="expense-header">Income This Period</p>
               <Revenues
                 displayMode="View"
                 beginDate={pageData.userSummaryData.PeriodBeginDate}

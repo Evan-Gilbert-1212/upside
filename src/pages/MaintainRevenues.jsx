@@ -21,10 +21,10 @@ const MaintainRevenues = (props) => {
     summaryCaption = 'Your Wages'
     revenueGridMode = 'Wages'
   } else {
-    screenHeader = 'Revenues'
-    screenCaption = 'Add Revenues'
+    screenHeader = 'Income'
+    screenCaption = 'Add Income'
     categoryClassName = ''
-    summaryCaption = 'Your Revenues'
+    summaryCaption = 'Your Income'
     revenueGridMode = 'Modify'
   }
 
@@ -147,7 +147,7 @@ const MaintainRevenues = (props) => {
         <h4>{screenCaption}</h4>
         <section className="revenue-input-grid">
           <div>
-            <label>Revenue Type</label>
+            <label>Income Type</label>
             <select
               name="RevenueCategory"
               className={categoryClassName}
@@ -189,7 +189,7 @@ const MaintainRevenues = (props) => {
             ></input>
           </div>
           <div>
-            <label>Recurring Frequency</label>
+            <label>Frequency</label>
             <select name="RecurringFrequency" onChange={updateRevenueInfo}>
               {mode !== 'Wages' && <option value="One Time">One Time</option>}
               <option value="Weekly">Weekly</option>

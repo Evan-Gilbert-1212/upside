@@ -90,7 +90,7 @@
   box-shadow: 0px 0px 5px $box-shadow-color;
   margin-left: auto;
   margin-right: auto;
-  width: 700px;
+  width: 800px;
   padding: 2rem;
   background-color: white;
 
@@ -108,7 +108,7 @@
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .expense-display {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -116,8 +116,12 @@
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 750px) {
   .expense-display {
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+
     > .expense-grid {
       display: none;
     }
@@ -137,6 +141,12 @@
 
   .expense-input-grid {
     grid-template-columns: 50% 50%;
+  }
+
+  .expense-display {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: auto;
   }
 }
 

@@ -1,7 +1,7 @@
 @import '../_variables.scss';
 
 .recurring-transactions-buffer {
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .recurring-transactions-display {
@@ -9,7 +9,7 @@
   box-shadow: 0px 0px 5px $box-shadow-color;
   margin-left: auto;
   margin-right: auto;
-  width: 900px;
+  width: 1000px;
   padding: 2rem;
   background-color: white;
 
@@ -27,7 +27,7 @@
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .recurring-transactions-display {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -37,6 +37,10 @@
 
 @media (max-width: 900px) {
   .recurring-transactions-display {
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+
     > .recurring-trans-grid {
       display: none;
     }
@@ -44,5 +48,13 @@
     > .recurring-trans-grid-vertical {
       display: block;
     }
+  }
+}
+
+@media (max-width: 500px) {
+  .recurring-transactions-display {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: auto;
   }
 }
