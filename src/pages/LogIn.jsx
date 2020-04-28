@@ -118,7 +118,7 @@ const LogIn = () => {
         <div className="create-demo-account">
           Want to try it out first?
           <button onClick={CreateDemoAccount}>View demo account.</button>
-          <p>* Demo account will be pre-filled with sample data.</p>
+          <p>Demo account will be pre-filled with sample data.</p>
         </div>
       </section>
       <footer>

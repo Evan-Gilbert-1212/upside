@@ -64,17 +64,17 @@ const MaintainCreditCards = () => {
             <input
               type="text"
               name="CardIssuer"
-              placeholder="Enter Credit Card Issuer"
+              placeholder="Credit Card Issuer"
               className={errorResult.cardIssuerClass}
               onChange={updateCardInfo}
             ></input>
           </div>
           <div>
-            <label>Opening Balance</label>
+            <label>Account Balance</label>
             <input
               type="text"
               name="AccountBalance"
-              placeholder="Enter Account Balance"
+              placeholder="Account Balance"
               onChange={updateCardInfo}
             ></input>
           </div>

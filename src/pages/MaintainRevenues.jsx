@@ -165,7 +165,7 @@ const MaintainRevenues = (props) => {
             <input
               type="text"
               name="RevenueName"
-              placeholder="Enter Description"
+              placeholder="Description"
               onChange={updateRevenueInfo}
             ></input>
           </div>
@@ -184,7 +184,7 @@ const MaintainRevenues = (props) => {
             <input
               type="text"
               name="RevenueAmount"
-              placeholder="Enter Amount"
+              placeholder="Amount"
               className={errorResult.revenueAmountClass}
               onChange={updateRevenueInfo}
             ></input>

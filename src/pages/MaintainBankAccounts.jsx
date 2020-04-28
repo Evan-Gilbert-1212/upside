@@ -59,10 +59,10 @@ const MaintainBankAccounts = () => {
             </select>
           </div>
           <div>
-            <label>Opening Balance</label>
+            <label>Account Balance</label>
             <input
               type="text"
-              placeholder="Enter Account Balance"
+              placeholder="Account Balance"
               name="AccountBalance"
               onChange={updateAccountInfo}
             ></input>

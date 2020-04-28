@@ -177,7 +177,7 @@ const Accounts = (props) => {
         </DialogActions>
       </Dialog>
       <div className={rowType}>
-        <span className="bank-account-column-1">Bank Accounts</span>
+        <span className="bank-account-column-1">Account Type</span>
         <span className="bank-account-column-2">Account Balance</span>
         {displayMode === 'Modify' && (
           <>

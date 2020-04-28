@@ -203,7 +203,7 @@ const CreditCards = (props) => {
         </DialogActions>
       </Dialog>
       <div className={rowType}>
-        <span className="credit-card-column-1">Credit Cards</span>
+        <span className="credit-card-column-1">Credit Card Issuer</span>
         <span className="credit-card-column-2">Account Balance</span>
         {displayMode === 'Modify' && (
           <>

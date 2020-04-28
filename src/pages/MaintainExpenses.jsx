@@ -113,7 +113,7 @@ const MaintainExpenses = () => {
             <input
               type="text"
               name="ExpenseName"
-              placeholder="Enter Description"
+              placeholder="Description"
               onChange={updateExpenseInfo}
             ></input>
           </div>
@@ -132,7 +132,7 @@ const MaintainExpenses = () => {
             <input
               type="text"
               name="ExpenseAmount"
-              placeholder="Enter Amount"
+              placeholder="Amount"
               className={errorResult.expenseAmountClass}
               onChange={updateExpenseInfo}
             ></input>
