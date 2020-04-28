@@ -44,33 +44,6 @@ const ExpensesVertical = (props) => {
     FilterAmount: 0,
   })
 
-  let response = {}
-
-  const getUserExpenses = async () => {
-    if (beginDate != null && endDate != null) {
-      response = await axios.get(`${config.API_URL}/api/expense`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        params: {
-          BeginDate: beginDate,
-          EndDate: endDate,
-        },
-      })
-    } else {
-      response = await axios.get(`${config.API_URL}/api/expense/all`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-    }
-
-    setUserExpenses({
-      userExpenseData: response.data,
-      isLoaded: true,
-    })
-  }
-
   const updateModifiedRecord = (e) => {
     const fieldName = e.target.name
     const fieldValue = e.target.value
@@ -117,7 +90,7 @@ const ExpensesVertical = (props) => {
         expenseAmountClass: 'expense-amount-edit-vertical',
       })
     } else {
-      const resp = axios
+      axios
         .put(`${config.API_URL}/api/expense`, expenseData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -142,6 +115,7 @@ const ExpensesVertical = (props) => {
                 if (a.ExpenseDate > b.ExpenseDate) {
                   return 1
                 }
+                return 0
               }),
               isLoaded: true,
             })
@@ -168,14 +142,11 @@ const ExpensesVertical = (props) => {
   }
 
   const deleteExpense = (expenseId) => {
-    const response = axios.delete(
-      `${config.API_URL}/api/expense/${expenseId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    axios.delete(`${config.API_URL}/api/expense/${expenseId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     const newExpenseList = userExpenses.userExpenseData.filter(
       (exp) => exp.ID !== expenseId
@@ -218,8 +189,35 @@ const ExpensesVertical = (props) => {
   }
 
   useEffect(() => {
+    const getUserExpenses = async () => {
+      let response = {}
+
+      if (beginDate != null && endDate != null) {
+        response = await axios.get(`${config.API_URL}/api/expense`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          params: {
+            BeginDate: beginDate,
+            EndDate: endDate,
+          },
+        })
+      } else {
+        response = await axios.get(`${config.API_URL}/api/expense/all`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+      }
+
+      setUserExpenses({
+        userExpenseData: response.data,
+        isLoaded: true,
+      })
+    }
+
     getUserExpenses()
-  }, [])
+  }, [beginDate, endDate])
 
   return (
     <div className="expense-grid-vertical">
@@ -274,7 +272,7 @@ const ExpensesVertical = (props) => {
               value={filters.FilterCategory}
               onChange={filterExpenses}
             >
-              <option value="" disabled selected hidden>
+              <option value="" disabled defaultValue hidden>
                 Category Filter
               </option>
               <option value="Cable & Internet">Cable & Internet</option>

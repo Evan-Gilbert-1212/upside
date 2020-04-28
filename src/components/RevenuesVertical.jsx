@@ -44,55 +44,6 @@ const Revenues = (props) => {
     FilterAmount: 0,
   })
 
-  let response = {}
-
-  const getUserRevenues = async () => {
-    if (beginDate != null && endDate != null) {
-      response = await axios.get(`${config.API_URL}/api/revenue`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        params: {
-          BeginDate: beginDate,
-          EndDate: endDate,
-        },
-      })
-
-      setUserRevenues({
-        userRevenueData: response.data,
-        isLoaded: true,
-      })
-    } else {
-      if (displayMode === 'Modify') {
-        response = await axios.get(`${config.API_URL}/api/revenue/all`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-
-        setUserRevenues({
-          userRevenueData: response.data,
-          isLoaded: true,
-        })
-      } else if (displayMode === 'Wages') {
-        response = await axios.get(`${config.API_URL}/api/revenue/all`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-
-        const wageRecords = response.data.filter(
-          (item) => item.RevenueCategory === 'Wages'
-        )
-
-        setUserRevenues({
-          userRevenueData: wageRecords,
-          isLoaded: true,
-        })
-      }
-    }
-  }
-
   const updateModifiedRecord = (e) => {
     const fieldName = e.target.name
     const fieldValue = e.target.value
@@ -139,7 +90,7 @@ const Revenues = (props) => {
         revenueAmountClass: 'revenue-amount-edit',
       })
     } else {
-      const response = axios
+      axios
         .put(`${config.API_URL}/api/revenue`, revenueData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -164,6 +115,7 @@ const Revenues = (props) => {
                 if (a.RevenueDate > b.RevenueDate) {
                   return 1
                 }
+                return 0
               }),
               isLoaded: true,
             })
@@ -190,14 +142,11 @@ const Revenues = (props) => {
   }
 
   const deleteRevenue = (revenueId) => {
-    const response = axios.delete(
-      `${config.API_URL}/api/revenue/${revenueId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    axios.delete(`${config.API_URL}/api/revenue/${revenueId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     const newRevenueList = userRevenues.userRevenueData.filter(
       (rev) => rev.ID !== revenueId
@@ -240,8 +189,57 @@ const Revenues = (props) => {
   }
 
   useEffect(() => {
+    const getUserRevenues = async () => {
+      let response = {}
+
+      if (beginDate != null && endDate != null) {
+        response = await axios.get(`${config.API_URL}/api/revenue`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          params: {
+            BeginDate: beginDate,
+            EndDate: endDate,
+          },
+        })
+
+        setUserRevenues({
+          userRevenueData: response.data,
+          isLoaded: true,
+        })
+      } else {
+        if (displayMode === 'Modify') {
+          response = await axios.get(`${config.API_URL}/api/revenue/all`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          })
+
+          setUserRevenues({
+            userRevenueData: response.data,
+            isLoaded: true,
+          })
+        } else if (displayMode === 'Wages') {
+          response = await axios.get(`${config.API_URL}/api/revenue/all`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          })
+
+          const wageRecords = response.data.filter(
+            (item) => item.RevenueCategory === 'Wages'
+          )
+
+          setUserRevenues({
+            userRevenueData: wageRecords,
+            isLoaded: true,
+          })
+        }
+      }
+    }
+
     getUserRevenues()
-  }, [])
+  }, [displayMode, beginDate, endDate])
 
   return (
     <div className="revenue-grid-vertical">
@@ -296,7 +294,7 @@ const Revenues = (props) => {
               value={filters.FilterCategory}
               onChange={filterRevenues}
             >
-              <option value="" disabled selected hidden>
+              <option value="" disabled defaultValue hidden>
                 Category Filter
               </option>
               <option value="Wages">Wages</option>

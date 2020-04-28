@@ -16,7 +16,7 @@ const NewUserSetup = () => {
   }
 
   const updateUserDisplayPeriod = async () => {
-    const resp = await axios
+    await axios
       .patch(
         `${config.API_URL}/api/user/updateperiod/`,
         { displayPeriod: displayPeriod },
@@ -68,9 +68,9 @@ const NewUserSetup = () => {
             id="Monthly"
             value="Monthly"
             name="period-selection"
-            onClick={updateDisplayPeriod}
+            onChange={updateDisplayPeriod}
           ></input>
-          <label for="Monthly">
+          <label htmlFor="Monthly">
             Monthly - this option will set your period to be from the 1st of
             each month to the end of the month.
           </label>
@@ -79,9 +79,9 @@ const NewUserSetup = () => {
             id="Wages"
             value="Wages"
             name="period-selection"
-            onClick={updateDisplayPeriod}
+            onChange={updateDisplayPeriod}
           ></input>
-          <label for="Wages">
+          <label htmlFor="Wages">
             By Paycheck - this option will set your period to be between
             paychecks. Periods will start on the date you receive a paycheck,
             and will end the day before your next paycheck is scheduled to be

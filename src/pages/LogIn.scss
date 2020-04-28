@@ -80,7 +80,7 @@
   }
 
   > .create-an-account {
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-align: center;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -90,10 +90,13 @@
     font-size: 0.75rem;
     text-align: center;
 
-    > a {
+    > button {
       cursor: pointer;
       text-decoration: underline;
       color: hsl(240, 100%, 47%);
+      border: none;
+      background-color: white;
+      font-size: 0.75rem;
     }
 
     > p {

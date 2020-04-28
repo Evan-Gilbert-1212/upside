@@ -81,15 +81,11 @@ const Accounts = (props) => {
   }
 
   const updateBankAccount = (accountData) => {
-    const response = axios.put(
-      `${config.API_URL}/api/bankaccount`,
-      accountData,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    axios.put(`${config.API_URL}/api/bankaccount`, accountData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     const newAccountList = userAccounts.userAccountData.filter(
       (acc) => acc.ID !== accountData.ID
@@ -105,6 +101,7 @@ const Accounts = (props) => {
         if (a.AccountType > b.AccountType) {
           return 1
         }
+        return 0
       }),
       isLoaded: true,
     })
@@ -113,14 +110,11 @@ const Accounts = (props) => {
   }
 
   const deleteBankAccount = (accountId) => {
-    const response = axios.delete(
-      `${config.API_URL}/api/bankaccount/${accountId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    axios.delete(`${config.API_URL}/api/bankaccount/${accountId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     const newAccountList = userAccounts.userAccountData.filter(
       (acc) => acc.ID !== accountId

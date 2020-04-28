@@ -90,7 +90,7 @@ const CreditCards = (props) => {
   }
 
   const updateCreditCard = (creditCardData) => {
-    const resp = axios
+    axios
       .put(`${config.API_URL}/api/creditcard`, creditCardData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -113,6 +113,7 @@ const CreditCards = (props) => {
                 if (a.CardIssuer > b.CardIssuer) {
                   return 1
                 }
+                return 0
               }
             ),
             isLoaded: true,
@@ -135,14 +136,11 @@ const CreditCards = (props) => {
   }
 
   const deleteCreditCard = (creditCardId) => {
-    const response = axios.delete(
-      `${config.API_URL}/api/creditcard/${creditCardId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    axios.delete(`${config.API_URL}/api/creditcard/${creditCardId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
     const newCreditCardList = userCreditCards.userCreditCardData.filter(
       (card) => card.ID !== creditCardId

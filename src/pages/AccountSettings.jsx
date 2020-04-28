@@ -7,28 +7,8 @@ const AccountSettings = () => {
   const [displayPeriod, setDisplayPeriod] = useState('')
   const [hasWagesRecords, setHasWagesRecords] = useState(false)
 
-  const CheckForWagesRecords = async () => {
-    if (displayPeriod === 'Wages') {
-      const response = await axios.get(`${config.API_URL}/api/revenue/all`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-
-      const wagesRecords = response.data.filter(
-        (item) => item.RevenueCategory === 'Wages'
-      )
-
-      if (wagesRecords.length > 0) {
-        setHasWagesRecords(true)
-      } else {
-        setHasWagesRecords(false)
-      }
-    }
-  }
-
   const saveSettings = async () => {
-    const resp = await axios
+    await axios
       .patch(
         `${config.API_URL}/api/user/updateperiod/`,
         { displayPeriod: displayPeriod },
@@ -66,6 +46,26 @@ const AccountSettings = () => {
   }, [])
 
   useEffect(() => {
+    const CheckForWagesRecords = async () => {
+      if (displayPeriod === 'Wages') {
+        const response = await axios.get(`${config.API_URL}/api/revenue/all`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+
+        const wagesRecords = response.data.filter(
+          (item) => item.RevenueCategory === 'Wages'
+        )
+
+        if (wagesRecords.length > 0) {
+          setHasWagesRecords(true)
+        } else {
+          setHasWagesRecords(false)
+        }
+      }
+    }
+
     CheckForWagesRecords()
   }, [displayPeriod])
 
@@ -82,11 +82,11 @@ const AccountSettings = () => {
             value="Monthly"
             name="period-selection"
             checked={displayPeriod === 'Monthly'}
-            onClick={() => {
+            onChange={() => {
               setDisplayPeriod('Monthly')
             }}
           ></input>
-          <label for="Monthly">
+          <label htmlFor="Monthly">
             Monthly - this option will set your period to be from the 1st of
             each month to the end of the month.
           </label>
@@ -96,11 +96,11 @@ const AccountSettings = () => {
             value="Wages"
             name="period-selection"
             checked={displayPeriod === 'Wages'}
-            onClick={() => {
+            onChange={() => {
               setDisplayPeriod('Wages')
             }}
           ></input>
-          <label for="Wages">
+          <label htmlFor="Wages">
             By Paycheck - this option will set your period to be between
             paychecks. Periods will start on the date you receive a paycheck,
             and will end the day before your next paycheck is scheduled to be

@@ -6,7 +6,7 @@ The goal of this application is to help the user with their budgeting goals. Oft
 looks at their bank accounts, they don't see that some of the money that is in their account
 is needed for expenses and might feel like they have more money than they do. This application
 aims to take all of your accounts (Bank Accounts and Credit Cards) along with projected expenses
-and revenues to calculate how much disposable income you have available at any time!
+and income to calculate how much disposable income you have available at any time!
 
 # Application Features
 

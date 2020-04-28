@@ -102,7 +102,7 @@ const RecurringTransactionsVertical = (props) => {
         transactionAmountClass: 'transaction-amount-edit',
       })
     } else {
-      const resp = axios
+      axios
         .put(
           `${config.API_URL}/api/recurringtransaction`,
           recurringTransactionData,
@@ -134,6 +134,7 @@ const RecurringTransactionsVertical = (props) => {
                 if (a.FirstPaymentDate > b.FirstPaymentDate) {
                   return 1
                 }
+                return 0
               }),
               isLoaded: true,
             })
@@ -161,7 +162,7 @@ const RecurringTransactionsVertical = (props) => {
   }
 
   const deleteRecurringTransaction = (recurringTransId) => {
-    const response = axios.delete(
+    axios.delete(
       `${config.API_URL}/api/recurringtransaction/${recurringTransId}`,
       {
         headers: {

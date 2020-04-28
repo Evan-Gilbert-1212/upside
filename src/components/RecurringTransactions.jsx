@@ -108,7 +108,7 @@ const RecurringTransactions = (props) => {
         transactionAmountClass: 'transaction-amount-edit',
       })
     } else {
-      const resp = axios
+      axios
         .put(
           `${config.API_URL}/api/recurringtransaction`,
           recurringTransactionData,
@@ -140,6 +140,7 @@ const RecurringTransactions = (props) => {
                 if (a.FirstPaymentDate > b.FirstPaymentDate) {
                   return 1
                 }
+                return 0
               }),
               isLoaded: true,
             })
@@ -166,7 +167,7 @@ const RecurringTransactions = (props) => {
   }
 
   const deleteRecurringTransaction = (recurringTransId) => {
-    const response = axios.delete(
+    axios.delete(
       `${config.API_URL}/api/recurringtransaction/${recurringTransId}`,
       {
         headers: {
@@ -238,7 +239,7 @@ const RecurringTransactions = (props) => {
       <div className={rowType}>
         <span className="recurring-trans-column-1">Type</span>
         <span className="recurring-trans-column-2">Category</span>
-        <span className="recurring-trans-column-3">Name</span>
+        <span className="recurring-trans-column-3">Description</span>
         <span className="recurring-trans-column-4">Begin Date</span>
         <span className="recurring-trans-column-5">Amount</span>
         <span className="recurring-trans-column-6">Frequency</span>

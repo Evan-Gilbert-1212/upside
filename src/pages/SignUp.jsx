@@ -46,7 +46,7 @@ const SignUp = () => {
       showDialog: true,
     })
 
-    const resp = await axios
+    await axios
       .post(`${config.API_URL}/auth/signup`, userData)
       .then((response) => {
         if (response.status === 200) {
@@ -92,15 +92,13 @@ const SignUp = () => {
       showDialog: true,
     })
 
-    const resp = await axios
-      .post(`${config.API_URL}/auth/demouser`)
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.setItem('token', response.data.token)
+    await axios.post(`${config.API_URL}/auth/demouser`).then((response) => {
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.token)
 
-          window.location = '/'
-        }
-      })
+        window.location = '/'
+      }
+    })
   }
 
   return (
@@ -111,7 +109,7 @@ const SignUp = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="alert-dialog-description" component="div">
             {loadingState.loadingMessage}
             <LoadingIcon />
           </DialogContentText>
@@ -169,7 +167,7 @@ const SignUp = () => {
         </div>
         <div className="create-demo-account">
           Want to try it out first?{' '}
-          <a onClick={CreateDemoAccount}>View demo account.*</a>
+          <button onClick={CreateDemoAccount}>View demo account.</button>
           <p>* Demo account will be pre-filled with sample data.</p>
         </div>
       </section>

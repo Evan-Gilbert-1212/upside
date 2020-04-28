@@ -29,7 +29,7 @@ const MaintainExpenses = () => {
         Object.prototype.toString.call(prevExpense[fieldName]) ===
         '[object Date]'
       ) {
-        if (fieldValue != '') {
+        if (fieldValue !== '') {
           const dateArr = fieldValue.split('-')
 
           return {
@@ -54,7 +54,7 @@ const MaintainExpenses = () => {
   const addExpenseToDb = async () => {
     console.log(expenseInfo)
 
-    const resp = await axios
+    await axios
       .post(`${config.API_URL}/api/expense`, expenseInfo, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -90,7 +90,7 @@ const MaintainExpenses = () => {
         <h4>Add Expense</h4>
         <section className="expense-input-grid">
           <div>
-            <label>Expense Type</label>
+            <label>Category</label>
             <select name="ExpenseCategory" onChange={updateExpenseInfo}>
               <option value="Cable & Internet">Cable & Internet</option>
               <option value="Car - Gas">Car - Gas</option>
@@ -138,7 +138,7 @@ const MaintainExpenses = () => {
             ></input>
           </div>
           <div>
-            <label>Recurring Frequency</label>
+            <label>Frequency *</label>
             <select name="RecurringFrequency" onChange={updateExpenseInfo}>
               <option value="One Time">One Time</option>
               <option value="Weekly">Weekly</option>
@@ -149,6 +149,10 @@ const MaintainExpenses = () => {
           </div>
           <button onClick={addExpenseToDb}>Add Expense</button>
         </section>
+        <label className="recurring-trans-message">
+          * Recurring transactions will be projected by the system six months in
+          advance.
+        </label>
         <label className="add-expense-error-message">
           {errorResult.errorMessage}
         </label>

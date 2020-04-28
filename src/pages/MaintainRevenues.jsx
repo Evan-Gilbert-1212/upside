@@ -47,25 +47,6 @@ const MaintainRevenues = (props) => {
     setupButtonClass: 'complete-setup-button-disabled',
   })
 
-  const CheckForWagesRecords = async () => {
-    const response = await axios.get(`${config.API_URL}/api/revenue/all`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-
-    const wagesRecords = response.data.filter(
-      (item) => item.RevenueCategory === 'Wages'
-    )
-
-    if (wagesRecords.length > 0) {
-      setSetupItemClasses({
-        setupMessageClass: 'setup-message-hidden',
-        setupButtonClass: 'complete-setup-button',
-      })
-    }
-  }
-
   const updateRevenueInfo = (e) => {
     const fieldName = e.target.name
     const fieldValue = e.target.value
@@ -75,7 +56,7 @@ const MaintainRevenues = (props) => {
         Object.prototype.toString.call(prevRevenue[fieldName]) ===
         '[object Date]'
       ) {
-        if (fieldValue != '') {
+        if (fieldValue !== '') {
           const dateArr = fieldValue.split('-')
 
           return {
@@ -102,7 +83,7 @@ const MaintainRevenues = (props) => {
   }
 
   const addRevenueToDb = async () => {
-    const resp = await axios
+    await axios
       .post(`${config.API_URL}/api/revenue`, revenueInfo, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -133,11 +114,31 @@ const MaintainRevenues = (props) => {
         }
       })
   }
+
   useEffect(() => {
     if (mode === 'Wages') {
+      const CheckForWagesRecords = async () => {
+        const response = await axios.get(`${config.API_URL}/api/revenue/all`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+
+        const wagesRecords = response.data.filter(
+          (item) => item.RevenueCategory === 'Wages'
+        )
+
+        if (wagesRecords.length > 0) {
+          setSetupItemClasses({
+            setupMessageClass: 'setup-message-hidden',
+            setupButtonClass: 'complete-setup-button',
+          })
+        }
+      }
+
       CheckForWagesRecords()
     }
-  }, [])
+  }, [mode])
 
   return (
     <section className="page-background">
@@ -147,7 +148,7 @@ const MaintainRevenues = (props) => {
         <h4>{screenCaption}</h4>
         <section className="revenue-input-grid">
           <div>
-            <label>Income Type</label>
+            <label>Category</label>
             <select
               name="RevenueCategory"
               className={categoryClassName}
@@ -189,7 +190,7 @@ const MaintainRevenues = (props) => {
             ></input>
           </div>
           <div>
-            <label>Frequency</label>
+            <label>Frequency *</label>
             <select name="RecurringFrequency" onChange={updateRevenueInfo}>
               {mode !== 'Wages' && <option value="One Time">One Time</option>}
               <option value="Weekly">Weekly</option>
@@ -200,6 +201,10 @@ const MaintainRevenues = (props) => {
           </div>
           <button onClick={addRevenueToDb}>{screenCaption}</button>
         </section>
+        <label className="recurring-trans-message">
+          * Recurring transactions will be projected by the system six months in
+          advance.
+        </label>
         <label className="add-revenue-error-message">
           {errorResult.errorMessage}
         </label>

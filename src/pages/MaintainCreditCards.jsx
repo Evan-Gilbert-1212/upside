@@ -33,7 +33,7 @@ const MaintainCreditCards = () => {
   }
 
   const addCreditCardToDb = async () => {
-    const resp = await axios
+    await axios
       .post(`${config.API_URL}/api/creditcard`, cardInfo, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
